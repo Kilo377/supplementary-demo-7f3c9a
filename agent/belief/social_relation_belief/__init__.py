@@ -1,0 +1,2 @@
+"""Social relation belief placeholder."""
+

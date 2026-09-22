@@ -1,0 +1,2 @@
+"""World-rule belief placeholder."""
+
