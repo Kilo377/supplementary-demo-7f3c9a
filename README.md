@@ -3,12 +3,8 @@
 Official anonymous implementation of **Generative Embodied Multiple Behavior Control Systems for Human-Like Agents**.
 
 <div align="center">
-  <video src="https://anonymous.4open.science/api/repo/review-video-82f4/file/demo.mp4" width="100%" autoplay muted loop controls playsinline>
-    <a href="https://anonymous.4open.science/api/repo/review-video-82f4/file/demo.mp4">Watch the demo video</a>
-  </video>
+  <video src="https://anonymous.4open.science/api/repo/review-video-82f4/file/demo.mp4" width="100%" autoplay muted loop controls playsinline></video>
 </div>
-
-If the video does not start automatically, [open the demo directly](https://anonymous.4open.science/api/repo/review-video-82f4/file/demo.mp4).
 
 ## Setup
 
