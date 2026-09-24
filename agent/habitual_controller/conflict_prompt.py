@@ -9,21 +9,21 @@ def build_goal_conflict_prompt(
     habitual_response: PreparedHabitualResponse,
 ) -> str:
     return f"""
-心理学上，习惯性行为受到特定情境触发，但并不需要一个目标来驱动。这个习惯性行为可能正好符合一个人当前的目标，可能与目标无关，也可能与目标冲突。
+In psychology, habitual behaviors are triggered by specific situations but do not require a goal to drive them. This habitual behavior may coincidentally align with a person's current goal, be unrelated to the goal, or conflict with the goal.
 
-有一个人当前的目标是：
-{intent_text or "没有明确的想法。"}
+The person's current goal is:
+{intent_text or "No clear idea."}
 
-这个人受到了特定情境的触发，准备产生的习惯性行为是：
+This person has been triggered by a specific situation and is about to generate the following habitual behavior:
 {habitual_response.response_text}
 
-请判断这个习惯性行为是否与这个人的目标冲突。
-与目标相符合，或者与目标无关，都不算冲突。
-这里只判断是否冲突，不判断这个人最终应该选择哪个行为。
+Please judge whether this habitual behavior conflicts with this person's goal.
+Alignment with the goal or irrelevance to the goal does not count as conflict.
+Here, only judge whether there is a conflict; do not judge which behavior the person should ultimately choose.
 
-只输出 JSON：
+Output only JSON:
 {{
   "conflict": true,
-  "reason": "第三人称的简短判断理由"
+  "reason": "A brief third-person judgment reason"
 }}
 """.strip()

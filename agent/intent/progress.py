@@ -20,35 +20,35 @@ def build_intent_progress_prompt(
     action_proposal: str,
     execution_feedback: str,
 ) -> str:
-    progress_text = "\n".join(f"- {item}" for item in intent.progress) or "暂无。"
-    return f"""这是 {agent_name} 短期做的事情。
-它只记录了和这个 intent 直接相关、已经发生过的行动进展。
+    progress_text = "\n".join(f"- {item}" for item in intent.progress) or "None yet."
+    return f"""These are the short-term actions taken by {agent_name}.
+It only records action progress that is directly related to this intent and has already occurred.
 
-{agent_name} 这个阶段想要做的事情是：
+What {agent_name} wants to do at this stage is:
 {intent.intent_text}
 
-为了完成这个事情，已有进度：
+To accomplish this, the existing progress is:
 {progress_text}
 
-刚刚提出的动作：
+The action just proposed:
 {action_proposal}
 
-环境反馈：
+Environmental feedback:
 {execution_feedback}
 
-请把刚刚真正推进了 intent 的部分，压缩成一条短期进度。
+Please compress the part that truly advanced the intent into a single short-term progress item.
 
-要求：
-- 只记录已经发生的事情
-- 只记录和 active intent 相关的事情
-- 如果刚刚没有推进 intent，progress_item 返回空字符串
-- 不要写计划、原因、推理
-- 不要重复已有进度里已经表达过的内容
-- 只返回 JSON
+Requirements:
+- Only record what has already happened.
+- Only record things related to the active intent.
+- If the intent was not advanced just now, return an empty string for 'progress_item'.
+- Do not write plans, reasons, or reasoning.
+- Do not repeat content already expressed in existing progress.
+- Return only JSON.
 
-返回格式：
+Return format:
 {{
-  "progress_item": "一条简短进度；如果没有进展则为空字符串"
+  "progress_item": "A brief progress item; empty string if no progress"
 }}
 """
 
@@ -90,7 +90,7 @@ def fallback_progress_item(
     text = execution_feedback.strip() or action_proposal.strip()
     if not text:
         return ""
-    if any(word in text for word in ["找不到", "不能", "无法", "没有", "失败", "记错", "摔"]):
+    if any(word in text for word in ["Cannot find", "Cannot", "Unable to", "None", "Failed", "Mistaken record", "Fall"]):
         return ""
     if not _looks_related_to_intent(intent.intent_text, text):
         return ""
@@ -112,15 +112,15 @@ def append_progress(intent: IntentState, item: str, *, max_items: int = 12) -> N
 
 def format_progress_for_prompt(intent: IntentState) -> str:
     if not intent.progress:
-        return "暂无。"
+        return "None yet."
     return "\n".join(f"- {item}" for item in intent.progress)
 
 
 def _looks_related_to_intent(intent_text: str, text: str) -> bool:
-    if any(word in intent_text for word in ["做饭", "填饱肚子", "吃"]):
-        return any(word in text for word in ["厨房", "冰箱", "食材", "操作台", "灶台", "锅", "水槽", "砧板", "切", "清洗", "加热", "煮", "炒", "吃"])
-    if any(word in intent_text for word in ["喝水", "口渴", "找点水"]):
-        return any(word in text for word in ["水", "杯", "冰箱", "水槽", "喝"])
+    if any(word in intent_text for word in ["Cooking", "Fill my stomach", "Eat"]):
+        return any(word in text for word in ["kitchen", "Refrigerator", "Ingredients", "Workbench", "Stove", "Pot", "Sink", "Cutting board", "Chop", "Wash", "Heat", "Boil", "Stir-fry", "Eat"])
+    if any(word in intent_text for word in ["Drink water", "Thirsty", "Find some water"]):
+        return any(word in text for word in ["Water", "Cup", "Refrigerator", "Sink", "Drink"])
     return True
 
 
@@ -130,7 +130,7 @@ def _is_duplicate_progress(existing: list[str], item: str) -> bool:
 
 
 def _normalize(text: str) -> str:
-    return text.replace("已经", "").replace("了", "").replace("。", "").replace(" ", "")
+    return text.replace("Already", "").replace("(completed action marker)", "").replace("。", "").replace(" ", "")
 
 
 def _extract_json_text(text: str) -> str:

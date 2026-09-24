@@ -57,9 +57,9 @@ def propose_next_action(
         print("=" * 72, flush=True)
     raw = api.generate(prompt, model=model)
     text = _clean_action_text(raw, agent_name=agent_name)
-    if text.startswith("你"):
+    if text.startswith("You"):
         text = f"{agent_name}{text[1:]}"
-    elif text.startswith(("他", "她")):
+    elif text.startswith(("He", "She")):
         text = f"{agent_name}{text[1:]}"
     return ActionProposalResult(
         action_text=text,
@@ -71,10 +71,10 @@ def propose_next_action(
 def _clean_action_text(text: str, *, agent_name: str) -> str:
     cleaned = _strip_code_fence(text.strip())
     for marker in [
-        f"{agent_name}接下来先打算做的是：",
-        f"{agent_name}接下来先打算做的是:",
-        f"{agent_name}接下来先做的是：",
-        f"{agent_name}接下来先做的是:",
+        f"{agent_name}'s next intended action is:",
+        f"{agent_name}'s next intended action is:",
+        f"{agent_name}'s next action is:",
+        f"{agent_name}'s next action is:",
     ]:
         if marker in cleaned:
             cleaned = cleaned.rsplit(marker, 1)[1].strip()
@@ -101,7 +101,7 @@ def _clean_action_text(text: str, *, agent_name: str) -> str:
         cleaned = lines[0]
 
     cleaned = _remove_markdown(cleaned)
-    cleaned = re.sub(r"（[^）]*或[^）]*）", "", cleaned)
+    cleaned = re.sub(r"\([^)]*or[^)]*\)", "", cleaned, flags=re.IGNORECASE)
     cleaned = cleaned.strip(" ：:。")
     cleaned = _trim_to_one_action(cleaned)
     if agent_name not in cleaned:
@@ -135,16 +135,16 @@ def _looks_like_action_line(text: str, agent_name: str) -> bool:
 
 
 def _looks_like_action_candidate(text: str, agent_name: str) -> bool:
-    if not text or any(word in text for word in ["推理", "逻辑", "目标分析", "当前状态", "环境匹配", "排除干扰"]):
+    if not text or any(word in text for word in ["Reasoning", "Logic", "Goal Analysis", "Current State", "Environment Matching", "Eliminate Interference"]):
         return False
     if text.strip(" ：:。") in {
-        f"{agent_name}接下来先打算做的是",
-        f"{agent_name}接下来先做的是",
+        f"{agent_name} plans to do next is",
+        f"{agent_name} will do next is",
     }:
         return False
-    if text.startswith(("因此", "所以", "通常", "考虑到", "综合", "注：", "如果", "若")):
+    if text.startswith(("Therefore", "So", "Usually", "Considering", "Comprehensive", "Note:", "If", "If")):
         return False
-    action_verbs = ["走", "伸手", "拿", "放", "打开", "关", "查看", "坐", "站", "转身", "靠近", "清洗", "倒", "按", "拉开", "整理", "检查", "擦", "收拾"]
+    action_verbs = ["Walk", "Reach out", "Take", "Place", "Open", "Close", "Check", "Sit", "Stand", "Turn around", "Approach", "Wash", "Pour", "Press", "Pull open", "Tidy up", "Check", "Wipe", "Clean up"]
     return agent_name in text or any(verb in text for verb in action_verbs)
 
 
@@ -153,20 +153,20 @@ def _trim_to_one_action(text: str) -> str:
     if not sentence:
         sentence = text.strip()
     splitters = [
-        "，然后",
-        "然后",
-        "，并且",
-        "并且",
-        "，并",
-        "并",
-        "，同时",
-        "同时",
-        "，接着",
-        "接着",
-        "，以便",
-        "以便",
-        "或者",
-        "或",
+        ", then",
+        "Then",
+        ", and",
+        "and",
+        ", and",
+        "and",
+        ", simultaneously",
+        "simultaneously",
+        ", then",
+        "then",
+        ", so that",
+        "so that",
+        "or",
+        "or",
     ]
     changed = True
     while changed:

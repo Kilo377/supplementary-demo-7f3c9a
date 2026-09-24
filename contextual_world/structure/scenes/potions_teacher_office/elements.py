@@ -2,7 +2,7 @@ AREA_ELEMENTS = {
     "entrance_area": [
         {
             "node_id": "heavy_wooden_door",
-            "name": "厚重拱形木门",
+            "name": "Thick arched wooden door",
             "center": (0.38, 1.55),
             "size": (0.34, 1.45),
             "status": "regular",
@@ -11,7 +11,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "door_hinge_bar",
-            "name": "门上黑铁横梁",
+            "name": "Black iron beam on the door",
             "center": (0.55, 1.55),
             "size": (0.16, 0.88),
             "status": "regular",
@@ -19,7 +19,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "door_handle_lock",
-            "name": "门锁与把手",
+            "name": "Door lock and handle",
             "center": (0.62, 1.70),
             "size": (0.14, 0.26),
             "status": "regular",
@@ -28,7 +28,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "brass_nameplate",
-            "name": "黄铜门牌",
+            "name": "Brass door plaque",
             "center": (0.54, 0.78),
             "size": (0.20, 0.22),
             "status": "regular",
@@ -36,7 +36,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wall_lantern_entry",
-            "name": "入口墙灯",
+            "name": "Entrance wall lamp",
             "center": (1.18, 0.68),
             "size": (0.22, 0.34),
             "status": "regular",
@@ -45,7 +45,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "robe_rack",
-            "name": "长袍架",
+            "name": "Robe rack",
             "center": (2.08, 1.42),
             "size": (0.58, 0.82),
             "status": "regular",
@@ -54,7 +54,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "dark_teacher_robe",
-            "name": "深色教师长袍",
+            "name": "Dark teacher's robe",
             "center": (2.10, 1.58),
             "size": (0.42, 0.82),
             "status": "regular",
@@ -62,7 +62,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "pointed_hat",
-            "name": "尖顶帽",
+            "name": "Pointed hat",
             "center": (2.36, 0.92),
             "size": (0.26, 0.22),
             "status": "regular",
@@ -70,7 +70,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "boots_pair",
-            "name": "皮靴",
+            "name": "leather boots",
             "center": (2.12, 2.38),
             "size": (0.44, 0.30),
             "status": "regular",
@@ -78,7 +78,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "umbrella_stand",
-            "name": "伞桶",
+            "name": "umbrella stand",
             "center": (1.70, 1.72),
             "size": (0.34, 0.42),
             "status": "regular",
@@ -86,7 +86,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "walking_stick",
-            "name": "手杖",
+            "name": "walking stick",
             "center": (1.78, 1.58),
             "size": (0.12, 0.62),
             "status": "regular",
@@ -94,7 +94,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "entrance_rug",
-            "name": "绿色入口地毯",
+            "name": "green entrance carpet",
             "center": (1.22, 2.48),
             "size": (1.20, 0.68),
             "status": "regular",
@@ -102,7 +102,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "left_plant_stand",
-            "name": "门边植物架",
+            "name": "plant stand by the door",
             "center": (0.66, 0.88),
             "size": (0.42, 0.62),
             "status": "regular",
@@ -110,7 +110,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "small_drawer_entry",
-            "name": "入口小抽屉柜",
+            "name": "small drawer cabinet at the entrance",
             "center": (2.62, 2.15),
             "size": (0.42, 0.64),
             "status": "regular",
@@ -118,7 +118,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "visitor_note_board",
-            "name": "入口留言板",
+            "name": "message board at the entrance",
             "center": (2.55, 0.88),
             "size": (0.48, 0.58),
             "status": "regular",
@@ -129,7 +129,7 @@ AREA_ELEMENTS = {
     "teacher_work_area": [
         {
             "node_id": "large_wooden_desk",
-            "name": "大木书桌",
+            "name": "large wooden desk",
             "center": (4.62, 3.08),
             "size": (2.35, 0.96),
             "status": "regular",
@@ -138,7 +138,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "high_back_chair",
-            "name": "高背椅",
+            "name": "high-back chair",
             "center": (4.55, 2.15),
             "size": (0.72, 0.76),
             "status": "regular",
@@ -147,7 +147,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "desk_lantern",
-            "name": "桌面提灯",
+            "name": "desk lantern",
             "center": (3.68, 2.85),
             "size": (0.24, 0.30),
             "status": "regular",
@@ -156,7 +156,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "quill_pen",
-            "name": "羽毛笔",
+            "name": "quill pen",
             "center": (3.92, 2.70),
             "size": (0.18, 0.42),
             "status": "regular",
@@ -164,7 +164,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "ink_bottle",
-            "name": "墨水瓶",
+            "name": "ink bottle",
             "center": (3.82, 3.02),
             "size": (0.16, 0.16),
             "status": "regular",
@@ -172,7 +172,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "open_lesson_plan",
-            "name": "打开的课程计划",
+            "name": "Open Course Plan",
             "center": (4.66, 2.82),
             "size": (0.62, 0.44),
             "status": "regular",
@@ -180,7 +180,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "parchment_stack",
-            "name": "羊皮纸堆",
+            "name": "Pile of Parchment",
             "center": (4.42, 3.22),
             "size": (0.46, 0.32),
             "status": "regular",
@@ -188,7 +188,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "rolled_scroll",
-            "name": "卷轴",
+            "name": "Scroll",
             "center": (5.18, 2.88),
             "size": (0.38, 0.16),
             "status": "regular",
@@ -196,7 +196,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "sealed_letter",
-            "name": "密封信件",
+            "name": "Sealed Letter",
             "center": (5.52, 3.36),
             "size": (0.36, 0.22),
             "status": "regular",
@@ -205,7 +205,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "magic_books_stack",
-            "name": "魔法书堆",
+            "name": "Pile of Magic Books",
             "center": (5.68, 2.52),
             "size": (0.46, 0.42),
             "status": "regular",
@@ -213,7 +213,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "student_homework_stack",
-            "name": "学生作业堆",
+            "name": "Pile of Student Assignments",
             "center": (5.74, 3.08),
             "size": (0.42, 0.34),
             "status": "regular",
@@ -221,7 +221,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wax_seal",
-            "name": "火漆印章",
+            "name": "Wax Seal",
             "center": (5.88, 3.38),
             "size": (0.18, 0.18),
             "status": "regular",
@@ -229,7 +229,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "desk_drawer_left",
-            "name": "左侧书桌抽屉",
+            "name": "Left Desk Drawer",
             "center": (3.76, 3.55),
             "size": (0.52, 0.38),
             "status": "regular",
@@ -238,7 +238,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "desk_drawer_right",
-            "name": "右侧书桌抽屉",
+            "name": "Right Desk Drawer",
             "center": (5.82, 3.55),
             "size": (0.52, 0.38),
             "status": "regular",
@@ -247,7 +247,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "small_hourglass",
-            "name": "小沙漏",
+            "name": "Small Hourglass",
             "center": (3.52, 3.08),
             "size": (0.16, 0.24),
             "status": "regular",
@@ -257,7 +257,7 @@ AREA_ELEMENTS = {
     "lore_display_area": [
         {
             "node_id": "gothic_window",
-            "name": "哥特式拱窗",
+            "name": "Gothic Arched Window",
             "center": (6.98, 0.72),
             "size": (1.05, 0.30),
             "status": "regular",
@@ -266,7 +266,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "window_sill_plants",
-            "name": "窗台植物",
+            "name": "Windowsill plant",
             "center": (6.98, 1.14),
             "size": (0.72, 0.30),
             "status": "regular",
@@ -275,7 +275,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "potion_vials_window",
-            "name": "窗台药剂瓶",
+            "name": "Potion Bottle on Windowsill",
             "center": (7.36, 1.12),
             "size": (0.38, 0.24),
             "status": "regular",
@@ -283,7 +283,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "potion_diagram_frame",
-            "name": "魔药图谱",
+            "name": "Potion Codex",
             "center": (8.52, 0.92),
             "size": (0.62, 0.72),
             "status": "regular",
@@ -291,7 +291,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "alchemy_symbol_chart",
-            "name": "炼金符号图",
+            "name": "Alchemy Symbol Chart",
             "center": (8.42, 1.78),
             "size": (0.72, 0.74),
             "status": "regular",
@@ -299,7 +299,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "curved_display_shelf",
-            "name": "右上弧形展示架",
+            "name": "Upper Right Curved Display Shelf",
             "center": (8.04, 2.42),
             "size": (1.72, 0.70),
             "status": "regular",
@@ -307,7 +307,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "brass_astrolabe",
-            "name": "黄铜星盘",
+            "name": "Brass Astrolabe",
             "center": (7.56, 2.28),
             "size": (0.45, 0.45),
             "status": "regular",
@@ -315,7 +315,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "hanging_scale",
-            "name": "悬挂天平",
+            "name": "Hanging Balance Scale",
             "center": (8.54, 2.78),
             "size": (0.50, 0.35),
             "status": "regular",
@@ -323,7 +323,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "herb_bundle_hanging",
-            "name": "悬挂草药束",
+            "name": "Hanging Herb Bundle",
             "center": (8.95, 2.45),
             "size": (0.24, 0.52),
             "status": "regular",
@@ -331,7 +331,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "display_potion_bottles",
-            "name": "展示药剂瓶组",
+            "name": "Display Potion Bottle Set",
             "center": (8.05, 2.56),
             "size": (0.75, 0.30),
             "status": "regular",
@@ -339,7 +339,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "magical_potted_plant",
-            "name": "右上魔法盆栽",
+            "name": "Upper Right Magical Potted Plant",
             "center": (8.92, 1.14),
             "size": (0.44, 0.52),
             "status": "regular",
@@ -348,7 +348,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "candle_stand_wall",
-            "name": "墙边蜡烛",
+            "name": "Wall-Side Candle",
             "center": (6.48, 1.50),
             "size": (0.18, 0.30),
             "status": "regular",
@@ -358,7 +358,7 @@ AREA_ELEMENTS = {
     "student_consult_area": [
         {
             "node_id": "round_consult_table",
-            "name": "小圆桌",
+            "name": "Small Round Table",
             "center": (1.58, 4.72),
             "size": (1.10, 1.10),
             "status": "regular",
@@ -367,7 +367,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "guest_chair_a",
-            "name": "访客椅A",
+            "name": "Visitor Chair A",
             "center": (1.04, 4.05),
             "size": (0.48, 0.58),
             "status": "regular",
@@ -375,7 +375,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "guest_chair_b",
-            "name": "访客椅B",
+            "name": "Visitor Chair B",
             "center": (2.18, 4.18),
             "size": (0.48, 0.58),
             "status": "regular",
@@ -383,7 +383,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "consultation_candle",
-            "name": "会客蜡烛",
+            "name": "Guest Candle",
             "center": (1.58, 4.52),
             "size": (0.18, 0.24),
             "status": "regular",
@@ -391,7 +391,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "reference_book",
-            "name": "桌上参考书",
+            "name": "Reference Book on the Desk",
             "center": (1.80, 4.90),
             "size": (0.36, 0.28),
             "status": "regular",
@@ -399,7 +399,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "tea_cup",
-            "name": "茶杯",
+            "name": "Teacup",
             "center": (1.38, 4.52),
             "size": (0.16, 0.16),
             "status": "regular",
@@ -408,7 +408,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "small_teapot",
-            "name": "小茶壶",
+            "name": "Small Teapot",
             "center": (1.86, 4.54),
             "size": (0.24, 0.20),
             "status": "regular",
@@ -416,7 +416,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "green_round_rug",
-            "name": "圆形绿色地毯",
+            "name": "Round Green Carpet",
             "center": (1.65, 4.84),
             "size": (2.15, 1.95),
             "status": "regular",
@@ -424,7 +424,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "left_wall_shelf",
-            "name": "左墙小药瓶架",
+            "name": "Small Potion Rack on the Left Wall",
             "center": (0.38, 4.90),
             "size": (0.28, 1.20),
             "status": "regular",
@@ -432,7 +432,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "side_potion_flask",
-            "name": "左侧烧瓶",
+            "name": "Left Flask",
             "center": (0.55, 4.25),
             "size": (0.26, 0.35),
             "status": "regular",
@@ -442,7 +442,7 @@ AREA_ELEMENTS = {
     "fireplace_area": [
         {
             "node_id": "stone_fireplace",
-            "name": "石质壁炉",
+            "name": "Stone Fireplace",
             "center": (0.94, 7.54),
             "size": (1.05, 1.12),
             "status": "regular",
@@ -451,7 +451,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "active_fire",
-            "name": "壁炉火焰",
+            "name": "Fireplace Fire",
             "center": (0.95, 7.70),
             "size": (0.45, 0.42),
             "status": "regular",
@@ -459,7 +459,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mantel_shelf",
-            "name": "壁炉台",
+            "name": "Fireplace Mantel",
             "center": (0.95, 6.86),
             "size": (0.96, 0.22),
             "status": "regular",
@@ -467,7 +467,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mantel_photo",
-            "name": "壁炉照片",
+            "name": "Fireplace Photo",
             "center": (0.74, 6.68),
             "size": (0.24, 0.24),
             "status": "regular",
@@ -475,7 +475,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "firewood_stack",
-            "name": "木柴堆",
+            "name": "Woodpile",
             "center": (1.58, 8.62),
             "size": (0.55, 0.36),
             "status": "regular",
@@ -484,7 +484,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "fireplace_poker",
-            "name": "拨火棍",
+            "name": "fire poker",
             "center": (1.72, 7.58),
             "size": (0.12, 0.62),
             "status": "regular",
@@ -492,7 +492,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "ash_bucket",
-            "name": "灰桶",
+            "name": "ash bucket",
             "center": (2.40, 8.72),
             "size": (0.38, 0.42),
             "status": "regular",
@@ -501,7 +501,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "drying_herb_hook",
-            "name": "草药挂钩",
+            "name": "herb hook",
             "center": (1.55, 6.80),
             "size": (0.24, 0.45),
             "status": "regular",
@@ -509,7 +509,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "lower_wooden_door",
-            "name": "下方木门",
+            "name": "lower wooden door",
             "center": (1.30, 9.08),
             "size": (0.86, 0.28),
             "status": "regular",
@@ -518,7 +518,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "stone_steps",
-            "name": "下方石阶",
+            "name": "lower stone step",
             "center": (2.35, 9.22),
             "size": (0.78, 0.36),
             "status": "regular",
@@ -526,7 +526,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "broom_bundle",
-            "name": "扫帚和草药束",
+            "name": "broom and herb bundle",
             "center": (1.86, 7.18),
             "size": (0.22, 0.72),
             "status": "regular",
@@ -536,7 +536,7 @@ AREA_ELEMENTS = {
     "cleanup_area": [
         {
             "node_id": "stone_sink",
-            "name": "石质水槽",
+            "name": "stone sink",
             "center": (4.18, 7.32),
             "size": (0.95, 0.78),
             "status": "regular",
@@ -545,7 +545,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "copper_tap",
-            "name": "铜水龙头",
+            "name": "brass faucet",
             "center": (4.18, 6.90),
             "size": (0.22, 0.22),
             "status": "regular",
@@ -553,7 +553,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "drying_rack",
-            "name": "晾干架",
+            "name": "drying rack",
             "center": (5.12, 7.14),
             "size": (0.64, 0.42),
             "status": "regular",
@@ -561,7 +561,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "glassware_set_dirty",
-            "name": "待清洗玻璃器具",
+            "name": "glassware to be cleaned",
             "center": (4.88, 6.78),
             "size": (0.46, 0.30),
             "status": "regular",
@@ -570,7 +570,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "glassware_set_clean",
-            "name": "干净玻璃器具",
+            "name": "clean glassware",
             "center": (5.42, 6.88),
             "size": (0.42, 0.28),
             "status": "regular",
@@ -579,7 +579,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cleaning_cloth",
-            "name": "清洁布",
+            "name": "cleaning cloth",
             "center": (5.26, 7.58),
             "size": (0.28, 0.18),
             "status": "regular",
@@ -587,7 +587,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cleaning_brush",
-            "name": "清洗刷",
+            "name": "Cleaning Brush",
             "center": (4.86, 7.78),
             "size": (0.12, 0.42),
             "status": "regular",
@@ -595,7 +595,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "soap_bottle",
-            "name": "清洁液瓶",
+            "name": "Cleaning Solution Bottle",
             "center": (4.52, 6.92),
             "size": (0.16, 0.22),
             "status": "regular",
@@ -603,7 +603,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "waste_liquid_bucket",
-            "name": "废液桶",
+            "name": "Waste Liquid Bucket",
             "center": (4.70, 8.62),
             "size": (0.45, 0.45),
             "status": "regular",
@@ -612,7 +612,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bottle_recycling_crate",
-            "name": "空瓶回收箱",
+            "name": "Empty Bottle Recycling Bin",
             "center": (5.45, 8.78),
             "size": (0.56, 0.40),
             "status": "regular",
@@ -622,7 +622,7 @@ AREA_ELEMENTS = {
     "potion_brewing_area": [
         {
             "node_id": "iron_cauldron",
-            "name": "铁坩埚",
+            "name": "Iron Cauldron",
             "center": (7.20, 4.62),
             "size": (0.80, 0.80),
             "status": "regular",
@@ -636,7 +636,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cauldron_stand",
-            "name": "坩埚支架",
+            "name": "Cauldron Stand",
             "center": (7.20, 4.88),
             "size": (0.94, 0.94),
             "status": "regular",
@@ -644,7 +644,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "heating_flame",
-            "name": "坩埚火焰",
+            "name": "Cauldron Flame",
             "center": (7.20, 5.10),
             "size": (0.48, 0.34),
             "status": "regular",
@@ -653,7 +653,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "stirring_rod",
-            "name": "搅拌棒",
+            "name": "Stirring Rod",
             "center": (7.42, 4.45),
             "size": (0.12, 0.62),
             "status": "regular",
@@ -661,7 +661,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "curved_brewing_workbench",
-            "name": "弧形魔药实验台",
+            "name": "Curved Potion Workbench",
             "center": (7.72, 5.72),
             "size": (2.38, 0.80),
             "status": "regular",
@@ -669,7 +669,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "workbench_potion_bottles",
-            "name": "实验台药剂瓶组",
+            "name": "Workbench Potion Bottle Set",
             "center": (6.75, 5.62),
             "size": (0.62, 0.30),
             "status": "regular",
@@ -677,7 +677,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "glass_flask",
-            "name": "玻璃烧瓶",
+            "name": "Glass Flask",
             "center": (8.28, 4.40),
             "size": (0.26, 0.34),
             "status": "regular",
@@ -685,7 +685,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "round_bottom_flask",
-            "name": "圆底烧瓶",
+            "name": "Round-Bottom Flask",
             "center": (8.28, 5.38),
             "size": (0.34, 0.34),
             "status": "regular",
@@ -693,7 +693,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "test_tube_rack",
-            "name": "试管架",
+            "name": "Test tube rack",
             "center": (8.58, 5.28),
             "size": (0.62, 0.30),
             "status": "regular",
@@ -701,7 +701,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "brass_scale",
-            "name": "黄铜天平",
+            "name": "Brass balance scale",
             "center": (8.82, 5.90),
             "size": (0.55, 0.36),
             "status": "regular",
@@ -709,7 +709,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mortar_and_pestle",
-            "name": "研钵和研杵",
+            "name": "Mortar and pestle",
             "center": (7.92, 5.82),
             "size": (0.40, 0.36),
             "status": "regular",
@@ -717,7 +717,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "herb_cutting_board",
-            "name": "草药切板",
+            "name": "Herb cutting board",
             "center": (6.72, 5.84),
             "size": (0.55, 0.38),
             "status": "regular",
@@ -725,7 +725,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "small_knife",
-            "name": "小刀",
+            "name": "Small knife",
             "center": (6.62, 5.58),
             "size": (0.32, 0.08),
             "status": "regular",
@@ -733,7 +733,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "measuring_spoon",
-            "name": "量勺",
+            "name": "Measuring spoon",
             "center": (6.95, 5.56),
             "size": (0.28, 0.10),
             "status": "regular",
@@ -741,7 +741,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "recipe_scroll_brewing",
-            "name": "调制配方卷轴",
+            "name": "Potion recipe scroll",
             "center": (8.86, 5.48),
             "size": (0.34, 0.18),
             "status": "regular",
@@ -751,7 +751,7 @@ AREA_ELEMENTS = {
     "ingredient_storage_area": [
         {
             "node_id": "apothecary_drawer_cabinet",
-            "name": "药材抽屉柜",
+            "name": "Herbal medicine drawer cabinet",
             "center": (7.02, 8.02),
             "size": (1.10, 1.42),
             "status": "regular",
@@ -760,7 +760,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "glass_jar_shelf",
-            "name": "玻璃罐架",
+            "name": "Glass jar rack",
             "center": (8.52, 7.82),
             "size": (1.08, 1.30),
             "status": "regular",
@@ -768,7 +768,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "rare_ingredient_cabinet",
-            "name": "稀有材料柜",
+            "name": "Rare materials cabinet",
             "center": (8.48, 9.08),
             "size": (0.98, 0.78),
             "status": "regular",
@@ -777,7 +777,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "herb_bundle_dried",
-            "name": "干燥草药束",
+            "name": "Bundle of dried herbs",
             "center": (6.44, 7.12),
             "size": (0.22, 0.44),
             "status": "regular",
@@ -785,7 +785,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "root_sample_jar",
-            "name": "根茎标本罐",
+            "name": "Root specimen jar",
             "center": (6.55, 8.82),
             "size": (0.25, 0.34),
             "status": "regular",
@@ -793,7 +793,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "powder_bone_jar",
-            "name": "骨粉罐",
+            "name": "Bone Meal Jar",
             "center": (6.90, 8.86),
             "size": (0.25, 0.34),
             "status": "regular",
@@ -801,7 +801,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "crystal_shard_bottle",
-            "name": "水晶碎片瓶",
+            "name": "Crystal Shard Bottle",
             "center": (7.25, 8.88),
             "size": (0.24, 0.34),
             "status": "regular",
@@ -809,7 +809,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "insect_specimen_bottle",
-            "name": "昆虫标本瓶",
+            "name": "Insect Specimen Jar",
             "center": (8.26, 7.28),
             "size": (0.24, 0.34),
             "status": "regular",
@@ -817,7 +817,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mushroom_box",
-            "name": "蘑菇盒",
+            "name": "Mushroom Box",
             "center": (7.72, 9.30),
             "size": (0.42, 0.34),
             "status": "regular",
@@ -825,7 +825,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "label_tag",
-            "name": "材料标签",
+            "name": "Material Label",
             "center": (7.52, 7.35),
             "size": (0.18, 0.12),
             "status": "regular",
@@ -834,7 +834,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cabinet_key",
-            "name": "柜子钥匙",
+            "name": "Cabinet Key",
             "center": (6.45, 8.28),
             "size": (0.14, 0.08),
             "status": "regular",
@@ -842,7 +842,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "inventory_scroll",
-            "name": "库存卷轴",
+            "name": "Inventory Scroll",
             "center": (6.75, 8.35),
             "size": (0.32, 0.18),
             "status": "regular",
@@ -850,7 +850,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "lower_bottle_crate",
-            "name": "下方药剂箱",
+            "name": "Lower Potion Chest",
             "center": (7.78, 9.55),
             "size": (0.72, 0.30),
             "status": "regular",
@@ -858,7 +858,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bottom_alchemy_table",
-            "name": "底部小炼金桌",
+            "name": "Bottom Small Alchemy Table",
             "center": (6.55, 9.38),
             "size": (0.65, 0.36),
             "status": "regular",
@@ -866,7 +866,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "large_corner_plant",
-            "name": "右下角大型植物",
+            "name": "Large Plant in Bottom Right Corner",
             "center": (8.92, 9.18),
             "size": (0.55, 0.62),
             "status": "regular",

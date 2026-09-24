@@ -34,12 +34,12 @@ def build_state_transition_context(
 def format_complete_spatial_belief(belief: SpatialBelief | None) -> str:
     if belief is None:
         return ""
-    lines = [f"这个家的空间记忆编号是 {belief.home_id}。"]
+    lines = [f"The spatial memory ID for this home is {belief.home_id}."]
     for area in belief.iter_areas():
         lines.append(
-            f"- {area.area_name}（area_id={area.area_id}，"
-            f"bounds={_number_tuple(area.bounds)}，"
-            f"最近在第{area.last_seen_step}次感知时更新）"
+            f"- {area.area_name} (area_id={area.area_id}, "
+            f"bounds={_number_tuple(area.bounds)}, "
+            f"last updated during perception step {area.last_seen_step})"
         )
         for element in area.elements.values():
             properties = [
@@ -60,7 +60,7 @@ def format_complete_spatial_belief(belief: SpatialBelief | None) -> str:
                         sort_keys=True,
                     )
                 )
-            properties.append(f"最近在第{element.last_seen_step}次感知时确认")
+            properties.append(f"Confirmed during perception step {element.last_seen_step}")
             lines.append(f"  - {element.name}（{'，'.join(properties)}）")
     return "\n".join(lines)
 
@@ -72,31 +72,31 @@ def _physical_state_text(agent) -> str:
     location = area_name or current_area_id
     center = tuple(getattr(agent, "center", (0.0, 0.0)))
     lines = [
-        f"{name}位于{location or '尚未确认的区域'}，坐标是{_number_tuple(center)}。",
-        f"{name}当前姿态是{getattr(agent, 'posture', '') or '未知'}，"
-        f"朝向{_number(getattr(agent, 'facing', 0.0))}度。",
+        f"{name} is located in {location or 'unconfirmed area'}, with coordinates {_number_tuple(center)}.",
+        f"{name}'s current posture is {getattr(agent, 'posture', '') or 'unknown'}, "
+        f"facing {_number(getattr(agent, 'facing', 0.0))} degrees.",
     ]
     interaction_elements = list(getattr(agent, "interaction_elements", []) or [])
     if interaction_elements:
         lines.append(
-            f"{name}当前接触或持有：{_interaction_text(interaction_elements)}。"
+            f"{name} is currently touching or holding: {_interaction_text(interaction_elements)}."
         )
     interaction_method = str(getattr(agent, "interaction_method", "") or "").strip()
     if interaction_method:
-        lines.append(f"{name}当前的交互方式是{interaction_method}。")
+        lines.append(f"{name}'s current interaction method is {interaction_method}.")
     gaze_target = str(getattr(agent, "gaze_target", "") or "").strip()
     if gaze_target:
-        lines.append(f"{name}正在注视{gaze_target}。")
+        lines.append(f"{name} is gazing at {gaze_target}.")
     worn_items = [
         str(item).strip()
         for item in list(getattr(agent, "worn_items", []) or [])
         if str(item).strip()
     ]
     if worn_items:
-        lines.append(f"{name}穿戴着{'、'.join(worn_items)}。")
+        lines.append(f"{name} is wearing {'、'.join(worn_items)}.")
     body_surface = str(getattr(agent, "body_surface", "") or "").strip()
     if body_surface:
-        lines.append(f"{name}的身体表面状态是{body_surface}。")
+        lines.append(f"{name}'s body surface condition is {body_surface}.")
     return "\n".join(lines)
 
 
@@ -108,12 +108,12 @@ def _internal_state_text(agent) -> str:
     physiological = desire.physiological_state.to_dict()
     internal = desire.internal_state.to_dict()
     lines = [
-        "生理需求采用0到10的程度："
-        f"饥饿{physiological['hunger']}，口渴{physiological['thirst']}，"
-        f"清洁需求{physiological['hygiene']}。",
-        "内部状态采用0到10的程度："
-        f"压力{internal['stress']}，紧张{internal['tension']}，"
-        f"疲劳{internal['fatigue']}。",
+        "Physiological needs are on a scale of 0 to 10: "
+        f"Hunger {physiological['hunger']}, Thirst {physiological['thirst']}, "
+        f"Hygiene need {physiological['hygiene']}.",
+        "Internal states are on a scale of 0 to 10: "
+        f"Stress {internal['stress']}, Tension {internal['tension']}, "
+        f"Fatigue {internal['fatigue']}.",
     ]
     mental = str(getattr(desire, "mental", "") or "").strip()
     if mental:
@@ -125,7 +125,7 @@ def _internal_state_text(agent) -> str:
         and _strip_terminal_punctuation(str(goal.text))
     ]
     if active_goals:
-        lines.append(f"{name}仍然在意：{'；'.join(active_goals)}。")
+        lines.append(f"{name} still cares about: {'；'.join(active_goals)}.")
     return "\n".join(lines)
 
 
@@ -179,7 +179,7 @@ def _interaction_text(items: list[dict]) -> str:
             text = str(item).strip()
         if text:
             texts.append(text)
-    return "、".join(texts) or "一个尚未识别的对象"
+    return "、".join(texts) or "An unidentified object"
 
 
 def _number_tuple(values) -> str:

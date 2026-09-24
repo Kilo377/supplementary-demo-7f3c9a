@@ -18,26 +18,26 @@ def build_think_prompt(
     intuition: IntuitionResult,
 ) -> str:
     return f"""
-你要模拟 {agent_name} 的慢思考过程。
+You need to simulate {agent_name}'s slow-thinking process.
 
-这不是旁白，不是行动计划书，也不是对外解释。请把自己当成 {agent_name}，用第一人称想一小段。
-必须根据 {agent_name} 的人物传记、欲望状态、身体状态、当前位置、当前 Intent、刚才的直觉和已经发生过的事来想。
-不同的人思考方式应该不同：谨慎的人会更看重风险、稳定和后果，冲动的人会更快试错，疲惫的人会更保守。
+This is not a narrator's voice, not an action plan, nor an explanation to others. Put yourself in {agent_name}'s shoes and think briefly in the first person.
+You must base your thoughts on {agent_name}'s biography, desire state, physical state, current location, current Intent, recent intuition, and what has already happened.
+Different people should think differently: cautious people will weigh risks, stability, and consequences more heavily; impulsive people will trial-and-error faster; tired people will be more conservative.
 
-思考内容应该帮助 {agent_name} 把当前问题想清楚一点，但不要直接写成多步行动清单。
+The thinking content should help {agent_name} clarify the current issue, but do not write it directly as a multi-step action list.
 
-只返回 JSON，不要解释。
+Return only JSON, no explanation.
 
 JSON schema:
 {{
-  "thought": "第一人称中文内心思考",
-  "conclusion": "一句话概括思考后的倾向"
+  "thought": "First-person Chinese inner thought",
+  "conclusion": "A one-sentence summary of the inclination after thinking"
 }}
 
-当前 Intent:
+Current Intent:
 {intent.intent_text} [{intent.status}]
 
-刚才的 Intuition:
+Recent Intuition:
 [{intuition.route}] {intuition.thought}
 
 Working Memory:
@@ -59,34 +59,34 @@ def build_post_think_route_prompt(
     ]
     areas_json = json.dumps(areas, ensure_ascii=False, indent=2)
     return f"""
-{agent_name} 刚才仔细想了一下：
+{agent_name} just thought carefully about it:
 {think_result.format_for_prompt()}
 
-请根据这个思考结果、当前 Intent 和 Working Memory，判断 {agent_name} 接下来应该进入哪条路由。
-这仍然是第一人称内心反应，不是完整计划。
+Based on this thinking result, the current Intent, and Working Memory, determine which route {agent_name} should enter next.
+This is still a first-person inner reaction, not a complete plan.
 
-route 只能是：
-- action：想在当前位置或附近做一个具体动作；后面会交给 Action Proposal 细化。
-- wait：决定先等一下、观察一下、暂时不动。必须结合刚才的思考填写 wait_duration，并在 thought 里自然说出准备等多久；例如想休息十几分钟就填写 15min。
-- walk：决定去另一个房间或区域。必须尽量填写 target_area_id 或 target_area_name。
-- chat：决定和某个人说话。尽量填写 chat_target。
+The route can only be:
+- action: wants to perform a specific action at the current location or nearby; will be refined by Action Proposal later.
+- wait: decides to wait a moment, observe, or stay put for now. Must fill in wait_duration based on recent thinking, and naturally state how long they plan to wait in thought; e.g., if wanting to rest for over ten minutes, fill in 15min.
+- walk: decides to go to another room or area. Try to fill in target_area_id or target_area_name as much as possible.
+- chat: decides to talk to someone. Try to fill in chat_target.
 
-只返回 JSON，不要解释。
+Return only JSON, no explanation.
 
 JSON schema:
 {{
   "route": "action | wait | walk | chat",
-  "thought": "一句第一人称中文内心想法",
-  "target_area_id": "walk 时填写，没有就空字符串",
-  "target_area_name": "walk 时填写，没有就空字符串",
-  "chat_target": "chat 时填写，没有就空字符串",
-  "wait_duration": "wait 时填写：30s | 1min | 3min | 5min | 10min | 15min | 20min | 30min；其他路由为空字符串"
+  "thought": "A one-sentence first-person Chinese inner thought",
+  "target_area_id": "Fill in when walking, empty string if none",
+  "target_area_name": "Fill in when walking, empty string if none",
+  "chat_target": "Fill in when chatting, empty string if none",
+  "wait_duration": "Fill in when waiting: 30s | 1min | 3min | 5min | 10min | 15min | 20min | 30min; empty string for other routes"
 }}
 
-当前 Intent:
+Current Intent:
 {intent.intent_text} [{intent.status}]
 
-已知房间:
+Known rooms:
 {areas_json}
 
 Working Memory:

@@ -36,8 +36,8 @@ def judge_goal_conflict(
 
 def _fallback_conflict(response: PreparedHabitualResponse) -> GoalConflictResult:
     if response.required_body_resources:
-        return GoalConflictResult(False, "没有足够信息表明这个身体反应会妨碍当前目标。")
-    return GoalConflictResult(False, "没有发现明确的目标冲突。")
+        return GoalConflictResult(False, "Insufficient information to indicate that this physical response will hinder the current goal.")
+    return GoalConflictResult(False, "No clear goal conflict found.")
 
 
 def _json_text(text: str) -> str:

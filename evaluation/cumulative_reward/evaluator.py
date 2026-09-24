@@ -34,7 +34,7 @@ def aggregate_cumulative_rewards(
             if total_steps > 0
             else 0.0
         ),
-        "reason": f"汇总了{len(results)}个Intent的模拟结束结算。",
+        "reason": f"Summarized the simulation end settlement for {len(results)} intents.",
         "intent_results": [result.to_dict() for result in results],
         "error": "；".join(errors),
     }
@@ -62,7 +62,7 @@ def evaluate_cumulative_reward(
             intent_satisfaction=0.0,
             execution_steps=0,
             cumulative_reward=0.0,
-            reason="模拟没有产生实际执行步骤。",
+            reason="The simulation did not produce any actual execution steps.",
             final_intent_status=final_status,
             provider_name=provider_name,
             model=model,
@@ -123,8 +123,8 @@ def format_actual_trajectory(results: list) -> str:
     for index, result in enumerate(results, start=1):
         proposal = str(getattr(result, "action_proposal_text", "") or "").strip()
         feedback = _actual_feedback(result)
-        lines.append(f"{index}. 实际动作：{proposal or '(没有动作描述)'}")
-        lines.append(f"   实际结果：{feedback or '(没有World反馈)'}")
+        lines.append(f"{index}. Actual action: {proposal or '(No action description)'}")
+        lines.append(f"   Actual result: {feedback or '(No World feedback)'}")
     return "\n".join(lines)
 
 

@@ -219,7 +219,7 @@ def run_complex_state_transition(
             description=feedback,
             reason=(
                 final_result.error
-                or "该结果来自 Contextual World 副本中的实际动作执行。"
+                or "This result comes from actual action execution in the Contextual World replica."
             ),
         ),
         intent_satisfaction=satisfaction,
@@ -406,7 +406,7 @@ def _world_updates(before: dict, after: dict) -> tuple[TransitionSpatialBeliefUp
                     if isinstance(current[index], dict)
                     else current[index]
                 )
-                changes.append(f"{labels[index]}从{old}变成{new}")
+                changes.append(f"{labels[index]} changed from {old} to {new}")
         updates.append(
             TransitionSpatialBeliefUpdate(
                 element=current[0],
@@ -428,7 +428,7 @@ def _action_result_updates(
                 change.get("name")
                 or change.get("temporary_element_name")
                 or change.get("temporary_element_id")
-                or "临时物体"
+                or "Temporary object"
             ).strip()
             updates.append(
                 TransitionSpatialBeliefUpdate(
@@ -444,7 +444,7 @@ def _action_result_updates(
                 change.get("element_name")
                 or change.get("name")
                 or change.get("element_id")
-                or "环境"
+                or "Environment"
             ).strip()
             updates.append(
                 TransitionSpatialBeliefUpdate(
@@ -497,7 +497,7 @@ def _next_self_state(
         facing_or_gaze=(
             gaze_element.name
             if gaze_element is not None
-            else (gaze_id or f"朝向{getattr(agent, 'facing', 0):.1f}度")
+            else (gaze_id or f"Facing {getattr(agent, 'facing', 0):.1f} degrees")
         ),
         holding=interaction_names,
         interacting_with=interaction_names,
@@ -524,16 +524,16 @@ def _next_state_text(
     updates: tuple[TransitionSpatialBeliefUpdate, ...],
 ) -> str:
     parts = [
-        f"所在房间：{state.area or '未知'}",
-        f"靠近：{state.near_element or '无明确对象'}",
-        f"姿态：{state.posture or '未知'}",
-        f"注视或朝向：{state.facing_or_gaze or '未知'}",
+        f"Current room: {state.area or 'Unknown'}",
+        f"Nearby: {state.near_element or 'No clear object'}",
+        f"Posture: {state.posture or 'Unknown'}",
+        f"Gazing or facing: {state.facing_or_gaze or 'Unknown'}",
     ]
     if state.holding:
-        parts.append(f"拿着或接触：{'、'.join(state.holding)}")
+        parts.append(f"Holding or touching: {'、'.join(state.holding)}")
     if updates:
         parts.append(
-            "环境变化："
+            "Environmental changes:"
             + "；".join(f"{item.element}{item.state_change}" for item in updates)
         )
     return "\n".join(parts)

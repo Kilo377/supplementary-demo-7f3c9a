@@ -25,7 +25,7 @@ def _environment_attention(result: PerceiveResult, *, belief: SpatialBelief | No
         items.append(
             AttentionItem(
                 source="environment_change",
-                text=f"{change.name}的{change.label}从{change.before_status}变成了{change.after_status}。",
+                text=f"{change.name}'s {change.label} changed from {change.before_status} to {change.after_status}.",
                 reason=change_reason,
                 salience=0.9,
             )
@@ -37,7 +37,7 @@ def _environment_attention(result: PerceiveResult, *, belief: SpatialBelief | No
             AttentionItem(
                 source="world_feedback",
                 text=feedback,
-                reason="上一轮动作反馈包含失败、缺失、无法完成或解析异常。",
+                reason="The previous action feedback contained failures, missing elements, inability to complete, or parsing anomalies.",
                 salience=0.85,
             )
         )
@@ -46,8 +46,8 @@ def _environment_attention(result: PerceiveResult, *, belief: SpatialBelief | No
 
 def _belief_change_reason(result: PerceiveResult, belief: SpatialBelief | None) -> str:
     if belief is not None and belief.get_area(result.area_id) is not None:
-        return "当前环境状态和 spatial belief 中的旧快照不一致。"
-    return "当前环境状态出现变化。"
+        return "The current environment state is inconsistent with the old snapshot in spatial belief."
+    return "The current environment state has changed."
 
 
 def _physical_attention(result: PerceiveResult) -> list[AttentionItem]:
@@ -57,8 +57,8 @@ def _physical_attention(result: PerceiveResult) -> list[AttentionItem]:
         items.append(
             AttentionItem(
                 source="body_surface",
-                text=f"{result.agent_name}身体表面状态是{physical.body_surface}。",
-                reason="身体表面状态不是默认的干净干燥状态。",
+                text=f"{result.agent_name}'s body surface state is {physical.body_surface}.",
+                reason="The body surface state is not the default clean and dry state.",
                 salience=0.7,
             )
         )
@@ -66,8 +66,8 @@ def _physical_attention(result: PerceiveResult) -> list[AttentionItem]:
         items.append(
             AttentionItem(
                 source="posture",
-                text=f"{result.agent_name}当前姿态是{physical.posture}。",
-                reason="当前姿态可能限制下一步动作。",
+                text=f"{result.agent_name}'s current posture is {physical.posture}.",
+                reason="Current posture may restrict the next action.",
                 salience=0.65,
             )
         )
@@ -83,7 +83,7 @@ def _psychological_attention(result: PerceiveResult) -> list[AttentionItem]:
                 AttentionItem(
                     source=feeling.source,
                     text=feeling.text,
-                    reason="这个内在 feeling 足够强，可能影响行动选择。",
+                    reason="This internal feeling is strong enough to influence action selection.",
                     salience=_psychological_salience(feeling.source),
                 )
             )
@@ -93,16 +93,16 @@ def _psychological_attention(result: PerceiveResult) -> list[AttentionItem]:
 def _looks_like_problem_feedback(text: str) -> bool:
     lowered = text.lower()
     problem_markers = [
-        "无法",
-        "不能",
-        "没有",
-        "失败",
-        "错误",
-        "异常",
-        "不完整",
-        "无法完成",
-        "无法判断",
-        "无法解析",
+        "Unable to",
+        "Cannot",
+        "None",
+        "Failed",
+        "error",
+        "Abnormal",
+        "Incomplete",
+        "Unable to complete",
+        "Unable to judge",
+        "Unable to parse",
         "failed",
         "failure",
         "error",

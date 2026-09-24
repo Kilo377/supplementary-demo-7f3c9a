@@ -29,7 +29,7 @@ def evaluate_transition_intent_satisfaction(
         return (
             TransitionIntentSatisfaction(
                 status="not_satisfied",
-                reason="World 反馈表明动作没有成功落实。",
+                reason="World feedback indicates the action was not successfully executed.",
             ),
             prompt,
             "",
@@ -57,7 +57,7 @@ def evaluate_transition_intent_satisfaction(
         return (
             TransitionIntentSatisfaction(
                 status="not_satisfied",
-                reason="无法稳定判断 Intent 是否已经满足，继续按尚未满足处理。",
+                reason="Unable to stably determine if the Intent has been satisfied; continue treating it as unsatisfied.",
             ),
             prompt,
             raw_response,

@@ -11,7 +11,7 @@ interface between the simulation backend and all LLM providers.
 Use Case:
 from backend.llm.api_manager import APIManager
 api = APIManager()
-prompt = ('你好啊, 你是谁')
+prompt = ('Hello, who are you?')
 response = api.generate(prompt)
 """
 

@@ -17,94 +17,94 @@ def build_agent_environment_element_support_prompt(
     permanent_elements_json = json.dumps(permanent_elements, ensure_ascii=False, indent=2)
     temporary_elements_json = json.dumps(temporary_elements, ensure_ascii=False, indent=2)
 
-    return f"""你在模拟环境中负责判断：agent 的 action proposal 如果要真实发生，需要哪些环境元素支持。
+    return f"""In the simulation environment, you are responsible for judging: what environmental elements need to be present for the agent's action proposal to actually occur.
 
-agent 的 action proposal 只是“想做什么”，不是已经发生的事实。
-你不生成最终动作反馈，不更新环境状态，也不写下一步动作。
-你只判断这一小步动作需要什么元素参与，供后续环境模块真正执行。
+The agent's action proposal is merely "what they want to do," not an already realized fact.
+You do not generate final action feedback, update the environment state, or write the next action.
+You only judge which elements are needed for this small step, to be used by subsequent environment modules for actual execution.
 
-环境里有两类元素：
+There are two types of elements in the environment:
 
-permanent_element 是场景默认存在的陈设级元素。
-例如沙发、办公桌、冰箱、花洒、书柜、收纳箱、门、椅子、微波炉。
-它们通常不会被创建或销毁，但可以被打开、关闭、清洁、使用、承载、坐在上面，或作为临时对象的来源/挂靠点。
+permanent_element refers to scene-default, furnishing-level elements that exist by default.
+For example: sofa, office desk, refrigerator, showerhead, bookshelf, storage box, door, chair, microwave.
+They are typically not created or destroyed but can be opened, closed, cleaned, used, supported, sat upon, or serve as sources/attachment points for temporary objects.
 
-temporary_element 是运行中出现、取出、补全出来的临时对象。
-例如食物、牛奶、书、文件、垃圾、抱枕、抹布、杯子里的水。
-它们必须有来源或从属关系，通常依附于某个 permanent_element。
-它们可以被拿起、放下、吃掉、喝掉、用完、丢弃、收纳，或者放到别的 permanent_element 上。
-temporary_element 有生命周期。
-temporary_element 只能是小型、可被移动、取用、消费、放置或临时持有的对象。
-不要把大型固定设备、家具或电子大件创建成 temporary_element。
-例如微波炉、烤箱、冰箱、洗衣机、电脑、电视、沙发、床、柜子、桌子、门、浴缸、花洒都不允许作为新建 temporary_element。
-这类对象如果不在 permanent_elements 或 temporary_elements 中，就视为当前场景没有该对象，不要用低惊讶度补全把它造出来。
+temporary_element refers to transient objects that appear during runtime, are taken out, or are supplemented into existence.
+For example: food, milk, book, document, trash, cushion, cleaning cloth, water in a cup.
+They must have a source or dependency relationship, typically attaching to a permanent_element.
+They can be picked up, put down, eaten, drunk, used up, discarded, stored, or placed on another permanent_element.
+temporary_elements have a lifecycle.
+temporary_elements can only be small, movable, usable, consumable, placeable, or temporarily holdable objects.
+Do not create large fixed equipment, furniture, or major electronics as temporary_elements.
+For example: microwave, oven, refrigerator, washing machine, computer, TV, sofa, bed, cabinet, table, door, bathtub, showerhead are not allowed as newly created temporary_elements.
+If such objects are not in permanent_elements or temporary_elements, they are considered absent from the current scene; do not fabricate them using low-surprise completion.
 
-你要先判断：
-如果这个 action proposal 要真实发生，是否需要一个可被建模的元素参与？
+You must first judge:
+If this action proposal were to actually occur, does it require an modelable element to participate?
 
-如果不需要，比如只是 agent 自身的身体动作、姿势变化、注视变化、身体表面变化，
-或者泡沫、气味、热气、灰尘、水汽、光线、声音这类细节效果，那么它不需要元素支持。
-这种情况 route=agent_body_action，support_kind=no_element。
-这些细节可以放到 context_facts，但不要创建 temporary_element。
+If not—for example, if it is just the agent's own body movements, posture changes, gaze shifts, surface changes,
+or details like foam, smell, heat, dust, water vapor, light, sound—then it requires no element support.
+In this case, route=agent_body_action, support_kind=no_element.
+These details can be placed in context_facts, but do not create temporary_elements.
 
-如果需要元素支持，再判断它依赖：
-- 已有 permanent_element
-- 已有 temporary_element
-- 新建 temporary_element
-- 多者混合
+If element support is needed, then judge whether it depends on:
+- an existing permanent_element
+- an existing temporary_element
+- a newly created temporary_element
+- a combination of the above
 
-低惊讶度补全的意思是：
-当前环境没有显式列出某个对象，但这个对象自然可以从某个 permanent_element 中出现，或者自然附着在某个 permanent_element 上。
-例如从冰箱拿食物、从书柜拿书、整理办公桌上的散乱文件、从收纳区拿一个文件夹。
-这种情况下可以创建 temporary_element，并指定它依附/来源于哪个 permanent_element。
+Low-surprise completion means:
+The current environment does not explicitly list a certain object, but this object naturally emerges from or attaches to a permanent_element.
+For example: taking food from the refrigerator, taking a book from the bookshelf, organizing scattered documents on an office desk, taking a folder from a storage area.
+In such cases, you can create a temporary_element and specify which permanent_element it attaches to/originates from.
 
-不要因为环境没有穷举所有细节就机械拒绝合理动作。
-但如果动作需要一个高惊讶度对象，或者没有任何合理 permanent_element 作为锚点，就应该 reject。
-低惊讶度补全必须同时满足两点：
-1. 新 temporary_element 必须挂靠到一个已有 permanent_element，填写 anchor_element_id。
-2. 新 temporary_element 与 anchor_element_id 之间必须有足够直接的因果关系或容纳/来源关系。
-合理例子：冰箱里的牛奶、锅里的食材、书柜里的书、柜子里的衣服、垃圾桶里的垃圾、洗衣篮里的衣物。
-不合理例子：茶几上凭空出现笔记本、洗衣机旁凭空出现电脑、浴缸里凭空出现书。
-不合理例子：厨房里没有微波炉时凭空生成微波炉、办公室里没有电脑时凭空生成电脑、卫生间里没有洗衣机时凭空生成洗衣机。
-如果只能靠“可能有”来解释，而没有明确容器、来源、表面承载或场景常识关系，不要创建 temporary_element。
-如果 action proposal 明确命名了目标对象，例如洗衣篮、微波炉、冰箱、书架、柜子，不要把它替换成另一个相近对象。
-如果这个目标对象不在 permanent_elements 或 temporary_elements 中，但在当前场景里低惊讶度存在，可以创建同名 temporary_element。
-例如卫生间里没有显式列出洗衣篮，但“把衣服放进洗衣篮”可以补全一个名为“洗衣篮”的 temporary_element；不要改成“放进洗衣机”。
-但这个同名补全规则不适用于大型固定设备、家具或电子大件；例如 action proposal 提到微波炉，但 permanent_elements 和 temporary_elements 中没有微波炉，不要创建微波炉。
+Do not mechanically reject reasonable actions just because the environment does not exhaustively list all details.
+But if an action requires a high-surprise object, or has no reasonable permanent_element as an anchor, you should reject it.
+Low-surprise completion must satisfy two conditions simultaneously:
+1. The new temporary_element must attach to an existing permanent_element; fill in anchor_element_id.
+2. There must be a sufficiently direct causal relationship or containment/source relationship between the new temporary_element and anchor_element_id.
+Reasonable examples: milk in the refrigerator, ingredients in a pot, books in a bookshelf, clothes in a cabinet, trash in a bin, laundry in a basket.
+Unreasonable examples: a laptop appearing out of thin air on a coffee table, a computer appearing out of thin air next to a washing machine, a book appearing out of thin air in a bathtub.
+Unreasonable examples: generating a microwave out of thin air when there is none in the kitchen, generating a computer out of thin air when there is none in the office, generating a washing machine out of thin air when there is none in the bathroom.
+If you can only explain it by "maybe it's there," without explicit container, source, surface support, or scene commonsense relationships, do not create a temporary_element.
+If the action proposal explicitly names a target object, such as laundry basket, microwave, refrigerator, bookshelf, cabinet, do not replace it with another similar object.
+If this target object is not in permanent_elements or temporary_elements but exists with low surprise in the current scene, you can create a same-named temporary_element.
+For example: if a laundry basket is not explicitly listed in the bathroom, "putting clothes into the laundry basket" can supplement a temporary_element named "laundry basket"; do not change it to "into the washing machine."
+However, this same-name supplementation rule does not apply to large fixed equipment, furniture, or major electronics; for example, if the action proposal mentions a microwave, but there is no microwave in permanent_elements and temporary_elements, do not create a microwave.
 
-如果 action proposal 涉及已有 temporary_element，例如吃食物、喝牛奶、放下书、丢掉垃圾，请不要忽略它。
-如果食物被吃掉、牛奶被喝掉、垃圾被丢弃，这类 temporary_element 应该返回生命周期更新。
+If the action proposal involves an existing temporary_element, such as eating food, drinking milk, putting down a book, discarding trash, do not ignore it.
+If food is eaten, milk is drunk, or trash is discarded, such temporary_elements should return lifecycle updates.
 
-只判断 action proposal 这一小步，不要推进到下一步。
-只返回 JSON，不要解释推理过程。
+Only judge this small step of the action proposal; do not advance to the next step.
+Return only JSON; do not explain the reasoning process.
 
-返回格式：
+Return format:
 {{
   "route": "agent_body_action | element_interaction | reject",
   "support_kind": "no_element | permanent_element | existing_temporary_element | new_temporary_element | mixed | reject",
-  "reason": "一句简短中文理由",
+  "reason": "A brief Chinese reason",
 
   "permanent_targets": [
     {{
-      "element_id": "已有 permanent_element id",
-      "element_name": "元素名",
-      "role": "这个 permanent_element 在动作中的作用"
+      "element_id": "Existing permanent_element id",
+      "element_name": "Element name",
+      "role": "The role of this permanent_element in the action"
     }}
   ],
 
   "temporary_targets": [
     {{
-      "temporary_element_id": "已有 temporary_element id",
-      "name": "临时元素名",
-      "role": "这个 temporary_element 在动作中的作用"
+      "temporary_element_id": "Existing temporary_element id",
+      "name": "Temporary element name",
+      "role": "The role of this temporary_element in the action"
     }}
   ],
 
   "temporary_element_creations": [
     {{
-      "name": "需要新建的 temporary_element 名",
-      "anchor_element_id": "它从属/来源/挂靠的 permanent_element id",
-      "anchor_reason": "为什么这个 temporary_element 可以低惊讶度补全",
+      "name": "Name of the temporary_element to be newly created",
+      "anchor_element_id": "The permanent_element id it belongs to/originates from/attaches to",
+      "anchor_reason": "Why this temporary_element can be low-surprise supplemented",
       "lifecycle": "game | until_consumed | until_disposed | until_used",
       "initial_status": "held | placed | in_use"
     }}
@@ -112,38 +112,38 @@ temporary_element 只能是小型、可被移动、取用、消费、放置或�
 
   "temporary_element_updates": [
     {{
-      "temporary_element_id": "已有 temporary_element id",
+      "temporary_element_id": "Existing temporary_element id",
       "new_status": "held | placed | in_use | consumed | disposed | discarded",
-      "anchor_element_id": "如果位置或从属发生变化，填新的 permanent_element id，否则为空",
-      "reason": "为什么生命周期或状态这样变化"
+      "anchor_element_id": "If position or dependency changes, fill in the new permanent_element id; otherwise leave empty",
+      "reason": "Why the lifecycle or status changes this way"
     }}
   ],
 
   "context_facts": [
-    "不需要建模为 element 的环境/动作细节"
+    "Environmental/action details that do not need to be modeled as elements"
   ]
 }}
 
-例子：
+Examples:
 
-action proposal: {agent_name}用泡沫揉搓身体。
-判断：泡沫只是动作细节和身体表面状态，不需要创建 temporary_element。
-route=agent_body_action，support_kind=no_element。
+action proposal: {agent_name} rubs body with foam.
+Judgment: Foam is just an action detail and body surface state; no temporary_element needs to be created.
+route=agent_body_action, support_kind=no_element.
 
-action proposal: {agent_name}打开花洒。
-判断：需要和已有 permanent_element 花洒交互。
-route=element_interaction，support_kind=permanent_element。
+action proposal: {agent_name} turns on the showerhead.
+Judgment: Requires interaction with the existing permanent_element showerhead.
+route=element_interaction, support_kind=permanent_element.
 
-action proposal: {agent_name}从冰箱里拿出食物。
-判断：冰箱是 permanent_element，食物可以作为低惊讶度 temporary_element 创建。
-route=element_interaction，support_kind=new_temporary_element。
+action proposal: {agent_name} takes food out of the refrigerator.
+Judgment: The refrigerator is a permanent_element; food can be created as a low-surprise temporary_element.
+route=element_interaction, support_kind=new_temporary_element.
 
-action proposal: {agent_name}吃掉手里的食物。
-判断：如果食物已经是 temporary_element，就使用 existing_temporary_element，并更新为 consumed。
+action proposal: {agent_name} eats the food in hand.
+Judgment: If the food is already a temporary_element, use existing_temporary_element and update to consumed.
 
-action proposal: {agent_name}把手里的书放到办公桌上。
-判断：这同时涉及已有 temporary_element 书，以及 permanent_element 办公桌。
-route=element_interaction，support_kind=mixed。
+action proposal: {agent_name} puts the book in hand onto the office desk.
+Judgment: This involves both an existing temporary_element (book) and a permanent_element (office desk).
+route=element_interaction, support_kind=mixed.
 
 agent_state_for_support:
 {agent_state_json}

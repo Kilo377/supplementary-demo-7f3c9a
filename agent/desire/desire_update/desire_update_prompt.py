@@ -42,101 +42,101 @@ def build_desire_update_prompt(
     personal_context_block = ""
     if personal_context.strip():
         personal_context_block = f"""
-{agent_name} 的长期个人背景：
+Long-term personal background of {agent_name}:
 {personal_context.strip()}
 """
     is_step_update = update_mode == "every_step"
     update_timing_text = (
-        "这次更新发生在刚完成的一步行动之后；intent 仍可能处于 active 状态。"
+        "This update occurs immediately after completing one action; the intent may still be in an active state."
         if is_step_update
-        else "这次更新发生在一个 intent 生命周期结束之后。"
+        else "This update occurs after the end of an intent lifecycle."
     )
-    context_label = "这一步行动及其最新结果" if is_step_update else "这个 intent 周期的上下文"
-    self_belief_label = "这一步之后对自己状态的判断" if is_step_update else "在 intent 结束时对自己状态的判断"
+    context_label = "This action and its latest result" if is_step_update else "The context of this intent cycle"
+    self_belief_label = "Assessment of one's own state after this action" if is_step_update else "Assessment of one's own state at the end of the intent"
     work_goal_rule = (
-        "- 只有这一步的实际结果已经明确满足某个 work_goal 时，才能把它改成 true；"
-        "不能因为 intent 还在进行、或仅仅朝目标移动，就提前完成目标"
+        "- Only when the actual result of this action clearly satisfies a work_goal can it be changed to true;"
+        "Do not complete the goal prematurely just because the intent is still ongoing or merely moving toward the goal"
         if is_step_update
-        else "- 如果当 intent 周期所对应的行为和intent状态满足了某个 work_goal，把 completed 改成 true"
+        else "- If the behavior and intent state corresponding to the current intent cycle satisfy a work_goal, change completed to true"
     )
     single_goal_rule = (
-        "- 如果这一步只满足其中一个 work_goal，只把这个目标改成 true，其他目标保持 false"
+        "- If this action only satisfies one of the work_goals, change only that goal to true and keep others false"
         if is_step_update
-        else "- 如果刚结束的 intent 只满足其中一个 work_goal，只把这个目标改成 true，其他目标保持 false"
+        else "- If the just-ended intent only satisfies one of the work_goals, change only that goal to true and keep others false"
     )
-    return f"""你在更新一个 human agent 的 Desire state。
+    return f"""You are updating the Desire state of a human agent.
 
-Desire 不是 intent。Desire 表示 {agent_name} 的需求、心情和正事目标是否被满足。
+Desire is not intent. Desire indicates whether {agent_name}'s needs, mood, and primary goals are being met.
 {update_timing_text}
 
-当前 Desire state：
+Current Desire state:
 {json.dumps(desire_state, ensure_ascii=False, indent=2)}
 
-刚结束的 intent：
+Just-ended intent:
 {intent_text}
 
-intent 生命周期状态：
+Intent lifecycle status:
 {intent_status}
 
-{context_label}：
+{context_label}:
 {intent_cycle_context}
 
-{agent_name} {self_belief_label}：
-{self_belief or "无。"}
+{agent_name} {self_belief_label}:
+{self_belief or "None."}
 {personal_context_block}
 
-更新规则：
-1. physiological_state 是 0-10 的生理需求压力量表；分数越高，需求压力越强。
-   - hunger: 0=完全不饿，10=非常饿
-   - thirst: 0=完全不渴，10=非常渴
-   - hygiene: 0=干净/不需要清洁，10=很脏/很需要清洁
-   - 更新要保守：无关项尽量不变
-   - 完成吃饭、喝水或清洁时，对应压力可以明显下降
+Update rules:
+1. physiological_state is a 0-10 scale of physiological need pressure; higher scores mean stronger need pressure.
+   - hunger: 0=not hungry at all, 10=very hungry
+   - thirst: 0=not thirsty at all, 10=very thirsty
+   - hygiene: 0=clean/no need to clean, 10=dirty/strong need to clean
+   - Updates should be conservative: keep unrelated items unchanged as much as possible
+   - When eating, drinking, or cleaning is completed, the corresponding pressure can drop significantly
 
-2. internal_state 是 0-10 的可计算内部状态量表。
-   - stress: 0=没有压力，10=压力极大
-   - tension: 0=完全放松，10=非常紧张
-   - fatigue: 0=完全不累，10=非常疲劳
-   - depletion: 自控资源耗竭，不等于身体疲劳；3=正常基线，7=明显耗竭，10=极强耗竭
-   - cognitive_load: 当前认知负荷，不等于紧张；3=正常基线，7=明显升高，10=极强负荷
-   - stress 在内部状态门控中以3为正常基线、7为明显升高；不要仅因一次普通动作就大幅上调。
-   - 持续抑制冲动、费力自控可能提高depletion；并行处理或复杂思考可能提高cognitive_load。没有相关证据时保持原值，休息或负担解除时可以降低。
-   - 普通行动通常最多变化 1；强烈、持续或明确恢复性的经历才允许更明显变化
-   - 身体劳动通常提高 fatigue，休息通常降低 fatigue
-   - 失败和受阻可能提高 stress 或 tension，顺利完成事情可能降低它们
+2. internal_state is a calculable 0-10 scale of internal state.
+   - stress: 0=no stress, 10=extreme stress
+   - tension: 0=completely relaxed, 10=very tense
+   - fatigue: 0=not tired at all, 10=very fatigued
+   - depletion: ego depletion of self-control resources, not equal to physical fatigue; 3=normal baseline, 7=noticeably depleted, 10=extremely depleted
+   - cognitive_load: current cognitive load, not equal to tension; 3=normal baseline, 7=noticeably elevated, 10=extreme load
+   - In internal state gating, stress uses 3 as normal baseline and 7 as noticeably elevated; do not significantly increase it solely due to a single ordinary action.
+   - Continuously suppressing impulses or exerting effortful self-control may increase depletion; parallel processing or complex thinking may increase cognitive_load. Keep original values when there is no relevant evidence; reduce them during rest or when burdens are lifted.
+   - Ordinary actions typically change by at most 1; only strong, sustained, or clearly restorative experiences allow more significant changes
+   - Physical labor usually increases fatigue; rest usually decreases fatigue
+   - Failure and obstruction may increase stress or tension; successfully completing things may decrease them
 
-3. mental 是纯自然语言心理状态。
-   - 输出一个新的自然语言 mental
-   - 可以给简短 reason
-   - 保持连续性，不要突然改成人格、长期价值观或新的目标
-   - 可以自然体现压力、紧张和疲劳，但不要暴露量表数值
+3. mental is a pure natural language psychological state.
+   - Output a new natural language mental state
+   - A brief reason can be provided
+   - Maintain continuity; do not suddenly change personality, long-term values, or new goals
+   - Can naturally reflect stress, tension, and fatigue, but do not expose scale values
 
-4. work_goal 是 Desire 里的正事目标，不是 intent。
-   - 每个 work_goal 只有 text 和 completed
-   - work_goal 可能同时有多个；它们彼此独立，必须逐项判断
-   - 返回的 work_goal 数组必须保留当前 Desire state 里的所有原有目标，不要合并、拆分、改写或漏掉 text
-   - 只能判断这个 desire 是否已经被满足
-   - 不要给 work_goal 加 reason、status、active、blocked、abandoned
-   - 如果一个 work_goal 已经 completed=true，保持 true
+4. work_goal represents the primary goals in Desire, not intent.
+   - Each work_goal has only text and completed
+   - There may be multiple work_goals simultaneously; they are independent of each other and must be evaluated item by item
+   - The returned work_goal array must retain all original goals from the current Desire state without merging, splitting, rewriting, or omitting any text
+   - Only judge whether this desire has been satisfied
+   - Do not add reason, status, active, blocked, or abandoned to work_goals
+   - If a work_goal is already completed=true, keep it true
    {work_goal_rule}
    {single_goal_rule}
-   - 如果所有 work_goal 都 completed=true，外层仿真可以结束
+   - If all work_goals are completed=true, the outer simulation can end
 
-5. 不要发明新的 Desire 维度。
-6. 不要把 intent lifecycle 状态直接复制成 work_goal 状态。
-7. 只返回 JSON，不要解释推理过程。
+5. Do not invent new Desire dimensions.
+6. Do not directly copy intent lifecycle status into work_goal status.
+7. Return only JSON; do not explain reasoning.
 
-返回 JSON 格式：
+Return JSON format:
 {{
-  "benefit": "这个 intent 周期带来的收益，一句中文",
-  "cost": "这个 intent 周期带来的代价，一句中文",
+  "benefit": "The benefit brought by this intent cycle, in one Chinese sentence",
+  "cost": "The cost brought by this intent cycle, in one Chinese sentence",
   "physiological_state_update": {{
     "after": {{
       "hunger": 0,
       "thirst": 0,
       "hygiene": 0
     }},
-    "reason": "为什么这样更新生理状态"
+    "reason": "Why the physiological state is updated this way"
   }},
   "internal_state_update": {{
     "after": {{
@@ -146,15 +146,15 @@ intent 生命周期状态：
       "depletion": 3,
       "cognitive_load": 3
     }},
-    "reason": "为什么这样更新内部状态"
+    "reason": "Why the internal state is updated this way"
   }},
   "mental_update": {{
-    "after": "新的自然语言心情状态",
-    "reason": "为什么这样更新 mental"
+    "after": "New natural language mood state",
+    "reason": "Why the mental state is updated this way"
   }},
   "work_goal": [
     {{
-      "text": "原有 work goal text",
+      "text": "Original work goal text",
       "completed": false
     }}
   ]

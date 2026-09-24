@@ -74,26 +74,26 @@ def build_intent_feasibility_prompt(
     self_belief_block = ""
     if self_belief.strip():
         self_belief_block = f"""
-{agent_name} 对自己当前状态的判断：
+{agent_name}'s assessment of their current state:
 {self_belief.strip()}
 """
     memory_block = ""
     if memory_text.strip():
         memory_block = f"""
-{agent_name} 刚刚经历过：
+{agent_name} just experienced:
 {memory_text.strip()}
 """
     personal_context_block = ""
     if personal_context.strip():
         personal_context_block = f"""
-{agent_name} 的长期个人背景：
+Long-term personal background of {agent_name}:
 {personal_context.strip()}
 """
     return f"""
-你在为一个 human agent 判断 intent candidates 是否可行。
-你会得到一系列intent candidate，请逐个判断 candidate 现在是否可行，每个 candidate 都必须返回一个判断。
-如果某个intent可行，请为这个intent标记为 feasible ，否则标记为 "infeasible"。
-intent 的落地可能性是判断 feasibility 的主要依据。例如，intent 可能是想要玩电脑游戏。可是场景中没有电脑，这个intent 则应该 infeasible
+You are judging whether intent candidates for a human agent are feasible.
+You will receive a list of intent candidates. Please evaluate each candidate individually to determine if it is currently feasible. Each candidate must return a judgment.
+If an intent is feasible, mark it as "feasible"; otherwise, mark it as "infeasible".
+The primary basis for judging feasibility is the likelihood of the intent being realized in the current context. For example, the intent might be to play computer games. However, if there is no computer in the scene, this intent should be marked as infeasible.
 
 agent_name:
 {agent_name}
@@ -104,31 +104,31 @@ intent candidates:
 Belief: spatial memory
 {json.dumps(spatial_data, ensure_ascii=False, indent=2)}
 {self_belief_block}{memory_block}{personal_context_block}
-判断规则：
-1. 不要因为 candidate 比较泛就判 infeasible。比如“找点东西吃”可以根据厨房、冰箱、餐桌等空间记忆落地。
-2. 如果 candidate 明确需要某类空间元素，但 spatial memory 中完全没有对应或相近元素，标记为 infeasible。
-3. 保留 source_desire 和 candidate_reason。
-4. infeasible 的 intent_text 返回空字符串。
-5. 只返回 JSON，不要解释推理过程。
+Judgment rules:
+1. Do not mark a candidate as infeasible simply because it is vague. For example, "find something to eat" can be realized based on spatial memory of the kitchen, refrigerator, dining table, etc.
+2. If a candidate explicitly requires a certain type of spatial element, but the spatial memory contains no corresponding or similar elements, mark it as infeasible.
+3. Preserve source_desire and candidate_reason.
+4. For infeasible intents, return an empty string for intent_text.
+5. Return only JSON; do not explain the reasoning process.
 
-返回 JSON 格式：
+Return JSON format:
 {{
   "candidates": [
     {{
-      "original_intent_text": "{agent_name}打算整理家务。",
-      "intent_text": "{agent_name}打算整理客厅里的杂物。",
+      "original_intent_text": "{agent_name} plans to tidy up the house.",
+      "intent_text": "{agent_name} plans to tidy up the clutter in the living room.",
       "source_desire": "work_goal",
-      "candidate_reason": "存在未完成的 work_goal：{agent_name}想要整理家务。",
+      "candidate_reason": "There is an unfinished work_goal: {agent_name} wants to tidy up the house.",
       "feasibility": "feasible",
-      "feasibility_reason": "空间记忆中有客厅和可整理的物品。"
+      "feasibility_reason": "Spatial memory contains a living room and items that can be tidied."
     }},
     {{
-      "original_intent_text": "{agent_name}打算玩电脑游戏放松。",
+      "original_intent_text": "{agent_name} plans to play computer games to relax.",
       "intent_text": "",
       "source_desire": "mental",
-      "candidate_reason": "当前 mental state 需要放松。",
+      "candidate_reason": "The current mental state needs relaxation.",
       "feasibility": "infeasible",
-      "feasibility_reason": "空间记忆中没有电脑、游戏机或类似设备。"
+      "feasibility_reason": "Spatial memory contains no computers, game consoles, or similar devices."
     }}
   ]
 }}
@@ -241,7 +241,7 @@ def _fallback_feasibility(
                 source_desire=candidate.source_desire,
                 candidate_reason=candidate.reason,
                 feasibility=FEASIBLE,
-                feasibility_reason="LLM feasibility 不可用，保守保留该 candidate，等待后续阶段或环境反馈修正。",
+                feasibility_reason="LLM feasibility is unavailable; conservatively retain this candidate and wait for subsequent stages or environmental feedback to correct it.",
             )
         )
     return result
@@ -252,15 +252,15 @@ def _ground_generic_intent(
     element_names: set[str],
     area_names: set[str],
 ) -> str:
-    if "找点东西吃" in intent_text and "厨房" in area_names:
-        return intent_text.replace("找点东西吃", "去厨房找点东西吃")
-    if "找点东西喝" in intent_text and "厨房" in area_names:
-        return intent_text.replace("找点东西喝", "去厨房找点东西喝")
-    if "整理家务" in intent_text:
-        if "客厅" in area_names:
-            return intent_text.replace("整理家务", "整理客厅里的物品")
-        if "餐桌" in element_names:
-            return intent_text.replace("整理家务", "整理餐桌附近的物品")
+    if "find something to eat" in intent_text and "kitchen" in area_names:
+        return intent_text.replace("find something to eat", "go to the kitchen to find something to eat")
+    if "find something to drink" in intent_text and "kitchen" in area_names:
+        return intent_text.replace("find something to drink", "Go to the kitchen to find something to drink.")
+    if "Tidy up the house." in intent_text:
+        if "Living room" in area_names:
+            return intent_text.replace("Tidy up the house.", "Tidy up items in the living room.")
+        if "Dining table" in element_names:
+            return intent_text.replace("Tidy up the house.", "Tidy up items near the dining table.")
     return intent_text
 
 

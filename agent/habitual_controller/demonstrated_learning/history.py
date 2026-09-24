@@ -16,7 +16,7 @@ _REPLAY_DATA = re.compile(
     re.DOTALL,
 )
 _FAILURE_MARKERS = (
-    "无法", "失败", "错误", "没有找到", "没有得到稳定", "暂时没有落实",
+    "Unable to", "Failed", "error", "Not found", "Did not receive stable", "Not yet implemented",
     "failed", "error", "cannot",
 )
 

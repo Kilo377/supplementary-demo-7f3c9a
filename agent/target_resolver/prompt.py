@@ -18,51 +18,51 @@ def build_target_resolution_prompt(
     graph_block = ""
     if world_graph_context:
         graph_block = f"""
-最近真实 world state 中仍然成立的临时物和交互事实:
+Temporary objects and interaction facts that still hold in the recent real-world state:
 {graph_context_json}
 
-注意：临时物、手中物、身体动作本身不是场景 permanent element。只有当动作需要靠近某个已有家具或空间物体时，才返回 target_element_id。
+Note: Temporary objects, items in hand, and body actions themselves are not permanent elements of the scene. Only return target_element_id when an action requires approaching an existing piece of furniture or spatial object.
 """
 
     return f"""
-你是 target resolver。你不执行动作。
-你需要分开判断这个动作实际操作的对象，以及执行动作时身体需要靠近的落位锚点；同时判断动作是否在到达锚点旁边时就已经完成。
+You are the target resolver. You do not execute actions.
+You need to separately determine the actual object being operated on by this action, and the navigation anchor point the body needs to approach to perform the action; also determine whether the action is completed upon reaching the anchor point.
 
-场景中的元素有：{scene_elements_text}
+Elements in the scene: {scene_elements_text}
 
-当前所在区域:
+Current area:
 - id: {current_area_id}
 - name: {current_area_name}
 
-{agent_name} 想要实际做的动作是:
+The actual action {agent_name} wants to perform is:
 {action_text}
 
-规则:
-- target_element_id 是实际被操作、拿取、整理、观察或改变的对象。
-- navigation_anchor_element_id 是身体执行动作时需要靠近的落位锚点。
-- 例如“把遥控器摆正”：target 是遥控器，navigation anchor 是承载遥控器的茶几。
-- 如果操作对象本身就是家具或设备，target 和 navigation anchor 可以相同。
-- 优先解析到当前区域的 element，除非动作明确指向其他房间或其他区域的 element。
-- 如果动作主要是对自己、手中临时物、已经拿着的东西，或不需要靠近家具，可以让 navigation_anchor_element_id 为空。
-- 如果动作提到的目标不是场景元素，不要创造新元素；可以选择它实际依附或放置的已有 element，否则留空。
-- 不要返回 area。只返回 element。
-- arrival_completes_action=true 表示动作本身只是走到、来到、靠近或站到目标旁边；到达后不再继续操作目标。
-- arrival_completes_action=false 表示到达只是前置条件，动作还要求打开、拿取、清洁、使用、观察或以其他方式改变/操作目标。
-- 根据 action_text 的整体含义判断，不要因为目标当前距离近就改变这个字段。
-- 只返回 JSON，不要解释。
+Rules:
+- target_element_id is the object actually being operated on, picked up, organized, observed, or changed.
+- navigation_anchor_element_id is the anchor point the body needs to approach to execute the action.
+- For example, 'straighten the remote control': the target is the remote control, and the navigation anchor is the coffee table holding it.
+- If the object being operated on is itself furniture or equipment, target and navigation anchor can be the same.
+- Prioritize resolving elements in the current area, unless the action explicitly points to an element in another room or area.
+- If the action is mainly about oneself, a temporary item in hand, something already held, or does not require approaching furniture, you may leave navigation_anchor_element_id empty.
+- If the target mentioned in the action is not a scene element, do not create new elements; choose an existing element it actually attaches to or rests on, otherwise leave it empty.
+- Do not return area. Only return element.
+- arrival_completes_action=true means the action itself is just walking to, coming to, approaching, or standing next to the target; no further operation of the target occurs after arrival.
+- arrival_completes_action=false means arrival is only a prerequisite, and the action also requires opening, picking up, cleaning, using, observing, or otherwise changing/operating on the target.
+- Judge based on the overall meaning of action_text; do not change this field just because the target is currently close.
+- Return only JSON, no explanation.
 
 JSON schema:
 {{
-  "operation_target_element_id": "实际操作对象，没有就空字符串",
-  "operation_target_element_name": "实际操作对象名称，没有就空字符串",
-  "navigation_anchor_element_id": "身体需要靠近的落位锚点，没有就空字符串",
-  "navigation_anchor_element_name": "落位锚点名称，没有就空字符串",
-  "secondary_target_element_id": "没有就空字符串",
+  "operation_target_element_id": "ID of the actual object being operated on, empty string if none",
+  "operation_target_element_name": "Name of the actual object being operated on, empty string if none",
+  "navigation_anchor_element_id": "ID of the anchor point the body needs to approach, empty string if none",
+  "navigation_anchor_element_name": "Name of the anchor point, empty string if none",
+  "secondary_target_element_id": "Empty string if none",
   "arrival_completes_action": false,
-  "reason": "一句简短中文说明"
+  "reason": "A brief Chinese explanation"
 }}
 
-空间记忆索引:
+Spatial memory index:
 {world_json}
 
 {graph_block}

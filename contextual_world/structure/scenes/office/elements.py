@@ -2,7 +2,7 @@ AREA_ELEMENTS = {
     "entryway": [
         {
             "node_id": "office_front_door_01",
-            "name": "办公室入口门",
+            "name": "Office Entrance Door",
             "center": (1.30, 9.68),
             "size": (1.25, 0.16),
             "status": "regular",
@@ -10,7 +10,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "coat_hook_rack_01",
-            "name": "挂衣钩",
+            "name": "coat hook",
             "center": (0.58, 7.30),
             "size": (0.18, 1.00),
             "status": "regular",
@@ -18,7 +18,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "coat_01",
-            "name": "外套",
+            "name": "Coat",
             "center": (0.66, 7.25),
             "size": (0.28, 0.70),
             "status": "regular",
@@ -26,7 +26,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bag_01",
-            "name": "手提包",
+            "name": "handbag",
             "center": (0.92, 7.55),
             "size": (0.35, 0.35),
             "status": "regular",
@@ -34,7 +34,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "shoe_bench_01",
-            "name": "鞋柜",
+            "name": "shoe cabinet",
             "center": (1.00, 8.85),
             "size": (1.05, 0.55),
             "status": "regular",
@@ -42,7 +42,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "entry_mat_01",
-            "name": "入口地垫",
+            "name": "entrance doormat",
             "center": (1.45, 7.85),
             "size": (0.95, 0.55),
             "status": "regular",
@@ -50,7 +50,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "umbrella_stand_01",
-            "name": "雨伞桶",
+            "name": "umbrella stand",
             "center": (2.05, 8.55),
             "size": (0.35, 0.45),
             "status": "regular",
@@ -58,7 +58,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "entry_plant_01",
-            "name": "入口绿植",
+            "name": "entrance plant",
             "center": (0.62, 9.10),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -68,7 +68,7 @@ AREA_ELEMENTS = {
     "lounge_area": [
         {
             "node_id": "lounge_armchair_01",
-            "name": "绿色单人沙发",
+            "name": "green single sofa",
             "center": (1.35, 4.40),
             "size": (0.90, 0.90),
             "status": "regular",
@@ -76,7 +76,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "side_table_lounge_01",
-            "name": "沙发旁圆桌",
+            "name": "round table beside the sofa",
             "center": (0.78, 5.05),
             "size": (0.58, 0.58),
             "status": "regular",
@@ -84,7 +84,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "table_lamp_lounge_01",
-            "name": "接待区台灯",
+            "name": "reception area lamp",
             "center": (0.72, 4.92),
             "size": (0.25, 0.25),
             "status": "regular",
@@ -92,7 +92,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mug_lounge_01",
-            "name": "沙发旁马克杯",
+            "name": "mug beside the sofa",
             "center": (0.88, 5.18),
             "size": (0.18, 0.18),
             "status": "regular",
@@ -100,7 +100,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "lounge_rug_01",
-            "name": "接待区地毯",
+            "name": "reception area carpet",
             "center": (1.85, 4.55),
             "size": (1.95, 1.65),
             "status": "regular",
@@ -108,7 +108,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "large_floor_plant_01",
-            "name": "接待区大型绿植",
+            "name": "large plant in the reception area",
             "center": (0.72, 5.75),
             "size": (0.55, 0.55),
             "status": "regular",
@@ -116,7 +116,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wall_picture_left_01",
-            "name": "左墙挂画",
+            "name": "Painting on the left wall",
             "center": (0.28, 3.70),
             "size": (0.16, 0.70),
             "status": "regular",
@@ -126,7 +126,7 @@ AREA_ELEMENTS = {
     "storage_archive_area": [
         {
             "node_id": "bookshelf_left_01",
-            "name": "文件书柜",
+            "name": "Bookshelf with files",
             "center": (1.15, 1.25),
             "size": (1.20, 1.45),
             "status": "regular",
@@ -134,7 +134,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "file_binders_left_01",
-            "name": "书柜文件夹",
+            "name": "File folders in the bookshelf",
             "center": (1.25, 1.10),
             "size": (0.75, 0.28),
             "status": "regular",
@@ -142,7 +142,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "storage_boxes_left_01",
-            "name": "蓝色收纳盒",
+            "name": "Blue storage box",
             "center": (2.55, 1.28),
             "size": (0.60, 0.45),
             "status": "regular",
@@ -150,7 +150,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "trophy_left_01",
-            "name": "奖杯",
+            "name": "Trophy",
             "center": (1.85, 0.88),
             "size": (0.25, 0.25),
             "status": "regular",
@@ -158,7 +158,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "photo_frame_left_01",
-            "name": "书柜相框",
+            "name": "Photo frame in the bookshelf",
             "center": (1.75, 0.62),
             "size": (0.24, 0.30),
             "status": "regular",
@@ -166,7 +166,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "certificate_wall_01",
-            "name": "墙上证书",
+            "name": "Certificate on the wall",
             "center": (2.55, 0.72),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -174,7 +174,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "drawer_cabinet_left_01",
-            "name": "左侧抽屉柜",
+            "name": "Left-side drawer cabinet",
             "center": (2.65, 1.85),
             "size": (0.68, 0.72),
             "status": "regular",
@@ -184,7 +184,7 @@ AREA_ELEMENTS = {
     "main_workspace": [
         {
             "node_id": "office_desk_01",
-            "name": "主办公桌",
+            "name": "Main office desk",
             "center": (5.25, 3.10),
             "size": (2.35, 1.05),
             "status": "regular",
@@ -192,7 +192,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "office_chair_01",
-            "name": "办公椅",
+            "name": "Office chair",
             "center": (5.20, 2.05),
             "size": (0.75, 0.75),
             "status": "regular",
@@ -200,7 +200,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "desktop_monitor_01",
-            "name": "显示器",
+            "name": "Monitor",
             "center": (5.50, 2.82),
             "size": (0.65, 0.20),
             "status": "regular",
@@ -208,7 +208,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "keyboard_01",
-            "name": "键盘",
+            "name": "Keyboard",
             "center": (5.18, 3.10),
             "size": (0.55, 0.18),
             "status": "regular",
@@ -216,7 +216,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mouse_01",
-            "name": "鼠标",
+            "name": "Mouse",
             "center": (5.70, 3.12),
             "size": (0.18, 0.14),
             "status": "regular",
@@ -224,7 +224,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "desk_lamp_01",
-            "name": "办公桌台灯",
+            "name": "Desk lamp",
             "center": (6.25, 2.72),
             "size": (0.30, 0.30),
             "status": "regular",
@@ -232,7 +232,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "pen_holder_01",
-            "name": "笔筒",
+            "name": "Pen holder",
             "center": (4.72, 3.00),
             "size": (0.22, 0.22),
             "status": "regular",
@@ -240,7 +240,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "notebook_desk_01",
-            "name": "桌面笔记本",
+            "name": "Desktop notebook",
             "center": (4.50, 3.45),
             "size": (0.42, 0.32),
             "status": "regular",
@@ -248,7 +248,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "document_tray_desk_01",
-            "name": "桌面文件盘",
+            "name": "Desktop document tray",
             "center": (6.05, 3.45),
             "size": (0.45, 0.35),
             "status": "regular",
@@ -256,7 +256,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "desk_plant_01",
-            "name": "办公桌小绿植",
+            "name": "Small potted plant on the desk",
             "center": (4.20, 2.70),
             "size": (0.30, 0.30),
             "status": "regular",
@@ -264,7 +264,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "window_back_01",
-            "name": "后墙窗户",
+            "name": "Rear wall window",
             "center": (5.10, 0.48),
             "size": (1.85, 0.22),
             "status": "regular",
@@ -272,7 +272,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "window_plants_01",
-            "name": "窗台植物",
+            "name": "Windowsill plant",
             "center": (5.15, 1.08),
             "size": (0.75, 0.30),
             "status": "regular",
@@ -280,7 +280,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wall_clock_01",
-            "name": "墙钟",
+            "name": "Wall clock",
             "center": (6.72, 0.95),
             "size": (0.42, 0.42),
             "status": "regular",
@@ -288,7 +288,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "workspace_floor_plant_01",
-            "name": "办公区落地植物",
+            "name": "Floor plant in the office area",
             "center": (6.95, 1.90),
             "size": (0.55, 0.65),
             "status": "regular",
@@ -298,7 +298,7 @@ AREA_ELEMENTS = {
     "print_supply_area": [
         {
             "node_id": "printer_copier_01",
-            "name": "打印复印机",
+            "name": "Printer and copier",
             "center": (8.45, 1.45),
             "size": (0.85, 0.70),
             "status": "regular",
@@ -306,7 +306,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "printer_cabinet_01",
-            "name": "打印机下柜",
+            "name": "Cabinet under the printer",
             "center": (8.45, 2.25),
             "size": (0.78, 0.62),
             "status": "regular",
@@ -314,7 +314,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "paper_stack_01",
-            "name": "打印纸",
+            "name": "Printer paper",
             "center": (8.55, 1.02),
             "size": (0.35, 0.25),
             "status": "regular",
@@ -322,7 +322,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "side_storage_cabinet_01",
-            "name": "右侧矮柜",
+            "name": "low cabinet on the right",
             "center": (8.35, 3.55),
             "size": (0.95, 0.72),
             "status": "regular",
@@ -330,7 +330,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "inbox_tray_01",
-            "name": "文件收纳盘",
+            "name": "document organizer tray",
             "center": (8.10, 3.20),
             "size": (0.40, 0.30),
             "status": "regular",
@@ -338,7 +338,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wall_board_01",
-            "name": "办公公告板",
+            "name": "office bulletin board",
             "center": (9.30, 3.05),
             "size": (0.16, 1.05),
             "status": "regular",
@@ -346,7 +346,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wall_picture_right_01",
-            "name": "右墙挂画",
+            "name": "wall art on the right wall",
             "center": (9.28, 2.00),
             "size": (0.15, 0.70),
             "status": "regular",
@@ -354,7 +354,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "print_area_plant_01",
-            "name": "打印区绿植",
+            "name": "green plant in the printing area",
             "center": (7.55, 1.15),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -364,7 +364,7 @@ AREA_ELEMENTS = {
     "meeting_area": [
         {
             "node_id": "meeting_table_01",
-            "name": "小会谈桌",
+            "name": "small meeting table",
             "center": (5.25, 5.80),
             "size": (1.25, 1.00),
             "status": "regular",
@@ -372,7 +372,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "meeting_chair_left_01",
-            "name": "左侧会谈椅",
+            "name": "left meeting chair",
             "center": (4.22, 5.82),
             "size": (0.55, 0.65),
             "status": "regular",
@@ -380,7 +380,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "meeting_chair_right_01",
-            "name": "右侧会谈椅",
+            "name": "right meeting chair",
             "center": (6.28, 5.82),
             "size": (0.55, 0.65),
             "status": "regular",
@@ -388,7 +388,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "meeting_rug_01",
-            "name": "会谈区地毯",
+            "name": "meeting area carpet",
             "center": (5.25, 5.90),
             "size": (2.40, 1.55),
             "status": "regular",
@@ -396,7 +396,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mug_meeting_01",
-            "name": "会谈桌马克杯",
+            "name": "mug on the meeting table",
             "center": (4.95, 5.70),
             "size": (0.18, 0.18),
             "status": "regular",
@@ -404,7 +404,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "plant_meeting_01",
-            "name": "会谈桌小植物",
+            "name": "small plant on the meeting table",
             "center": (5.28, 5.58),
             "size": (0.25, 0.25),
             "status": "regular",
@@ -412,7 +412,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "tablet_meeting_01",
-            "name": "会谈桌平板",
+            "name": "tablet on the meeting table",
             "center": (5.68, 5.95),
             "size": (0.42, 0.30),
             "status": "regular",
@@ -422,7 +422,7 @@ AREA_ELEMENTS = {
     "pantry_area": [
         {
             "node_id": "mini_fridge_01",
-            "name": "小冰箱",
+            "name": "Mini fridge",
             "center": (4.10, 8.35),
             "size": (0.75, 0.95),
             "status": "regular",
@@ -430,7 +430,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "plant_on_fridge_01",
-            "name": "冰箱上的植物",
+            "name": "Plant on the fridge",
             "center": (4.10, 7.78),
             "size": (0.35, 0.35),
             "status": "regular",
@@ -438,7 +438,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "pantry_counter_01",
-            "name": "茶水柜",
+            "name": "Tea cabinet",
             "center": (5.65, 8.35),
             "size": (1.55, 0.72),
             "status": "regular",
@@ -446,7 +446,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "microwave_01",
-            "name": "微波炉",
+            "name": "microwave oven",
             "center": (5.20, 8.08),
             "size": (0.45, 0.32),
             "status": "regular",
@@ -454,7 +454,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "coffee_machine_01",
-            "name": "咖啡机",
+            "name": "Coffee machine",
             "center": (5.92, 8.02),
             "size": (0.38, 0.38),
             "status": "regular",
@@ -462,7 +462,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mug_pantry_01",
-            "name": "茶水区杯子",
+            "name": "Cups in the tea area",
             "center": (5.42, 8.70),
             "size": (0.20, 0.20),
             "status": "regular",
@@ -470,7 +470,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cups_shelf_01",
-            "name": "杯具架",
+            "name": "Cup rack",
             "center": (5.78, 8.72),
             "size": (0.45, 0.24),
             "status": "regular",
@@ -478,7 +478,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "snack_bag_01",
-            "name": "零食袋",
+            "name": "Snack bag",
             "center": (6.35, 8.20),
             "size": (0.26, 0.32),
             "status": "regular",
@@ -486,7 +486,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "storage_jars_01",
-            "name": "食品罐",
+            "name": "Food can",
             "center": (6.22, 8.72),
             "size": (0.42, 0.22),
             "status": "regular",
@@ -496,7 +496,7 @@ AREA_ELEMENTS = {
     "bathroom": [
         {
             "node_id": "toilet_01",
-            "name": "马桶",
+            "name": "toilet",
             "center": (7.85, 7.65),
             "size": (0.55, 0.75),
             "status": "regular",
@@ -504,7 +504,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "sink_bathroom_01",
-            "name": "卫生间洗手池",
+            "name": "Bathroom sink",
             "center": (8.68, 7.72),
             "size": (0.62, 0.50),
             "status": "regular",
@@ -512,7 +512,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mirror_bathroom_01",
-            "name": "卫生间镜子",
+            "name": "Bathroom mirror",
             "center": (8.68, 7.12),
             "size": (0.48, 0.12),
             "status": "regular",
@@ -520,7 +520,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "soap_dispenser_01",
-            "name": "洗手液",
+            "name": "Hand soap",
             "center": (8.98, 7.55),
             "size": (0.14, 0.18),
             "status": "regular",
@@ -528,7 +528,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "trash_bin_bathroom_01",
-            "name": "卫生间垃圾桶",
+            "name": "Bathroom trash can",
             "center": (8.95, 8.78),
             "size": (0.36, 0.40),
             "status": "regular",
@@ -536,7 +536,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bathroom_mat_01",
-            "name": "卫生间地垫",
+            "name": "Bathroom floor mat",
             "center": (8.20, 8.85),
             "size": (0.85, 0.52),
             "status": "regular",
@@ -544,7 +544,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "toilet_paper_holder_01",
-            "name": "纸巾架",
+            "name": "Tissue holder",
             "center": (7.42, 8.12),
             "size": (0.16, 0.28),
             "status": "regular",

@@ -9,8 +9,8 @@ from typing import Any
 
 
 GENERIC_WORLD_FAILURE_MARKERS = (
-    "这一步没有得到稳定的环境反馈，动作暂时没有落实",
-    "这一步没有得到稳定的环境支持判断，动作暂时没有落实",
+    "This step did not receive stable environmental feedback; the action has not been implemented yet.",
+    "This step did not receive stable environmental support for judgment; the action has not been implemented yet.",
 )
 
 SYSTEM_FAILURE_ROUTES = {

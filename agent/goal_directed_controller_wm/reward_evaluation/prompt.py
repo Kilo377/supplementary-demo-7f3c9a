@@ -11,48 +11,48 @@ def build_reward_evaluation_prompt(
 ) -> str:
     name = str(agent_name or "Agent").strip()
     sections = [
-        f"你是 {name}。",
-        f"你当前想要：\n{intent_text.strip()}",
+        f"You are {name}.",
+        f"Your current intent:\n{intent_text.strip()}",
     ]
-    _append_section(sections, "你觉得自己是这样的人：", personality_text)
-    _append_section(sections, "你现在的状态是：", current_state_text)
+    _append_section(sections, "You consider yourself to be the kind of person who:", personality_text)
+    _append_section(sections, "Your current state is:", current_state_text)
     sections.append(
-        "下面是从同一个当前状态出发，对几个初始动作分别进行前向推演后得到的动作链：\n\n"
+        "Below are the action chains derived from forward simulation of several initial actions starting from the same current state:\n\n"
         + action_chains_text.strip()
     )
     sections.append(
-        f"""
-请一次性比较这些动作链，并判断每个初始动作对于 {name} 当前 Intent 的整体价值。
+        """
+Please compare these action chains at once and judge the overall value of each initial action for {name}'s current intent.
 
-被评分的是每条链的初始动作。后续动作和预测状态，是这个初始动作可能带来的后果。
+The items being scored are the initial actions of each chain. The subsequent actions and predicted states are the potential consequences of that initial action.
 
-请把目标满足、目标推进、最终状态、身体和心理变化、耗时、努力、失败风险、不确定性、信息价值以及是否符合 {name} 的实际偏好混合在一起，直接形成一个0到10的综合分数。不要输出任何子项分数。
+Combine goal satisfaction, goal progress, final state, physical and psychological changes, time cost, effort, failure risk, uncertainty, information value, and alignment with {name}'s actual preferences into a single comprehensive score from 0 to 10. Do not output any sub-item scores.
 
-评分锚点：
-- 0：明显失败、严重偏离 Intent，或者产生显著负面结果。
-- 2：几乎没有推进，成本、风险或不确定性明显。
-- 5：有所推进，但距离目标仍远，或者代价和不确定性较大。
-- 8：已经基本满足目标，过程合理，代价可以接受。
-- 10：充分满足目标，而且结果、过程和人物状态都非常理想。
+Scoring anchors:
+- 0: Clearly failed, severely deviated from the intent, or produced significant negative outcomes.
+- 2: Barely progressed, with obvious costs, risks, or uncertainties.
+- 5: Some progress made, but still far from the goal, or with high cost and uncertainty.
+- 8: Goal basically satisfied, process reasonable, cost acceptable.
+- 10: Fully satisfied the goal, with ideal results, process, and character state.
 
-要求：
-- 所有动作必须使用同一套尺度，在一次比较中完成评分。
-- 分数是绝对价值，不是排名。即使某个动作是候选中最好的，如果它本身很差，也应该得到低分。
-- 不必强行拉开分数，多个动作可以同分。
-- 不要因为某条动作链更长、文字更多或者描述更详细而给更高分。
-- 如果推演因为达到迭代上限而结束，应根据已经实现的推进程度评分，不能假设后续必然成功。
-- 如果推演依赖未经确认的物体或状态，应把这种不确定性计入总分。
-- 每个 action_id 必须且只能输出一次，不要添加新的动作。
+Requirements:
+- All actions must use the same scale and be scored in a single comparison.
+- Scores represent absolute value, not ranking. Even if an action is the best among candidates, if it is inherently poor, it should receive a low score.
+- Do not force wide gaps between scores; multiple actions can receive the same score.
+- Do not give higher scores simply because an action chain is longer, has more text, or is described in more detail.
+- If the simulation ends due to reaching the iteration limit, score based on the progress already achieved; do not assume subsequent success.
+- If the simulation relies on unconfirmed objects or states, factor this uncertainty into the total score.
+- Each action_id must be output exactly once; do not add new actions.
 
-只返回 JSON，不要解释。
+Return only JSON, no explanation.
 
 JSON schema:
 {{
   "evaluations": [
     {{
-      "action_id": "动作链编号",
+      "action_id": "Action chain ID",
       "reward": 0,
-      "reason": "形成这个综合价值分数的简短理由"
+      "reason": "Brief reason for this comprehensive score"
     }}
   ]
 }}

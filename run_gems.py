@@ -67,7 +67,7 @@ from llm.api_manager import SUPPORTED_PROVIDER_NAMES
 from llm.routing import AVAILABLE_LLM_PROFILES, configure_llm_routing
 
 
-DEFAULT_INTENT_TEMPLATE = "{agent_name}打算去厨房，填饱肚子。"
+DEFAULT_INTENT_TEMPLATE = "{agent_name} plans to go to the kitchen to fill their stomach."
 DEFAULT_DEMONSTRATED_HABIT_DIR = (
     Path(__file__).resolve().parent / "demonstrated_habits"
 )
@@ -480,9 +480,9 @@ def _nearest_anchor(runtime: EnvironmentInteractionEngine, position: tuple[float
 
 
 def _anchor_from_summary(runtime: EnvironmentInteractionEngine, summary: str) -> ElementReference | None:
-    if "面前是" not in summary:
+    if "in front of" not in summary:
         return None
-    after = summary.rsplit("面前是", 1)[1].strip()
+    after = summary.rsplit("in front of", 1)[1].strip()
     if not after:
         return None
     for area in runtime.home.areas:
@@ -619,7 +619,7 @@ def remember_turn(runtime: EnvironmentInteractionEngine, result) -> None:
     runtime.agent.short_time_memory.remember(
         step_id=result.step_id,
         area_id=area.node_id if area is not None else "",
-        area_name=area.name if area is not None else "未知区域",
+        area_name=area.name if area is not None else "Unknown area",
         perceived_summary=result.perception_notice_text,
         intended_action=result.action_proposal_text,
         experienced_result=_memory_experienced_result(result),
@@ -682,7 +682,7 @@ def print_short_time_memory(memory: ShortTermMemory) -> None:
         if getattr(episode, "recallable", True)
     ]
     if not episodes:
-        print("暂无。")
+        print("None yet.")
         return
 
     for episode in episodes:

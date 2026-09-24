@@ -14,12 +14,12 @@ class ElementChange:
     @property
     def label(self) -> str:
         if self.status_kind.startswith("detail:"):
-            return f"细节状态 {self.status_kind.split(':', 1)[1]}"
+            return f"Detail status {self.status_kind.split(':', 1)[1]}"
         return {
-            "physical": "物理状态",
-            "evolution": "演化状态",
-            "interaction": "交互状态",
-        }.get(self.status_kind, "状态")
+            "physical": "Physical state",
+            "evolution": "Evolutionary state",
+            "interaction": "Interaction state",
+        }.get(self.status_kind, "State")
 
     def to_dict(self) -> dict:
         return {
@@ -50,8 +50,8 @@ class VisibleElementInput:
     @property
     def description(self) -> str:
         if self.physical_status == "regular":
-            return f"{self.name}还保持着原来的样子。"
-        return f"{self.name}现在呈现出{self.physical_status}的状态。"
+            return f"{self.name} remains unchanged."
+        return f"{self.name} is now in a {self.physical_status} state."
 
     def to_dict(self) -> dict:
         return {
@@ -258,32 +258,32 @@ class PerceiveResult:
     @property
     def agent_state_text(self) -> str:
         physical = self.self_input.physical
-        parts = [f"{self.agent_name}现在在{self.area_name}。"]
+        parts = [f"{self.agent_name} is currently in {self.area_name}."]
         posture = _posture_label(physical.posture)
         if posture:
             parts.append(f"{self.agent_name}{posture}。")
         if physical.interaction_method:
-            parts.append(f"{self.agent_name}正在{physical.interaction_method}。")
+            parts.append(f"{self.agent_name} is {physical.interaction_method}.")
         if physical.body_surface and physical.body_surface != "dry_clean":
-            parts.append(f"{self.agent_name}身体表面{_body_surface_label(physical.body_surface)}。")
+            parts.append(f"{self.agent_name}'s body surface {_body_surface_label(physical.body_surface)}.")
         if physical.worn_items:
-            parts.append(f"{self.agent_name}穿戴着{_join_names(physical.worn_items)}。")
+            parts.append(f"{self.agent_name} is wearing {_join_names(physical.worn_items)}.")
         if physical.gaze_target:
-            parts.append(f"{self.agent_name}的注意方向落在{physical.gaze_target}。")
+            parts.append(f"{self.agent_name}'s gaze is directed at {physical.gaze_target}.")
         return " ".join(parts).strip()
 
     @property
     def narration_facts(self) -> list[str]:
-        facts = [f"{self.agent_name}进入了{self.area_name}。"]
+        facts = [f"{self.agent_name} has entered {self.area_name}."]
         if self.first_time_visit:
-            facts.append("这是这次流程里第一次来到这里。")
+            facts.append("This is the first time visiting this area in this process.")
         else:
-            facts.append(f"这里和{self.agent_name}记忆中的家进行了一次对照。")
+            facts.append(f"A comparison has been made between here and {self.agent_name}'s memory of home.")
         if self.changed_elements:
             for change in self.changed_elements:
-                facts.append(f"{change.name}的{change.label}从{change.before_status}变成了{change.after_status}。")
+                facts.append(f"{change.name}'s {change.label} changed from {change.before_status} to {change.after_status}.")
         else:
-            facts.append("这一带目前没有看出明显变化。")
+            facts.append("No obvious changes are observed in this area at present.")
         for item in self.perceived_elements:
             facts.append(item.description)
         return facts
@@ -293,23 +293,23 @@ class PerceiveResult:
         all_details = " ".join(item.description for item in self.perceived_elements)
         if self.changed_elements:
             change_text = "，".join(
-                f"{item.name}的{item.label}已经从{item.before_status}变成了{item.after_status}"
+                f"The {item.label} of {item.name} has changed from {item.before_status} to {item.after_status}"
                 for item in self.changed_elements
             )
-            return f"这里和记忆里并不完全一样，{change_text}。{all_details}".strip()
-        mood = "眼前的一切都带着熟悉而安静的气息。" if self.first_time_visit else "这里和记忆中的样子几乎没有区别，一切如常。"
+            return f"This place is not exactly as remembered, {change_text}. {all_details}".strip()
+        mood = "Everything before me carries a familiar and quiet aura." if self.first_time_visit else "This place is almost identical to how I remember it; everything is as usual."
         return f"{mood} {all_details}".strip()
 
     @property
     def narration_text(self) -> str:
-        intro = f"{self.agent_name}正在{self.area_name}。"
+        intro = f"{self.agent_name} is in {self.area_name}."
         if self.changed_elements:
             change_text = "，".join(
-                f"{item.name}的{item.label}已经从{item.before_status}变成了{item.after_status}"
+                f"The {item.label} of {item.name} has changed from {item.before_status} to {item.after_status}"
                 for item in self.changed_elements
             )
-            return f"{intro} {self.agent_name}很快察觉到这里和记忆里并不完全一样，{change_text}。{_element_details(self.perceived_elements)}".strip()
-        mood = "眼前的一切都带着熟悉而安静的气息。" if self.first_time_visit else f"这里和{self.agent_name}记忆中的样子几乎没有区别，一切如常。"
+            return f"{intro} {self.agent_name} quickly notices that this place isn't exactly as remembered: {change_text}. {_element_details(self.perceived_elements)}".strip()
+        mood = "Everything before me carries a familiar and quiet aura." if self.first_time_visit else f"This place is almost identical to how {self.agent_name} remembers it; everything is as usual."
         return f"{intro} {mood} {_element_details(self.perceived_elements)}".strip()
 
     @property
@@ -318,10 +318,10 @@ class PerceiveResult:
             return self.narration_text
         if self.changed_elements:
             change_text = "，".join(
-                f"{item.name}的{item.label}从{item.before_status}变成{item.after_status}"
+                f"{item.name}'s {item.label} changed from {item.before_status} to {item.after_status}"
                 for item in self.changed_elements
             )
-            return f"{self.agent_name}注意到{self.area_name}里有变化：{change_text}。"
+            return f"{self.agent_name} notices a change in {self.area_name}: {change_text}."
         return ""
 
     def to_dict(self) -> dict:
@@ -346,7 +346,7 @@ class PerceiveResult:
         include_world_feedback: bool = False,
         include_changed_elements: bool = False,
     ) -> str:
-        parts = [f"就在刚刚，{self.agent_name}看了一下眼前。"]
+        parts = [f"Just now, {self.agent_name} looked around."]
         if include_physical:
             physical_text = self.physical_prompt_text()
             if physical_text:
@@ -374,15 +374,15 @@ class PerceiveResult:
     def physical_prompt_text(self) -> str:
         physical = self.self_input.physical
         posture = _posture_label(physical.posture)
-        parts = [f"{self.agent_name}现在在{self.area_name}{posture}。" if posture else f"{self.agent_name}现在在{self.area_name}。"]
+        parts = [f"{self.agent_name} is currently in {self.area_name}{posture}." if posture else f"{self.agent_name} is currently in {self.area_name}."]
         if physical.interaction_method:
-            parts.append(f"{self.agent_name}正在{physical.interaction_method}。")
+            parts.append(f"{self.agent_name} is {physical.interaction_method}.")
         if physical.body_surface and physical.body_surface != "dry_clean":
-            parts.append(f"{self.agent_name}身体表面{_body_surface_label(physical.body_surface)}。")
+            parts.append(f"{self.agent_name}'s body surface {_body_surface_label(physical.body_surface)}.")
         if physical.worn_items:
-            parts.append(f"{self.agent_name}穿戴着{_join_names(physical.worn_items)}。")
+            parts.append(f"{self.agent_name} is wearing {_join_names(physical.worn_items)}.")
         if physical.gaze_target:
-            parts.append(f"{self.agent_name}的注意方向落在{physical.gaze_target}。")
+            parts.append(f"{self.agent_name}'s gaze is directed at {physical.gaze_target}.")
         return " ".join(parts).strip()
 
     def psychological_prompt_text(self) -> str:
@@ -394,10 +394,10 @@ class PerceiveResult:
             if not item.noteworthy or not item.text.strip():
                 continue
             text = _strip_sentence_end(item.text.strip())
-            if text.startswith("值得注意的是"):
+            if text.startswith("It is worth noting that"):
                 fragments.append(text)
             else:
-                fragments.append(f"值得注意的是，{text}")
+                fragments.append(f"It is worth noting that {text}")
         if not fragments:
             return ""
         return "，".join(fragments) + "。"
@@ -406,10 +406,10 @@ class PerceiveResult:
         if not self.changed_elements:
             return ""
         fragments = [
-            f"{item.name}的{item.label}从{item.before_status}变成了{item.after_status}"
+            f"{item.name}'s {item.label} has changed from {item.before_status} to {item.after_status}"
             for item in self.changed_elements
         ]
-        return "环境变化：" + "，".join(fragments) + "。"
+        return "Environmental changes:" + "，".join(fragments) + "。"
 
     def visual_prompt_text(self) -> str:
         if not self.perceived_elements:
@@ -417,7 +417,7 @@ class PerceiveResult:
         descriptions = "，".join(_visual_element_description(item) for item in self.perceived_elements if item.name)
         if not descriptions:
             return ""
-        return f"{self.agent_name}的视线里看见了：{descriptions}。"
+        return f"{self.agent_name} sees in their field of view: {descriptions}."
 
 
 def _element_details(elements: list[VisibleElementInput]) -> str:
@@ -428,61 +428,61 @@ def _visual_element_description(element: VisibleElementInput) -> str:
     details = element.state_details
     contains = str(details.get("contains", "") or "").strip().lower()
     if contains == "water":
-        return f"{element.name}里有水"
+        return f"There is water in {element.name}"
     if contains in {"empty", "none"}:
         if element.semantic_type == "cup":
-            return f"{element.name}里没有水"
-        return f"{element.name}里面是空的"
+            return f"There is no water in {element.name}"
+        return f"{element.name} is empty"
     if contains:
         contains_labels = {
-            "fruit": "水果",
-            "milk": "牛奶",
-            "food": "食物",
-            "food_and_drinks": "食物和饮料",
-            "seasoning": "调料",
-            "books": "书",
-            "trash": "垃圾",
+            "fruit": "Fruit",
+            "milk": "Milk",
+            "food": "Food",
+            "food_and_drinks": "Food and drinks",
+            "seasoning": "Condiments",
+            "books": "Books",
+            "trash": "Trash",
         }
-        return f"{element.name}里有{contains_labels.get(contains, contains)}"
+        return f"{element.name} contains {contains_labels.get(contains, contains)}"
 
     state_labels = {
-        ("power_state", "on"): "开着",
-        ("power_state", "off"): "关着",
-        ("door_state", "open"): "开着",
-        ("door_state", "closed"): "关着",
-        ("curtain_state", "open"): "拉开着",
-        ("curtain_state", "closed"): "拉着",
-        ("plant_state", "normal"): "状态正常",
-        ("clean_state", "usable"): "可以使用",
+        ("power_state", "on"): "Open",
+        ("power_state", "off"): "Closed",
+        ("door_state", "open"): "Open",
+        ("door_state", "closed"): "Closed",
+        ("curtain_state", "open"): "Pulled open",
+        ("curtain_state", "closed"): "Pulled",
+        ("plant_state", "normal"): "Normal status",
+        ("clean_state", "usable"): "Usable",
     }
     for key, value in details.items():
         label = state_labels.get((key, str(value).lower()))
         if label:
             return f"{element.name}{label}"
     if element.physical_status != "regular":
-        return f"{element.name}现在呈现出{element.physical_status}的状态"
-    return f"{element.name}还保持着原来的样子"
+        return f"{element.name} is currently in a {element.physical_status} state"
+    return f"{element.name} remains unchanged"
 
 
 def _posture_label(value: str) -> str:
     return {
-        "standing": "站着",
-        "sitting": "坐着",
-        "lying": "躺着",
-        "crouching": "蹲着",
-        "walking": "走动中",
+        "standing": "standing",
+        "sitting": "sitting",
+        "lying": "lying down",
+        "crouching": "crouching",
+        "walking": "Walking",
     }.get(value, value)
 
 
 def _body_surface_label(value: str) -> str:
     return {
-        "wet_clean": "湿润但干净",
-        "wet_dirty": "湿润且有些脏",
-        "soapy": "有泡沫",
-        "dirty": "有些脏",
-        "sweaty": "有些出汗",
-        "dry_dirty": "干燥但有些脏",
-        "wet": "湿的",
+        "wet_clean": "Moist but clean",
+        "wet_dirty": "Moist and somewhat dirty",
+        "soapy": "Foamy",
+        "dirty": "A bit dirty",
+        "sweaty": "A bit sweaty",
+        "dry_dirty": "Dry but a bit dirty",
+        "wet": "Wet",
     }.get(value, value)
 
 

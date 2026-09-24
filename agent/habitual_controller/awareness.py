@@ -95,17 +95,17 @@ def _fallback_awareness(
     perception: PerceiveResult,
 ) -> AwarenessResult:
     if response.awareness_type == "conscious":
-        return AwarenessResult(True, "这个联结反应通常会进入意识。")
+        return AwarenessResult(True, "This associative response usually enters consciousness.")
     if response.awareness_type == "unconscious":
         blocked = any(item.source == "world_feedback" for item in perception.attention.items)
         if blocked:
-            return AwarenessResult(True, "近期动作受阻，使原本无意识的反应进入了意识。")
-        return AwarenessResult(False, "这是一个通常不会进入意识的联结反应。")
+            return AwarenessResult(True, "Recent obstruction of actions has brought an originally unconscious response into consciousness.")
+        return AwarenessResult(False, "This is an associative response that typically does not enter consciousness.")
     attentive_cues = {item.source for item in perception.attention.items if item.noteworthy}
     conscious = bool(attentive_cues)
     return AwarenessResult(
         conscious,
-        "当前显著信号使反应进入意识。" if conscious else "当前没有显著信号使反应进入意识。",
+        "Current salient signals bring the response into consciousness." if conscious else "There are currently no salient signals bringing the response into consciousness.",
     )
 
 

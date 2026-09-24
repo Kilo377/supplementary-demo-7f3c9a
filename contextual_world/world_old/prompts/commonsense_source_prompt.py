@@ -15,38 +15,38 @@ def build_commonsense_source_prompt(
             f"physical_status={element.get('physical_status', '')}, "
             f"evolution_status={element.get('evolution_status', '')}"
         )
-    local_block = "\n".join(local_lines) if local_lines else "- 无额外局部元素"
+    local_block = "\n".join(local_lines) if local_lines else "- No additional local elements"
 
     intervention_block = ""
     if recent_intervention is not None:
         intervention_block = f"""
 
-最近一步 agent 干预：
-- {recent_intervention.get('actor_name', '')} 对 {recent_intervention.get('target_element_id', '')} 做了这件事：{recent_intervention.get('description', '')}"""
+The most recent agent intervention:
+- {recent_intervention.get('actor_name', '')} did this to {recent_intervention.get('target_element_id', '')}: {recent_intervention.get('description', '')}"""
 
-    return f"""你是家庭世界中的常识物理演化器。
+    return f"""You are the commonsense physics evolution engine in a household world.
 
-你的任务：
-- 只围绕一个异常源元素，推演这一时间步最合理的 physical_status 变化
-- 你可以让该异常源继续自我演化
-- 你也可以让它影响附近原本 regular 的元素
-- 只推进这一时间步，不要一口气推到最终结局
+Your task:
+- Deduce the most reasonable physical_status change for this time step, centered on a single anomalous source element.
+- You may allow the anomalous source to continue evolving on its own.
+- You may also let it affect nearby elements that were previously regular.
+- Advance only this one time step; do not jump straight to the final outcome.
 
-要求：
-- 只修改 physical_status
-- 不要修改 interaction_status
-- 不要编造不存在的元素
-- 输出必须是严格 JSON
-- physical_status 使用简短、稳定、偏物理结果的英文状态词
-- 如果这一时间步没有自然变化，可以返回空 updates
-- 默认稍微保守：如果没有强烈常识证据表明它会继续恶化，就不要推进变化
-- 扩散到附近元素时必须更保守，优先轻微影响，而且只影响非常接近的元素
-- 同一时间步里，同一个元素最多更新一次
+Requirements:
+- Only modify physical_status.
+- Do not modify interaction_status.
+- Do not fabricate non-existent elements.
+- The output must be strictly JSON.
+- Use short, stable, physics-result-oriented English status words for physical_status.
+- If there is no natural change in this time step, you may return empty updates.
+- Default to being slightly conservative: if there is no strong commonsense evidence that it will continue to worsen, do not advance the change.
+- When spreading to nearby elements, be even more conservative: prioritize slight effects and only affect very close elements.
+- In the same time step, each element can be updated at most once.
 
-当前时间步：
+Current time step:
 {tick}
 
-当前异常源：
+Current anomalous source:
 - area_id: {source.get('area_id', '')}
 - area_name: {source.get('area_name', '')}
 - element_id: {source.get('element_id', '')}
@@ -54,18 +54,18 @@ def build_commonsense_source_prompt(
 - physical_status: {source.get('physical_status', '')}
 - evolution_status: {source.get('evolution_status', '')}
 
-局部相关元素：
+Locally relevant elements:
 {local_block}{intervention_block}
 
-返回 JSON：
+Return JSON:
 {{
-  "summary": "这一时间步围绕该异常源发生了什么的简短中文摘要",
+  "summary": "A brief Chinese summary of what happened around this anomalous source in this time step",
   "updates": [
     {{
-      "element_id": "必须使用现有 element_id",
-      "to_physical_status": "新的 physical_status",
-      "to_evolution_status": "changing 或 stable",
-      "reason": "为什么这一时间步会这样变化"
+      "element_id": "Must use an existing element_id",
+      "to_physical_status": "New physical_status",
+      "to_evolution_status": "changing or stable",
+      "reason": "Why this change occurs in this time step"
     }}
   ]
 }}"""

@@ -79,8 +79,8 @@ def _build_subgraph_state_text(
     interaction_frame: list[dict],
     node_reference: dict[str, dict],
 ) -> str:
-    lines = ["当前子图状态："]
-    lines.append("节点：")
+    lines = ["Current subgraph state:"]
+    lines.append("Nodes:")
     for node in focused_nodes:
         node_id = node.get("node_id", "")
         name = node.get("name", "")
@@ -88,13 +88,13 @@ def _build_subgraph_state_text(
         state = node.get("state", {}) or {}
         lines.append(f"- {node_id} / {name}: {node_type}，state={state}")
     if focused_fact_edges:
-        lines.append("当前事实关系：")
+        lines.append("Current factual relationships:")
         for edge in focused_fact_edges:
             from_name = _name(edge.get("from_node_id", ""), node_reference)
             to_name = _name(edge.get("to_node_id", ""), node_reference)
             lines.append(f"- {from_name} --{edge.get('relation', '')}--> {to_name}")
     if interaction_frame:
-        lines.append("动作焦点提示：")
+        lines.append("Action focus hints:")
         for frame in interaction_frame:
             subject = _name(frame.get("subject_id", ""), node_reference)
             obj = _name(frame.get("object_id", ""), node_reference)
@@ -117,23 +117,23 @@ def _build_recent_state_history_text(*, graph: WorldGraph, focused_ids: list[str
             event = str(item.get("actual_event", "") or "")
             new_state = item.get("new_state", {})
             lines.append(f"- action={action}; event={event}; new_state={new_state}")
-    return "\n".join(lines) if lines else "相关节点最近没有记录到局部状态历史。"
+    return "\n".join(lines) if lines else "No local state history has been recorded for the relevant nodes recently."
 
 
 def _build_transition_constraints_text(*, focused_ids: list[str], focused_fact_edges: list[dict]) -> str:
     lines = [
-        f"只能更新这些节点：{', '.join(focused_ids)}。",
-        "不能创建新节点。",
-        "fact_edges_to_add 的 subject_id 和 object_id 必须来自上述节点。",
+        f"Only these nodes can be updated: {', '.join(focused_ids)}.",
+        "Cannot create new nodes.",
+        "The subject_id and object_id in fact_edges_to_add must come from the nodes listed above.",
     ]
     if focused_fact_edges:
-        lines.append("fact_edges_to_remove 只能移除以下已有事实关系：")
+        lines.append("fact_edges_to_remove can only remove the following existing factual relationships:")
         for edge in focused_fact_edges:
             lines.append(
                 f"- {edge.get('from_node_id', '')} --{edge.get('relation', '')}--> {edge.get('to_node_id', '')}"
             )
     else:
-        lines.append("当前 focused subgraph 中没有可移除的已有 fact edge。")
+        lines.append("There are no removable existing fact edges in the current focused subgraph.")
     return "\n".join(lines)
 
 

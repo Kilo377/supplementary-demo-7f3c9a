@@ -132,7 +132,7 @@ class WorldGraphActionPipe:
         if route == "reject":
             feedback = EnvironmentFeedback(
                 route="reject",
-                perception_summary=f"{actor.name}这一步没有真正完成：{support_dict.get('reason', '')}",
+                perception_summary=f"{actor.name} did not truly complete this step: {support_dict.get('reason', '')}",
                 graph_transition_report={},
             )
             return WorldGraphActionPipeResult(
@@ -189,7 +189,7 @@ class WorldGraphActionPipe:
         error: Exception,
         support_result: dict | None = None,
     ) -> WorldGraphActionPipeResult:
-        message = f"{actor.name}这一步没有得到稳定的环境反馈，动作暂时没有落实。"
+        message = f"{actor.name} did not receive stable environmental feedback for this step; the action is temporarily unfulfilled."
         report = WorldGraphTransitionReport(warnings=[f"{route}: {error}"])
         feedback = EnvironmentFeedback(
             route=route,
@@ -219,7 +219,7 @@ class WorldGraphActionPipe:
             for item in (world_event.get("event_effects", []) or [])
             if str(item).strip()
         ]
-        message = actual_event or "。".join(effects[:2]) or reason or f"{actor.name}这一步的状态没有明显改变。"
+        message = actual_event or "。".join(effects[:2]) or reason or f"{actor.name}'s status has not changed significantly in this step."
         feedback = EnvironmentFeedback(
             route="reject",
             perception_summary=message,

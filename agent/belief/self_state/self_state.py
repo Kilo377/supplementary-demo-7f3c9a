@@ -288,7 +288,7 @@ class SelfState:
         return f"{position} [{area} / {anchor}]"
 
     def _apply_marker_effects(self, markers: list[str], feedback: str) -> None:
-        if "seated_at_table" in markers or "坐" in feedback:
+        if "seated_at_table" in markers or "Sit" in feedback:
             self.posture = "seated"
         elif self.posture == "unknown":
             self.posture = "standing"
@@ -359,20 +359,20 @@ class SelfState:
 
     def _infer_completed_markers(self, feedback: str) -> list[str]:
         rules = [
-            ("arrived_area", ["走到了"]),
-            ("fridge_opened", ["打开了冰箱", "打开冰箱"]),
-            ("food_acquired", ["从冰箱里拿出", "从冰箱里拿了", "拿出食物", "拿出了食物"]),
-            ("food_in_microwave", ["放入微波炉", "放进了微波炉", "食物放进微波炉", "食物放入微波炉"]),
-            ("microwave_time_set", ["设定微波炉", "时间设置", "设置按钮", "加热时间"]),
-            ("microwave_started", ["启动按钮", "按下微波炉的启动", "启动微波炉"]),
-            ("heating_waiting", ["等待微波炉", "观察剩余加热时间", "观察加热", "计时器"]),
-            ("heated_food_taken_out", ["取出加热好的食物", "从微波炉里取出", "从已打开的微波炉中取出"]),
-            ("food_on_table", ["端到了餐桌", "端到餐桌", "放到餐桌", "放在餐桌"]),
-            ("seated_at_table", ["坐了下来", "坐在了餐桌", "坐到餐桌", "坐在餐桌旁"]),
-            ("tableware_acquired", ["拿起一套餐具", "拿起餐具", "取下了一套餐具"]),
-            ("tableware_on_table", ["餐具拿到餐桌"]),
-            ("started_eating", ["开始享用", "开始用餐", "送入口中", "开始吃"]),
-            ("outerwear_worn", ["穿上外套", "穿在了身上", "穿在身上"]),
+            ("arrived_area", ["walked to"]),
+            ("fridge_opened", ["opened the refrigerator", "open the refrigerator"]),
+            ("food_acquired", ["took out from the refrigerator", "took from the refrigerator", "take out food", "took out food"]),
+            ("food_in_microwave", ["put into the microwave", "put into the microwave", "food put into the microwave", "Put food in the microwave"]),
+            ("microwave_time_set", ["Set the microwave", "Time setting", "Setting button", "Heating time"]),
+            ("microwave_started", ["Start button", "Press the microwave's start button", "Start the microwave"]),
+            ("heating_waiting", ["Wait for the microwave", "Observe the remaining heating time", "Observe the heating", "Timer"]),
+            ("heated_food_taken_out", ["Take out the heated food", "Take it out of the microwave", "Take it out of the open microwave"]),
+            ("food_on_table", ["Brought to the dining table", "Bring to the dining table", "Place on the dining table", "Put on the dining table"]),
+            ("seated_at_table", ["Sat down", "Sat at the dining table", "Sit at the dining table", "Sit beside the dining table"]),
+            ("tableware_acquired", ["Pick up a set of cutlery", "Pick up the cutlery", "Took a set of cutlery"]),
+            ("tableware_on_table", ["Cutlery placed on the dining table"]),
+            ("started_eating", ["Start enjoying", "Start eating", "Put into mouth", "Start eating"]),
+            ("outerwear_worn", ["Put on coat", "Wore it", "Worn on body"]),
         ]
         markers = []
         for marker, phrases in rules:
@@ -381,7 +381,7 @@ class SelfState:
         return markers
 
     def _infer_failed_markers(self, feedback: str) -> list[str]:
-        if any(word in feedback for word in ["找不到", "没有新的空位", "没有解析清楚", "没够着", "失败", "不能", "无法", "没有可走"]):
+        if any(word in feedback for word in ["Cannot find", "No new empty spots", "Not clearly understood", "Did not reach", "Failed", "Cannot", "Unable to", "No way forward"]):
             return ["action_blocked_or_failed"]
         return []
 

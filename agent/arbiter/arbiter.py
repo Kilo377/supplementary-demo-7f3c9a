@@ -57,7 +57,7 @@ def run_arbiter(
         return ArbiterResult(
             decision_mode="goal_directed",
             action_text=goal_directed_action,
-            reason="当前没有形成足够明确的理由改变原来的行动。",
+            reason="There is not yet a sufficiently clear reason to change the original action.",
         )
 
 

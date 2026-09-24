@@ -47,7 +47,7 @@ def build_world_interaction_focus_variables(
 
 def _build_graph_state_text(*, nodes: list[dict], fact_edges: list[dict], agent_node_id: str) -> str:
     names = {node.get("node_id"): node.get("name", "") for node in nodes}
-    lines = ["当前可选节点："]
+    lines = ["Currently available nodes:"]
     for node in nodes:
         node_id = node.get("node_id", "")
         node_type = node.get("node_type", "")
@@ -57,7 +57,7 @@ def _build_graph_state_text(*, nodes: list[dict], fact_edges: list[dict], agent_
         marker = "human_agent" if node_id == agent_node_id else node_type
         lines.append(f"- {node_id} / {name}: {marker}{area_text}。")
     if fact_edges:
-        lines.append("当前事实关系：")
+        lines.append("Current factual relationships:")
         for edge in fact_edges:
             from_name = names.get(edge.get("from_node_id"), edge.get("from_node_id", ""))
             to_name = names.get(edge.get("to_node_id"), edge.get("to_node_id", ""))

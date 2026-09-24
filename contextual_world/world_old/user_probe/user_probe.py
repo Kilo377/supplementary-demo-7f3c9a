@@ -277,10 +277,10 @@ class UserProbe:
         except Exception as error:
             return ProbeApplyResult(
                 success=False,
-                summary="LLM 世界探针暂时未能生成修改方案。",
+                summary="The LLM world probe has temporarily failed to generate a modification plan.",
                 skipped=[
-                    "当前没有拿到可执行的结构化操作。",
-                    "你可以先检查本地模型服务是否启动，再重试同一条自然语言命令。",
+                    "No executable structured operation was obtained currently.",
+                    "You can first check if the local model service is started, then retry the same natural language command.",
                 ],
                 error=str(error),
             )

@@ -11,34 +11,34 @@ def build_world_feedback_summary_prompt(
     world_state_diff: dict | None = None,
 ) -> str:
     world_state_diff_json = json.dumps(world_state_diff or {}, ensure_ascii=False, indent=2)
-    return f"""你在模拟环境中负责把结构化环境反馈改写成给 human agent 认知过程看的自然语言。
+    return f"""You are responsible for rewriting structured environment feedback into natural language for the human agent's cognitive process in the simulation environment.
 
-这里的 action proposal 只是 {agent_name} 刚刚想做什么。
-真正发生后的状态，只以 agent_centered_world_state_diff 为准。
+The action proposal here is merely what {agent_name} just intended to do.
+The state after it actually occurs should only be based on agent_centered_world_state_diff.
 
-你的任务不是生成下一步动作，也不是补充新事实。
-你的任务只是把这些结构化字段总结成一小段自然语言，让 {agent_name} 像人一样感知到这一小步之后：
-- 自己身体和动作状态如何，例如站着/坐着、穿没穿衣服、身体是否湿/脏/有泡沫；
-- 自己和东西的关系如何，例如手里拿着什么、正看着什么、正在接触什么；
-- 自己拿到或注意到了什么东西，但不要说“凭空出现”或“被创建”；
-- 什么东西被吃掉、喝掉、丢掉、消耗或不再可用；
-- 哪些外部对象被自己影响了，以及这些对象现在是什么状态，例如微波炉正在工作、桌面变干净、花洒在流水。
+Your task is not to generate the next step's action, nor to supplement new facts.
+Your task is simply to summarize these structured fields into a short paragraph of natural language, allowing {agent_name} to perceive this small step like a human:
+- How their own body and action status are, e.g., standing/sitting, wearing clothes or not, whether the body is wet/dirty/foamy;
+- The relationship between themselves and objects, e.g., what they are holding in hand, what they are looking at, what they are touching;
+- What objects they have obtained or noticed, but do not say "appeared out of nowhere" or "was created";
+- What objects were eaten, drunk, thrown away, consumed, or are no longer available;
+- Which external objects were affected by themselves, and what their current states are, e.g., the microwave is working, the desktop is clean, the shower is flowing.
 
-不要输出 JSON。
-不要列 bullet。
-使用第三人称，明确以 {agent_name} 作为主语。
-不要用“你”来指代 {agent_name}。
-不要提 node_id、edge、graph、route、patch、diff、temporary、created 这些工程词。
-不要直接照抄 standing、dry_clean、temporary_created、holding 这类内部枚举；要转成自然说法。
-不要添加结构化字段里没有的结果。
-不要机械覆盖所有字段；只写和本轮动作、状态变化、下一步认知直接相关的信息。
-不要提没有变化的默认身体状态，例如仍然站着、仍然穿着原本衣物、身体仍然干净，除非 action proposal 或 self_state_changes 直接涉及这些字段。
-如果 agent_centered_world_state_diff 里有 self_state_after，可以用它确认当前状态；但不要把所有默认字段都写出来。
-如果 acquired_or_noticed_elements 来自低惊讶度补全，只能表述为 {agent_name} 拿到、看到、接触到或注意到了该对象，不能表述为 world 生成了它。
-如果动作没有落实，写成当前状态陈述，例如“门还关着，物品还在手里”，不要写成“不能/无法/不允许/通常无法”。
-洗衣机、微波炉、电脑这类设备的反馈要按经验粗略表达，例如“洗衣机开始洗衣”“微波炉开始加热”“电脑已经打开”，不要逐项罗列 power_state、door_state、program、contains。
-如果某类信息为空，就不要写那一类。
-输出 1 到 3 句中文短句即可。
+Do not output JSON.
+Do not list bullets.
+Use the third person, explicitly using {agent_name} as the subject.
+Do not use "you" to refer to {agent_name}.
+Do not mention engineering terms like node_id, edge, graph, route, patch, diff, temporary, created.
+Do not directly copy internal enumerations like standing, dry_clean, temporary_created, holding; convert them into natural expressions.
+Do not add results that are not in the structured fields.
+Do not mechanically cover all fields; only write information directly related to this round's action, state changes, and next-step cognition.
+Do not mention unchanged default body states, e.g., still standing, still wearing original clothes, body still clean, unless the action proposal or self_state_changes directly involve these fields.
+If agent_centered_world_state_diff contains self_state_after, you can use it to confirm the current state; but do not write out all default fields.
+If acquired_or_noticed_elements come from low-surprise completion, only express that {agent_name} obtained, saw, touched, or noticed the object; do not express that the world generated it.
+If the action did not materialize, write it as a current state statement, e.g., "the door is still closed, the item is still in hand," not as "cannot/could not/allowed not/usually cannot."
+Feedback for devices like washing machines, microwaves, and computers should be expressed roughly according to experience, e.g., "the washing machine started washing," "the microwave started heating," "the computer is already on"; do not list power_state, door_state, program, contains item by item.
+If a certain type of information is empty, do not write that type.
+Output 1 to 3 short Chinese sentences.
 
 route:
 {route}

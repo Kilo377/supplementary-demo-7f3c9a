@@ -114,7 +114,7 @@ def resolve_target_fallback(
                 target_element_name=element.name,
                 navigation_anchor_element_id=element.element_id,
                 navigation_anchor_element_name=element.name,
-                reason="动作文本直接提到了这个场景元素。",
+                reason="The action text directly mentions this scene element.",
             )
 
     text = str(action_text or "")
@@ -133,7 +133,7 @@ def resolve_target_fallback(
                 continue
             candidates.append((area.node_id == current_area_id, len(element.name), index, element))
     if not candidates:
-        return TargetResolution(reason="没有在动作文本中找到明确的场景元素。")
+        return TargetResolution(reason="No clear scene element found in the action text.")
     candidates.sort(reverse=True, key=lambda item: item[:3])
     element = candidates[0][3]
     return TargetResolution(
@@ -141,7 +141,7 @@ def resolve_target_fallback(
         target_element_name=element.name,
         navigation_anchor_element_id=element.node_id,
         navigation_anchor_element_name=element.name,
-        reason="动作文本直接提到了这个场景元素。",
+        reason="The action text directly mentions this scene element.",
     )
 
 
@@ -186,7 +186,7 @@ def _scene_elements_text(engine: PhysicsEngine) -> str:
     for area in engine.home.areas:
         for element in area.elements:
             items.append(f"{element.name}({element.node_id})")
-    return "、".join(items) if items else "无"
+    return "、".join(items) if items else "None"
 
 
 def _validate_target_resolution(

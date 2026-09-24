@@ -28,4 +28,4 @@ class LongTermMemory:
         text = self.retrieve(query, max_chars=max_chars)
         if not text:
             return ""
-        return f"{self.agent_name} 的长期个人背景与自我记忆：\n{text}"
+        return f"Long-term personal background and self-memory of {self.agent_name}:\n{text}"

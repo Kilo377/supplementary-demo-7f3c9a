@@ -31,7 +31,7 @@ class SensoryInput:
         if self.prompt_text.strip():
             return self.prompt_text.strip()
         lines = []
-        _append_unique_line(lines, f"{self.agent_name}现在正在{self.scene_name}的{self.area_name}。")
+        _append_unique_line(lines, f"{self.agent_name} is currently in the {self.area_name} of {self.scene_name}.")
         for text in [
             self.agent_state_text,
             self.world_feedback_text,
@@ -52,8 +52,8 @@ class AttentionItem:
 
     def format_for_prompt(self) -> str:
         text = self.text.strip()
-        if self.noteworthy and text and not text.startswith("值得注意的是"):
-            text = f"值得注意的是，{text}"
+        if self.noteworthy and text and not text.startswith("It is worth noting that"):
+            text = f"It is worth noting that {text}"
         return f"- [{self.source}] {text}"
 
 
@@ -67,17 +67,17 @@ class SpatialRetrieval:
 
     def format_for_prompt(self, *, agent_name: str) -> str:
         lines = [
-            f"{agent_name}现在正在{self.scene_name}的{self.current_area_name}。",
+            f"{agent_name} is currently in the {self.current_area_name} of {self.scene_name}.",
         ]
         if self.current_element_texts:
-            lines.append(f"这个房间里有：{_join_texts(self.current_element_texts)}。")
+            lines.append(f"This room contains: {_join_texts(self.current_element_texts)}.")
         else:
-            lines.append("这个房间里暂时没有可见元素。")
+            lines.append("There are currently no visible elements in this room.")
 
         if self.other_area_names:
-            lines.append(f"{agent_name}在{self.scene_name}里，还知道其他房间：{_join_texts(self.other_area_names)}。")
+            lines.append(f"{agent_name} is in {self.scene_name} and also knows about other rooms: {_join_texts(self.other_area_names)}.")
         else:
-            lines.append(f"{agent_name}在{self.scene_name}里，暂时没有其他房间信息。")
+            lines.append(f"{agent_name} is in {self.scene_name}, with no other room information available at the moment.")
         return "\n".join(lines)
 
 
@@ -94,16 +94,16 @@ class ExperienceRetrieval:
         sections = []
         doing_lines = [f"Intent: {self.intent_text} [{self.intent_status}]"]
         if self.intent_progress:
-            doing_lines.append("当前进度：")
+            doing_lines.append("Current progress:")
             doing_lines.extend(f"- {item}" for item in self.intent_progress if item)
-        sections.append(f"{self.agent_name}正在做的事：\n" + "\n".join(doing_lines))
+        sections.append(f"What {self.agent_name} is currently doing:\n" + "\n".join(doing_lines))
 
         biography = self.biography_text.strip()
         if biography:
-            sections.append(f"{self.agent_name}的人物传记：\n{biography}")
+            sections.append(f"Biography of {self.agent_name}:\n{biography}")
 
         episode_text = _format_episodes(self.episodes)
-        sections.append(f"{self.agent_name}已经经历过的事情：\n{episode_text}")
+        sections.append(f"Events that {self.agent_name} has already experienced:\n{episode_text}")
         return "\n\n".join(section for section in sections if section.strip())
 
 
@@ -136,7 +136,7 @@ class WorkingMemoryFrame:
         sections.append("Experience Retrieval：\n" + self.experience_retrieval.format_for_prompt())
         self_belief_text = self.self_belief.strip()
         if self_belief_text:
-            sections.append(f"{self.agent_name}对自身状态的当前理解：\n{self_belief_text}")
+            sections.append(f"{self.agent_name}'s current understanding of its own state:\n{self_belief_text}")
         return "\n\n".join(section for section in sections if section.strip())
 
 
@@ -256,11 +256,11 @@ def _time_belief_text(agent) -> str:
 def _belief_element_text(element: ElementBeliefSnapshot) -> str:
     details = []
     if element.physical_status != "regular":
-        details.append(f"物理状态={element.physical_status}")
+        details.append(f"Physical state={element.physical_status}")
     if element.evolution_status != "stable":
-        details.append(f"演化状态={element.evolution_status}")
+        details.append(f"Evolution status={element.evolution_status}")
     if element.interaction_status != "idle":
-        details.append(f"交互状态={element.interaction_status}")
+        details.append(f"Interaction status={element.interaction_status}")
     for key, value in sorted(element.state_details.items()):
         if str(value).strip():
             details.append(f"{key}={value}")
@@ -272,11 +272,11 @@ def _belief_element_text(element: ElementBeliefSnapshot) -> str:
 def _world_element_text(element: Element) -> str:
     details = []
     if element.physical_status != "regular":
-        details.append(f"物理状态={element.physical_status}")
+        details.append(f"Physical state={element.physical_status}")
     if element.evolution_status != "stable":
-        details.append(f"演化状态={element.evolution_status}")
+        details.append(f"Evolution status={element.evolution_status}")
     if element.interaction_status != "idle":
-        details.append(f"交互状态={element.interaction_status}")
+        details.append(f"Interaction status={element.interaction_status}")
     for key, value in sorted(element.state_details.items()):
         if str(value).strip():
             details.append(f"{key}={value}")
@@ -310,7 +310,7 @@ def _episodes(memory: ShortTermMemory | None) -> list[MemoryEpisode]:
 
 def _format_episodes(episodes: list[MemoryEpisode]) -> str:
     if not episodes:
-        return "暂无。"
+        return "None yet."
     blocks = []
     for episode in episodes:
         lines = [episode.header_text()]
@@ -339,7 +339,7 @@ def _format_episodes(episodes: list[MemoryEpisode]) -> str:
 
 
 def _scene_name(engine: PhysicsEngine) -> str:
-    return str(getattr(engine.home, "name", "") or getattr(engine.home, "node_id", "") or "当前场景")
+    return str(getattr(engine.home, "name", "") or getattr(engine.home, "node_id", "") or "Current scene")
 
 
 def _join_texts(items: list[str]) -> str:

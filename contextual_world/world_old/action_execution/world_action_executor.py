@@ -126,7 +126,7 @@ class WorldActionExecutor:
         # TODO: route chat to a real multi-agent dialogue pipeline.
         if decision.action_type == "chat":
             return ActionResult(
-                summary=f"chat_route_todo: {decision.reason or f'{actor.name}想和别人聊聊。'}",
+                summary=f"chat_route_todo: {decision.reason or f'{actor.name} wants to chat with someone.'}",
                 execution_kind="chat_todo",
                 resolved_action="",
             )
@@ -169,7 +169,7 @@ class WorldActionExecutor:
         if decision.wait_duration:
             result.estimated_duration = decision.wait_duration
         if not result.summary:
-            result.summary = f"{actor.name}等了一下。"
+            result.summary = f"{actor.name} waited for a moment."
         return result
 
     def _wait_action_text(
@@ -181,21 +181,20 @@ class WorldActionExecutor:
     ) -> str:
         previous = str(previous_execution_result or "").strip()
         if not previous:
-            previous = "上一轮没有明确的 world feedback"
+            previous = "No clear world feedback in the previous round"
         previous = previous.rstrip("。.!！?？；;，, ")
         duration_text = self._duration_text_for_world(wait_duration)
         return (
-            f"上一轮的world feedback是：{previous}，而{actor_name}打算等待{duration_text}，"
-            f"请让这段等待结束，并让环境中会在这段时间内自然完成的状态变化落实。"
+            f"The world feedback from the previous round was: {previous}, and {actor_name} intends to wait for {duration_text}.\n            Please end this waiting period and apply any state changes that would naturally occur during this time."
         )
 
     def _duration_text_for_world(self, duration: str) -> str:
         value = str(duration or "").strip()
         if value.endswith("min"):
-            return f"{value[:-3]}分钟"
+            return f"{value[:-3]} minutes"
         if value.endswith("s"):
-            return f"{value[:-1]}秒"
-        return value or "一会儿"
+            return f"{value[:-1]} seconds"
+        return value or "a while"
 
     def _move_to_element(
         self,
@@ -206,7 +205,7 @@ class WorldActionExecutor:
         element_id = decision.target_element_id or decision.navigation_target_element_id or ""
         if not element_id:
             return ActionResult(
-                summary=f"{actor.name}想移动，但没有得到明确的目标元素。",
+                summary=f"{actor.name} wants to move, but no clear target element was provided.",
                 execution_kind="action_error",
                 error="move_target_missing",
                 execution_debug={
@@ -218,7 +217,7 @@ class WorldActionExecutor:
 
         element = engine.get_element(element_id)
         if element is None:
-            message = f"{actor.name}想靠近目标，但当前环境里没有找到这个目标元素。"
+            message = f"{actor.name} wants to approach the target, but this target element could not be found in the current environment."
             self._record_world_executor_failure(
                 actor,
                 engine,
@@ -244,7 +243,7 @@ class WorldActionExecutor:
         if not self._is_near_element(actor, engine, element_id):
             movement_summary = self._position_actor_for_element(actor, engine, element_id)
             if not movement_summary and not self._is_near_element(actor, engine, element_id):
-                message = f"{actor.name}想靠近{element.name}，但暂时没有找到合适的落脚点。"
+                message = f"{actor.name} wants to approach {element.name}, but no suitable landing spot has been found yet."
                 self._record_world_executor_failure(
                     actor,
                     engine,
@@ -271,8 +270,8 @@ class WorldActionExecutor:
 
         if not movement_summary:
             area = engine.get_area_for_point(*actor.center)
-            area_name = area.name if area is not None else "当前区域"
-            movement_summary = f"{actor.name}已经来到{area_name}，位于{element.name}旁边。"
+            area_name = area.name if area is not None else "current area"
+            movement_summary = f"{actor.name} has arrived at {area_name}, next to {element.name}."
         return ActionResult(
             summary=movement_summary,
             execution_kind="move",
@@ -304,7 +303,7 @@ class WorldActionExecutor:
             }
             if self._pending_still_needs_positioning(actor, engine, pending):
                 self.pending_graph_action = None
-                message = f"{actor.name}不再位于可与目标交互的位置，原动作没有执行。"
+                message = f"{actor.name} is no longer in a position to interact with the target; the original action was not executed."
                 self._record_world_executor_failure(
                     actor,
                     engine,
@@ -348,7 +347,7 @@ class WorldActionExecutor:
                 )
             except Exception as error:
                 return ActionResult(
-                    summary=f"{actor.name}这一步没有得到稳定的环境支持判断，动作暂时没有落实。",
+                    summary=f"{actor.name} did not receive stable environmental support for this step, so the action is temporarily pending.",
                     execution_kind="action_error",
                     execution_narration=f"element_support_error: {error}",
                     resolved_action="",
@@ -378,7 +377,7 @@ class WorldActionExecutor:
                 execution_context=execution_context,
             )
             if self._pending_still_needs_positioning(actor, engine, pending):
-                message = f"{actor.name}没能到达可与目标交互的位置，原动作暂时没有落实。"
+                message = f"{actor.name} failed to reach a position where they can interact with the target, so the original action is temporarily pending."
                 self._record_world_executor_failure(
                     actor,
                     engine,
@@ -403,7 +402,7 @@ class WorldActionExecutor:
                 )
             if navigation_summary:
                 if actor.center == movement_start:
-                    message = f"{actor.name}没有实际靠近目标，原动作暂时没有落实。"
+                    message = f"{actor.name} did not actually get close to the target, so the original action is temporarily pending."
                     self._record_world_executor_failure(
                         actor,
                         engine,
@@ -525,8 +524,8 @@ class WorldActionExecutor:
         self._face_element(actor, element)
         self._mark_actor_after_movement(actor, engine, focus_element=element)
         area = engine.get_area_for_point(*actor.center)
-        area_name = area.name if area is not None else "未知区域"
-        return f"{actor.name}先走到{area_name}，来到{element.name}旁边。"
+        area_name = area.name if area is not None else "Unknown area"
+        return f"{actor.name} first walks to {area_name}, then comes next to {element.name}."
 
     def _position_actor_for_element(
         self,
@@ -817,7 +816,7 @@ class WorldActionExecutor:
         movement_start = actor.center
         target_point = self._find_area_anchor(engine, area_id, actor)
         if target_point is None:
-            return ActionResult(summary=f"{actor.name}想去{self._area_name(engine, area_id)}，但暂时没有找到合适的落脚点。", execution_kind="move", resolved_action="")
+            return ActionResult(summary=f"{actor.name} wants to go to {self._area_name(engine, area_id)}, but no suitable landing spot has been found yet.", execution_kind="move", resolved_action="")
 
         path = actor.find_path(engine, target_point)
         if not path:
@@ -830,7 +829,7 @@ class WorldActionExecutor:
                     resolved_action=report,
                     estimated_duration=self._walking_duration(movement_start, actor.center),
                 )
-            return ActionResult(summary=f"{actor.name}想去{self._area_name(engine, area_id)}，但这一步没有找到可走的路径。", execution_kind="move", resolved_action="")
+            return ActionResult(summary=f"{actor.name} wants to go to {self._area_name(engine, area_id)}, but no walkable path was found for this step.", execution_kind="move", resolved_action="")
 
         moved = actor.follow_path(engine, path)
         if moved:
@@ -842,7 +841,7 @@ class WorldActionExecutor:
                 resolved_action=report,
                 estimated_duration=self._walking_duration(movement_start, actor.center),
             )
-        return ActionResult(summary=f"{actor.name}试着前往{self._area_name(engine, area_id)}，但走到一半被拦住了。", execution_kind="move", resolved_action="")
+        return ActionResult(summary=f"{actor.name} tried to head to {self._area_name(engine, area_id)}, but was blocked halfway there.", execution_kind="move", resolved_action="")
 
     def _walking_duration(
         self,
@@ -861,11 +860,11 @@ class WorldActionExecutor:
         focus_element=None,
     ) -> str:
         area = engine.get_area_for_point(*actor.center)
-        area_name = area.name if area is not None else "未知区域"
+        area_name = area.name if area is not None else "Unknown area"
         front_element = focus_element or self._find_front_element(actor, engine)
         if front_element is not None:
-            return f"{actor.name}现在走到了{area_name}，面前是{front_element.name}。"
-        return f"{actor.name}现在走到了{area_name}，面前暂时没有特别明确的目标。"
+            return f"{actor.name} has now arrived at {area_name}, with {front_element.name} directly in front of them."
+        return f"{actor.name} has now arrived at {area_name}, but there is no clear target immediately in front of them yet."
 
     def _mark_actor_after_movement(
         self,
@@ -877,7 +876,7 @@ class WorldActionExecutor:
         held_ids = self._held_temporary_element_ids(actor)
         actor.posture = "standing"
         actor.interaction_elements = held_ids
-        actor.interaction_method = "移动"
+        actor.interaction_method = "Move"
         actor.gaze_target = getattr(focus_element, "node_id", "") if focus_element is not None else ""
         actor.text_to_motion_description = "a person walks forward, shifts weight from one foot to the other, and stops standing upright"
         if self.graph_pipe is not None and self.graph_pipe.graph is not None:

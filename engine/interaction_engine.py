@@ -207,7 +207,7 @@ class EnvironmentInteractionEngine:
             if reflection is not None:
                 result.intent_status = reflection.intent_status
                 if reflection.intent_status != "active":
-                    result.intent_lifecycle_reason = reflection.reason or "（模型没有提供理由）"
+                    result.intent_lifecycle_reason = reflection.reason or "(The model did not provide a reason)"
             if self.agent.active_intent is None or result.intent_status != "active":
                 break
         return results

@@ -1,6 +1,6 @@
 {
   "name": "Elena",
-  "personality": "保守、善良、务实、果断、重视秩序和责任，生活节奏快，习惯用稳定的日常流程减少混乱和风险",
+  "personality": "Conservative, kind, pragmatic, decisive, values order and responsibility; has a fast-paced lifestyle and relies on stable daily routines to minimize chaos and risk.",
   "world_agent_state": {
     "worn_items": [
       "scrubs",
@@ -21,14 +21,14 @@
       "tension": 5,
       "fatigue": 6
     },
-    "mental": "{agent_name}刚结束一段忙碌的工作，身体有些疲惫，心里仍惦记着需要处理的生活事务，但希望稳妥而利落地把必要的事情做好。",
+    "mental": "{agent_name} has just finished a busy period of work, feels physically tired, and still has household matters on their mind, but hopes to handle necessary tasks thoroughly and efficiently.",
     "work_goal": [
       {
-        "text": "{agent_name}想把家里恢复到干净、安全而有秩序的状态。",
+        "text": "{agent_name} wants to restore the home to a clean, safe, and orderly state.",
         "completed": false
       },
       {
-        "text": "{agent_name}希望完成必要的生活事务后留出时间休息。",
+        "text": "{agent_name} wants to finish necessary daily chores and then have time to rest.",
         "completed": false
       }
     ]
@@ -44,9 +44,9 @@
       "required_cue_ids": [
         "entered:kitchen"
       ],
-      "context_text": "{agent_name}刚进入厨房。",
+      "context_text": "{agent_name} just entered the kitchen.",
       "response_key": "wash_hands_after_entering_kitchen",
-      "response_text": "{agent_name}习惯性地先到洗手池把手洗干净。",
+      "response_text": "{agent_name} habitually goes to the sink first to wash their hands thoroughly.",
       "habit_strength": 0.92,
       "reinforcement_count": 42,
       "source_dimension": "action_sequence",
@@ -68,9 +68,9 @@
       "visual_semantic_keys": [
         "cup"
       ],
-      "context_text": "{agent_name}看见一个空杯子。",
+      "context_text": "{agent_name} sees an empty cup.",
       "response_key": "fill_empty_cup",
-      "response_text": "{agent_name}顺手给空杯子倒上水。",
+      "response_text": "{agent_name} casually fills the empty cup with water.",
       "habit_strength": 0.84,
       "reinforcement_count": 24,
       "source_dimension": "external_context",
@@ -90,9 +90,9 @@
       "visual_element_ids": [
         "kitchen_plate_02"
       ],
-      "context_text": "{agent_name}看见厨房桌上有用过的盘子。",
+      "context_text": "{agent_name} sees used plates on the kitchen table.",
       "response_key": "put_dirty_plate_near_sink",
-      "response_text": "{agent_name}把用过的盘子收到洗手池旁。",
+      "response_text": "{agent_name} moves the used plates to beside the sink.",
       "habit_strength": 0.91,
       "reinforcement_count": 38,
       "source_dimension": "external_context",
@@ -112,9 +112,9 @@
       "visual_element_ids": [
         "cutting_board_01"
       ],
-      "context_text": "{agent_name}看见砧板上还留着食物残渣。",
+      "context_text": "{agent_name} sees food residue still on the cutting board.",
       "response_key": "clean_cutting_board",
-      "response_text": "{agent_name}把砧板清理干净。",
+      "response_text": "{agent_name} cleans the cutting board thoroughly.",
       "habit_strength": 0.9,
       "reinforcement_count": 36,
       "source_dimension": "external_context",
@@ -134,9 +134,9 @@
       "visual_semantic_keys": [
         "sink"
       ],
-      "context_text": "{agent_name}看见洗手池的水龙头还开着。",
+      "context_text": "{agent_name} sees the sink faucet is still running.",
       "response_key": "turn_off_running_faucet",
-      "response_text": "{agent_name}立即把水龙头关掉。",
+      "response_text": "{agent_name} immediately turns off the faucet.",
       "habit_strength": 0.96,
       "reinforcement_count": 55,
       "source_dimension": "external_context",
@@ -157,9 +157,9 @@
       "visual_semantic_keys": [
         "remote_control"
       ],
-      "context_text": "{agent_name}看见遥控器被放在茶几边缘。",
+      "context_text": "{agent_name} sees the remote control placed on the edge of the coffee table.",
       "response_key": "move_remote_from_edge",
-      "response_text": "{agent_name}顺手把遥控器放回茶几中央。",
+      "response_text": "{agent_name} casually puts the remote control back in the center of the coffee table.",
       "habit_strength": 0.8,
       "reinforcement_count": 18,
       "source_dimension": "external_context",
@@ -179,9 +179,9 @@
       "visual_element_ids": [
         "hand_towel_01"
       ],
-      "context_text": "{agent_name}看见一条潮湿的毛巾留在洗面台上。",
+      "context_text": "{agent_name} sees a damp towel left on the washbasin.",
       "response_key": "hang_damp_hand_towel",
-      "response_text": "{agent_name}把潮湿的毛巾展开挂到毛巾架上。",
+      "response_text": "{agent_name} unfolds the damp towel and hangs it on the towel rack.",
       "habit_strength": 0.86,
       "reinforcement_count": 29,
       "source_dimension": "external_context",
@@ -201,9 +201,9 @@
       "visual_element_ids": [
         "laundry_basket_01"
       ],
-      "context_text": "{agent_name}看见脏衣篮里已经有待洗衣物。",
+      "context_text": "{agent_name} sees that there are already clothes to be washed in the laundry basket.",
       "response_key": "prepare_dirty_laundry",
-      "response_text": "{agent_name}把脏衣篮里的衣物整理好，准备放进洗衣机。",
+      "response_text": "{agent_name} organizes the clothes in the laundry basket, preparing to put them into the washing machine.",
       "habit_strength": 0.78,
       "reinforcement_count": 17,
       "source_dimension": "external_context",
@@ -215,18 +215,18 @@
       "association_id": "elena_morning_coffee",
       "cue_ids": [
         "visible_type:coffee_machine",
-        "time_period:上午"
+        "time_period:AM"
       ],
       "required_cue_ids": [
         "visible_type:coffee_machine",
-        "time_period:上午"
+        "time_period:AM"
       ],
       "visual_semantic_keys": [
         "coffee_machine"
       ],
-      "context_text": "{agent_name}上午看见咖啡机。",
+      "context_text": "{agent_name} sees the coffee maker in the morning.",
       "response_key": "prepare_morning_coffee",
-      "response_text": "{agent_name}自然地开始准备当天的咖啡。",
+      "response_text": "{agent_name} naturally begins to prepare the day's coffee.",
       "habit_strength": 0.88,
       "reinforcement_count": 31,
       "source_dimension": "external_context",
@@ -242,9 +242,9 @@
       "required_cue_ids": [
         "feeling:internal_state:stress:strong"
       ],
-      "context_text": "{agent_name}明显感觉到压力。",
+      "context_text": "{agent_name} clearly feels stressed.",
       "response_key": "take_one_slow_breath",
-      "response_text": "{agent_name}短暂地放慢呼吸，让自己稳下来。",
+      "response_text": "{agent_name} briefly slows down their breathing to steady themselves.",
       "habit_strength": 0.76,
       "reinforcement_count": 14,
       "source_dimension": "body",
@@ -260,9 +260,9 @@
       "required_cue_ids": [
         "feeling:internal_state:fatigue:strong"
       ],
-      "context_text": "{agent_name}明显感觉到疲劳。",
+      "context_text": "{agent_name} clearly felt tired.",
       "response_key": "roll_shoulders_when_tired",
-      "response_text": "{agent_name}习惯性地转动肩膀，缓解一下疲劳。",
+      "response_text": "{agent_name} habitually rolls their shoulders to relieve fatigue.",
       "habit_strength": 0.81,
       "reinforcement_count": 21,
       "source_dimension": "body",

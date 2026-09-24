@@ -72,17 +72,17 @@ class TransitionFailureContext:
     def format_for_recovery_prompt(self, agent_name: str) -> str:
         name = str(agent_name or "Agent").strip()
         lines = [
-            f"{name}刚才设想做“{self.action_text}”，但这个方案没有成功落实。"
+            f"{name} just imagined performing '{self.action_text}', but this plan was not successfully executed."
         ]
         if self.world_feedback:
-            lines.append(f"{name}预计会遇到：{self.world_feedback}")
+            lines.append(f"{name} expects to encounter: {self.world_feedback}")
         if self.failed_module:
-            lines.append(f"问题发生在：{self.failed_module}。")
+            lines.append(f"The problem occurred in: {self.failed_module}.")
         if self.error:
-            lines.append(f"具体原因是：{self.error}。")
+            lines.append(f"The specific reason is: {self.error}.")
         lines.append(
-            "接下来不要机械重复这个失败动作。可以先解决缺失的前置条件，"
-            "也可以选择当前环境真正支持的替代动作。"
+            "Do not mechanically repeat this failed action next. First, resolve the missing preconditions,"
+            "or choose an alternative action that the current environment truly supports."
         )
         return "\n".join(lines)
 

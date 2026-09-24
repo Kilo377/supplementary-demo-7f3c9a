@@ -41,7 +41,7 @@ def _build_psychological_input(agent_name: str, desire_state: DesireState) -> Ps
             feelings.append(
                 DesireFeelingInput(
                     source="work_goal",
-                    text=f"{agent_name}还有未完成的动机压力：{goal.text}",
+                    text=f"{agent_name} still has unresolved motivational pressure: {goal.text}",
                     intensity="normal",
                 )
             )
@@ -52,9 +52,9 @@ def _build_psychological_input(agent_name: str, desire_state: DesireState) -> Ps
 def _physiological_feelings(agent_name: str, state: dict[str, int]) -> list[DesireFeelingInput]:
     feelings: list[DesireFeelingInput] = []
     mappings = [
-        ("hunger", "饥饿", "吃点东西"),
-        ("thirst", "口渴", "喝点东西"),
-        ("hygiene", "不清爽", "清洁身体或衣物"),
+        ("hunger", "Hungry", "Eat something"),
+        ("thirst", "Thirsty", "Drink something"),
+        ("hygiene", "Unrefreshed", "Cleanse the body or clothing"),
     ]
     for key, label, action_hint in mappings:
         score = int(state.get(key, 0))
@@ -62,7 +62,7 @@ def _physiological_feelings(agent_name: str, state: dict[str, int]) -> list[Desi
             feelings.append(
                 DesireFeelingInput(
                     source=f"physiological_state:{key}",
-                    text=f"{agent_name}明显感到{label}，这会推动{agent_name}{action_hint}。",
+                    text=f"{agent_name} clearly feels {label}, which will drive {agent_name} to {action_hint}.",
                     intensity="strong",
                     semantic_keys=[key],
                 )
@@ -71,7 +71,7 @@ def _physiological_feelings(agent_name: str, state: dict[str, int]) -> list[Desi
             feelings.append(
                 DesireFeelingInput(
                     source=f"physiological_state:{key}",
-                    text=f"{agent_name}有一点{label}感。",
+                    text=f"{agent_name} has a slight sense of {label}.",
                     intensity="mild",
                     semantic_keys=[key],
                 )
@@ -82,9 +82,9 @@ def _physiological_feelings(agent_name: str, state: dict[str, int]) -> list[Desi
 def _internal_state_feelings(agent_name: str, state: dict[str, int]) -> list[DesireFeelingInput]:
     feelings: list[DesireFeelingInput] = []
     labels = {
-        "stress": "压力",
-        "tension": "紧张",
-        "fatigue": "疲劳",
+        "stress": "Stress",
+        "tension": "nervous",
+        "fatigue": "Fatigue",
     }
     for key, label in labels.items():
         score = int(state.get(key, 0))
@@ -92,9 +92,9 @@ def _internal_state_feelings(agent_name: str, state: dict[str, int]) -> list[Des
             continue
         intensity = "strong" if score >= 7 else "mild"
         text = (
-            f"{agent_name}明显感到{label}。"
+            f"{agent_name} clearly feels {label}."
             if intensity == "strong"
-            else f"{agent_name}有一点{label}感。"
+            else f"{agent_name} has a slight sense of {label}."
         )
         feelings.append(
             DesireFeelingInput(
@@ -109,32 +109,32 @@ def _internal_state_feelings(agent_name: str, state: dict[str, int]) -> list[Des
 
 def _mental_intensity(text: str) -> str:
     high_pressure_markers = [
-        "强烈",
-        "严重",
-        "非常",
-        "恐慌",
-        "崩溃",
-        "愤怒",
-        "沮丧",
-        "绝望",
-        "压力很大",
-        "无法平静",
-        "无法集中",
+        "Intense",
+        "Severe",
+        "Very",
+        "Panic",
+        "Breakdown",
+        "Anger",
+        "Frustration",
+        "Despair",
+        "Under great stress",
+        "Unable to calm down",
+        "Unable to focus",
     ]
     if any(marker in text for marker in high_pressure_markers):
         return "strong"
-    if any(marker in text for marker in ["有点", "一点", "轻微", "略", "隐隐", "稍微"]):
+    if any(marker in text for marker in ["A bit", "A little", "Mild", "Slightly", "Faintly", "Somewhat"]):
         return "mild"
     return "normal"
 
 
 def _mental_semantic_keys(text: str) -> list[str]:
     mappings = [
-        ("anxiety", ["焦虑", "紧张", "不安", "担心"]),
-        ("frustration", ["挫败", "沮丧", "无奈", "烦躁", "恼火"]),
-        ("stress", ["压力", "压迫", "负担"]),
-        ("calm", ["平静", "放松", "轻松"]),
-        ("satisfaction", ["满足", "成就感", "欣慰"]),
+        ("anxiety", ["Anxiety", "nervous", "Unease", "Worry"]),
+        ("frustration", ["Frustration", "Frustration", "Helplessness", "Irritation", "Annoyance"]),
+        ("stress", ["Stress", "Oppressive", "Burden"]),
+        ("calm", ["Calm", "relaxed", "easygoing"]),
+        ("satisfaction", ["Satisfied", "Sense of achievement", "Gratified"]),
     ]
     keys = [key for key, markers in mappings if any(marker in text for marker in markers)]
     return keys or ["general"]

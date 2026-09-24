@@ -52,7 +52,7 @@ def run_without_world_model_controller(
         return WithoutWorldModelResult(
             decision=AgentDecision(
                 action_type="wait",
-                reason=f"{agent.name}还没有形成足够明确的下一步动作。",
+                reason=f"{agent.name} has not yet formed a sufficiently clear next action.",
             )
         )
 
@@ -110,5 +110,5 @@ def _scene_name(engine: PhysicsEngine) -> str:
     return str(
         getattr(engine.home, "name", "")
         or getattr(engine.home, "node_id", "")
-        or "当前场景"
+        or "Current scene"
     )

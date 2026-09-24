@@ -67,39 +67,39 @@ def format_action_chains_for_reward(rollout: StateTransitionRolloutResult) -> st
 
 def _format_action_chain(root: StateTransitionRolloutNode) -> str:
     lines = [
-        f"动作链 {root.path_text}",
-        f"被评分的初始动作：{root.candidate.action_text}",
+        f"Action chain {root.path_text}",
+        f"Initial action being scored: {root.candidate.action_text}",
     ]
     total_seconds = 0
     node = root
     while node is not None:
-        lines.append(f"第{node.depth}步动作：{node.candidate.action_text}")
+        lines.append(f"Action at step {node.depth}: {node.candidate.action_text}")
         result = node.transition_result
         if result.error or result.transition is None:
-            lines.append(f"第{node.depth}步预测失败：{result.error or '没有预测结果'}")
+            lines.append(f"Prediction failure at step {node.depth}: {result.error or 'No prediction result'}")
         else:
             transition = result.transition
             total_seconds += transition.elapsed_seconds
             lines.append(
-                f"第{node.depth}步预测结果："
+                f"Prediction result at step {node.depth}:"
                 f"{transition.outcome.description or '(empty)'}"
             )
             lines.append(
-                f"第{node.depth}步目标状态："
-                f"{transition.intent_satisfaction.status}；"
+                f"Target state at step {node.depth}:"
+                f"{transition.intent_satisfaction.status}; "
                 f"{transition.intent_satisfaction.reason or '(empty)'}"
             )
             lines.append(
-                "第"
-                f"{node.depth}步预测后的自身状态："
+                "Self-state after prediction at step "
+                f"{node.depth}:"
                 + json.dumps(
                     transition.to_dict()["next_self_state"],
                     ensure_ascii=False,
                 )
             )
             lines.append(
-                "第"
-                f"{node.depth}步内部状态变化："
+                "Internal state change at step "
+                f"{node.depth}:"
                 + json.dumps(
                     transition.to_dict()["internal_state_changes"],
                     ensure_ascii=False,
@@ -107,17 +107,17 @@ def _format_action_chain(root: StateTransitionRolloutNode) -> str:
             )
             if transition.spatial_belief_updates:
                 lines.append(
-                    f"第{node.depth}步环境变化："
+                    f"Environmental change at step {node.depth}:"
                     + json.dumps(
                         transition.to_dict()["spatial_belief_updates"],
                         ensure_ascii=False,
                     )
                 )
             if transition.uncertainty:
-                lines.append(f"第{node.depth}步不确定性：{transition.uncertainty}")
+                lines.append(f"Uncertainty at step {node.depth}: {transition.uncertainty}")
         node = node.children[0] if node.children else None
-    lines.append(f"累计预测耗时：{total_seconds}秒")
-    lines.append(f"动作链停止原因：{_terminal_node(root).stop_reason or 'unknown'}")
+    lines.append(f"Cumulative prediction time: {total_seconds} seconds")
+    lines.append(f"Reason for stopping the action chain: {_terminal_node(root).stop_reason or 'unknown'}")
     return "\n".join(lines)
 
 
@@ -130,11 +130,11 @@ def _current_state_text(agent, *, intent_text: str) -> str:
     )
     sections = []
     if context.time_text:
-        sections.append(f"时间：{context.time_text}")
+        sections.append(f"Time: {context.time_text}")
     if context.physical_state_text:
-        sections.append(f"身体状态：\n{context.physical_state_text}")
+        sections.append(f"Physical State:\n{context.physical_state_text}")
     if context.internal_state_text:
-        sections.append(f"内部状态：\n{context.internal_state_text}")
+        sections.append(f"Internal State:\n{context.internal_state_text}")
     return "\n\n".join(sections)
 
 

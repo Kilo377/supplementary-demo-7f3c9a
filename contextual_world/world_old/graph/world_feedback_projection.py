@@ -275,13 +275,13 @@ def _agent_state_sentence(
         details.append(_posture_label(str(posture)))
     body_surface = agent_state.get("body_surface")
     if body_surface and str(body_surface) not in {"dry_clean"}:
-        details.append(f"身体表面{_body_surface_label(str(body_surface))}")
+        details.append(f"Body surface: {_body_surface_label(str(body_surface))}")
     method = agent_state.get("interaction_method")
     if method and not _looks_like_holding_method(str(method)):
         details.append(str(method))
     gaze_target = agent_state.get("gaze_target")
     if gaze_target:
-        details.append(f"正看着{node_names.get(str(gaze_target), '手边的目标')}")
+        details.append(f"Looking at {node_names.get(str(gaze_target), 'target nearby')}")
     if not details:
         return ""
     return f"{agent_name}" + "，".join(details) + "。"
@@ -299,43 +299,43 @@ def _environment_change_sentence(
     for change in changes:
         change_type = change.get("change_type", "")
         if change_type == "temporary_created":
-            name = change.get("name", "某个临时对象")
+            name = change.get("name", "A temporary object")
             node_id = str(change.get("node_id", "") or "")
             if node_id:
                 created_node_ids.add(node_id)
             status = (change.get("state", {}) or {}).get("status", "")
             if status == "held":
-                texts.append(f"手里拿着{name}")
+                texts.append(f"Holding {name} in hand")
             elif status:
                 texts.append(f"{name}{_temporary_status_label(str(status))}")
             else:
-                texts.append(f"{name}出现了")
+                texts.append(f"{name} has appeared")
         elif change_type == "temporary_updated":
-            name = change.get("name") or change.get("node_id") or "某个临时对象"
+            name = change.get("name") or change.get("node_id") or "A temporary object"
             new_state = change.get("new_state", {}) or {}
             status = new_state.get("status", "")
             visible = new_state.get("visible", None)
             if status in {"consumed", "disposed", "discarded"} or visible is False:
-                texts.append(f"{name}已经不再可见")
+                texts.append(f"{name} is no longer visible")
             elif status:
-                texts.append(f"{name}现在{_temporary_status_label(str(status))}")
+                texts.append(f"{name} now has status: {_temporary_status_label(str(status))}")
         elif change_type == "fact_added":
             relation = change.get("relation", "")
             object_id = str(change.get("to_node_id", "") or change.get("object_id", "") or "")
             if relation == "holding" and object_id not in created_node_ids:
-                object_name = node_names.get(object_id, "一个物品")
-                texts.append(f"手里拿着{object_name}")
+                object_name = node_names.get(object_id, "An item")
+                texts.append(f"Holding {object_name}")
             elif relation == "placed_on":
-                texts.append("有物品被放到了相关表面上")
+                texts.append("An item has been placed on a relevant surface")
         elif change_type == "fact_removed":
             relation = change.get("relation", "")
             if relation == "holding":
-                texts.append("自己不再拿着某个相关物品")
+                texts.append("No longer holding a relevant item")
         elif change_type == "agent_state_updated":
             continue
         elif change_type == "element_state_updated":
             node_id = str(change.get("node_id", "") or "")
-            name = node_names.get(node_id, node_id or "相关物体")
+            name = node_names.get(node_id, node_id or "Relevant object")
             for text in _element_state_change_texts(name, change):
                 texts.append(text)
     if not texts:
@@ -355,9 +355,9 @@ def _element_state_change_texts(name: str, change: dict) -> list[str]:
     new_interaction = new_state.get("interaction_status")
     if old_interaction != new_interaction and new_interaction:
         if new_interaction == "in_use":
-            texts.append(f"{name}正在被使用")
+            texts.append(f"{name} is being used")
         else:
-            texts.append(f"{name}状态变为{new_interaction}")
+            texts.append(f"{name}'s state changed to {new_interaction}")
 
     old_details = old_state.get("state_details", {}) or {}
     new_details = new_state.get("state_details", {}) or {}
@@ -367,17 +367,17 @@ def _element_state_change_texts(name: str, change: dict) -> list[str]:
         if old_value == new_value or not new_value:
             continue
         if key == "door_state" and new_value == "open":
-            texts.append(f"{name}门已经打开")
+            texts.append(f"The door of {name} is now open")
         elif key == "door_state" and new_value == "closed":
-            texts.append(f"{name}门已经关上")
+            texts.append(f"The door of {name} is now closed")
         elif key == "flow_state" and new_value == "on":
-            texts.append(f"{name}正在出水")
+            texts.append(f"{name} is dispensing water")
         elif key == "power_state" and new_value in {"on", "running"}:
-            texts.append(f"{name}已经启动")
+            texts.append(f"{name} has been activated")
         elif key == "surface_state" and new_value == "clean":
-            texts.append(f"{name}表面变干净")
+            texts.append(f"The surface of {name} is now clean")
         else:
-            texts.append(f"{name}的{key}变为{new_value}")
+            texts.append(f"{name}'s {key} changed to {new_value}")
     return texts
 
 
@@ -389,27 +389,27 @@ def _coarse_device_state_change_text(name: str, old_state: dict, new_state: dict
     old_power = str(old_details.get("power_state", "") or "")
     new_power = str(new_details.get("power_state", "") or "")
 
-    if "洗衣机" in name:
+    if "Washing machine" in name:
         if _became_active(old_evolution, new_evolution, old_power, new_power):
-            return f"确认{name}开始洗衣"
+            return f"Confirm {name} has started washing"
         if old_details.get("contains") != new_details.get("contains") and new_details.get("contains"):
-            return f"确认{name}里放好了要洗的衣物"
+            return f"Confirm the clothes to be washed have been placed in {name}"
         if old_details.get("door_state") != new_details.get("door_state"):
-            return f"确认{name}已经准备好继续使用"
+            return f"Confirm {name} is ready for continued use"
         return ""
 
-    if "微波炉" in name:
+    if "microwave oven" in name:
         if _became_active(old_evolution, new_evolution, old_power, new_power) or new_evolution == "heating":
-            return f"确认{name}开始加热"
+            return f"Confirm {name} has started heating"
         if old_details.get("contains") != new_details.get("contains") and new_details.get("contains"):
-            return f"确认食物已经放进{name}"
+            return f"Confirm the food has been placed in {name}"
         return ""
 
-    if "电脑" in name or name.lower() in {"computer", "pc"}:
+    if "computer" in name or name.lower() in {"computer", "pc"}:
         if _became_active(old_evolution, new_evolution, old_power, new_power):
-            return f"确认{name}已经打开"
+            return f"Confirm {name} is open"
         if new_power == "off" and old_power and old_power != "off":
-            return f"确认{name}已经关闭"
+            return f"Confirm {name} is closed"
         return ""
 
     return ""
@@ -432,10 +432,10 @@ def _agent_experience_phrase(text: str) -> str:
     stripped = text.strip()
     if not stripped:
         return ""
-    direct_prefixes = ("手里", "自己", "正", "确认", "看到", "注意到", "不再", "已经")
+    direct_prefixes = ("in hand", "oneself", "currently", "Confirm", "see", "Noticed", "No longer", "Already")
     if stripped.startswith(direct_prefixes):
         return stripped
-    return f"注意到{stripped}"
+    return f"Noticed {stripped}"
 
 
 def _current_elements_sentence(elements: list[dict]) -> str:
@@ -446,7 +446,7 @@ def _current_elements_sentence(elements: list[dict]) -> str:
             names.append(str(name))
     if not names:
         return ""
-    return "当前相关的可感知对象有：" + "、".join(names[:6]) + "。"
+    return "Currently relevant perceptible objects are:" + "、".join(names[:6]) + "。"
 
 
 def _node_name_map(elements: list[dict], changes: list[dict]) -> dict[str, str]:
@@ -469,37 +469,37 @@ def _node_name_map(elements: list[dict], changes: list[dict]) -> dict[str, str]:
 
 
 def _looks_like_holding_method(text: str) -> bool:
-    return any(word in text for word in ("拿着", "拿起", "握着", "端着", "捧着"))
+    return any(word in text for word in ("Holding", "Picking up", "Gripping", "Carrying (in hands)", "Cradling"))
 
 
 def _posture_label(value: str) -> str:
     return {
-        "standing": "站着",
-        "sitting": "坐着",
-        "lying": "躺着",
-        "crouching": "蹲着",
-        "walking": "走动中",
+        "standing": "standing",
+        "sitting": "sitting",
+        "lying": "lying down",
+        "crouching": "crouching",
+        "walking": "Walking",
     }.get(value, value)
 
 
 def _body_surface_label(value: str) -> str:
     return {
-        "dry_clean": "干燥且干净",
-        "wet": "湿的",
-        "dirty": "有些脏",
-        "soapy": "有泡沫",
-        "dry_dirty": "干燥但有些脏",
+        "dry_clean": "Dry and clean",
+        "wet": "Wet",
+        "dirty": "A bit dirty",
+        "soapy": "Foamy",
+        "dry_dirty": "Dry but a bit dirty",
     }.get(value, value)
 
 
 def _temporary_status_label(value: str) -> str:
     return {
-        "held": "被拿在手里",
-        "placed": "被放置着",
-        "in_use": "正在被使用",
-        "open": "处于打开状态",
-        "closed": "处于关闭状态",
-        "consumed": "已经被消耗掉",
-        "disposed": "已经被处理掉",
-        "discarded": "已经被丢弃",
-    }.get(value, f"状态是{value}")
+        "held": "Held in hand",
+        "placed": "Placed",
+        "in_use": "Being used",
+        "open": "In the open state",
+        "closed": "In the closed state",
+        "consumed": "Already consumed",
+        "disposed": "Already processed",
+        "discarded": "Already discarded",
+    }.get(value, f"The status is {value}")

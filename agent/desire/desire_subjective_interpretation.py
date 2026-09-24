@@ -7,32 +7,32 @@ from agent.desire.desire_state import DesireState
 
 PHYSIOLOGICAL_INTERPRETATIONS = {
     "hunger": {
-        0: "非常饱，吃撑了。",
-        1: "不饿。",
-        2: "稍微有点饿。",
-        3: "饿了，有点想吃东西了。",
-        4: "非常饿。很想吃东西。",
+        0: "Very full, stuffed.",
+        1: "Not hungry at all.",
+        2: "A little bit hungry.",
+        3: "Hungry, feeling like eating something.",
+        4: "Very hungry. Really want to eat.",
     },
     "thirst": {
-        0: "一点也不渴。",
-        1: "不太渴。",
-        2: "稍微有点口渴。",
-        3: "渴了，有点想喝水了。",
-        4: "非常渴。很想喝水。",
+        0: "Not thirsty at all.",
+        1: "Not very thirsty.",
+        2: "A little bit thirsty.",
+        3: "Thirsty, feeling like drinking some water.",
+        4: "Very thirsty. Really want to drink water.",
     },
     "hygiene": {
-        0: "很干净。",
-        1: "还算干净。",
-        2: "稍微有点不清爽。",
-        3: "有点脏了，想清洁一下。",
-        4: "非常脏。很想清洁一下。",
+        0: "Very clean.",
+        1: "It's fairly clean.",
+        2: "A bit uncomfortable.",
+        3: "It's a bit dirty; I want to clean it up.",
+        4: "Very dirty. I really want to clean it up.",
     },
 }
 
 INTERNAL_STATE_INTERPRETATIONS = {
-    "stress": ["没有压力。", "压力不大。", "有一点压力。", "压力比较明显。", "压力非常大。"],
-    "tension": ["很放松。", "不太紧张。", "有一点紧张。", "明显感到紧张。", "非常紧张。"],
-    "fatigue": ["一点也不累。", "不太累。", "稍微有点累。", "累了，有点想休息了。", "非常累。很想休息。"],
+    "stress": ["No pressure.", "Not much pressure.", "A little pressure.", "Noticeable pressure.", "Very high pressure."],
+    "tension": ["Very relaxed.", "Not very tense.", "A little tense.", "Clearly feeling nervous.", "Very nervous."],
+    "fatigue": ["Not tired at all.", "Not very tired.", "Slightly tired.", "Tired, and a bit like to rest.", "Very tired. Really want to rest."],
 }
 
 @dataclass
@@ -92,7 +92,7 @@ def build_desire_subjective_signals(
         signals.append(
             DesireSubjectiveSignal(
                 source_desire="work_goal",
-                subjective_interpretation=f"未完成的正事目标：{goal_text}",
+                subjective_interpretation=f"Unfinished goal: {goal_text}",
             )
         )
 
@@ -114,10 +114,10 @@ def _likert_band(score: int) -> int:
 def _strip_agent_subject(text: str, *, agent_name: str) -> str:
     stripped = text.strip()
     for prefix in (
-        f"{agent_name}现在",
-        f"{agent_name}想要",
-        f"{agent_name}想",
-        f"{agent_name}要",
+        f"{agent_name} now",
+        f"{agent_name} wants to",
+        f"{agent_name} wants to",
+        f"{agent_name} is going to",
         agent_name,
     ):
         if stripped.startswith(prefix):

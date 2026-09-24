@@ -88,7 +88,7 @@ def learn_demonstrated_habits(
                 DemonstratedHabitRejection(
                     observation_id,
                     observation.action_text,
-                    "LLM没有返回可用的真实 Cue 或规范动作签名。",
+                    "The LLM did not return a usable real Cue or canonical action signature.",
                 )
             )
             continue
@@ -138,7 +138,7 @@ def learn_demonstrated_habits(
                 DemonstratedHabitRejection(
                     observation.observation_id,
                     observation.action_text,
-                    "LLM没有返回这个动作的判断。",
+                    "The LLM did not return a judgment for this action.",
                 )
             )
     return result

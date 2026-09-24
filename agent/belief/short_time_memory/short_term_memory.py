@@ -28,7 +28,7 @@ class MemoryEpisode:
         intended = self.intended_action.strip()
         experienced = self.experienced_result.strip()
         if intended and experienced and intended != experienced:
-            return f"{intended} 结果是，{experienced}"
+            return f"{intended} resulted in {experienced}"
         if self.experienced_result:
             return self.experienced_result
         if self.intended_action:
@@ -155,4 +155,4 @@ class ShortTermMemory:
         return "\n".join(lines) if lines else empty_text
 
     def format_for_prompt(self, count: int = 8) -> str:
-        return self.format_experience_for_prompt(count, empty_text="暂无。")
+        return self.format_experience_for_prompt(count, empty_text="None yet.")

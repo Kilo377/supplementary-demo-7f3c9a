@@ -1,6 +1,6 @@
 {
   "name": "Michael",
-  "personality": "温和、负责、谨慎、重视稳定、有同理心，有点容易焦虑",
+  "personality": "Gentle, responsible, cautious, values stability, empathetic, somewhat prone to anxiety",
   "world_agent_state": {
     "worn_items": [
       "jacket"
@@ -18,14 +18,14 @@
       "tension": 3,
       "fatigue": 5
     },
-    "mental": "{agent_name}现在有点焦虑，心里还惦记着家庭和工作上的责任。",
+    "mental": "{agent_name} is feeling a bit anxious, with thoughts still lingering on family and work responsibilities.",
     "work_goal": [
       {
-        "text": "{agent_name}想要把家里整理到适合家人晚上休息的状态。",
+        "text": "{agent_name} wants to tidy up the house so it's suitable for the family to rest at night.",
         "completed": false
       },
       {
-        "text": "{agent_name}需要处理今天的重要工作邮件和项目协调事项。",
+        "text": "{agent_name} needs to handle important work emails and project coordination tasks for today.",
         "completed": false
       }
     ]
@@ -38,7 +38,7 @@
       "cue_ids": [
         "visible_type:cup",
         "visible_type_state:cup:contains:water",
-        "time_period:上午"
+        "time_period:AM"
       ],
       "required_cue_ids": [
         "visible_type:cup",
@@ -47,9 +47,9 @@
       "visual_semantic_keys": [
         "cup"
       ],
-      "context_text": "{agent_name}看见一个装着水的杯子。",
+      "context_text": "{agent_name} sees a cup filled with water.",
       "response_key": "drink_water",
-      "response_text": "{agent_name}拿起杯子喝水。",
+      "response_text": "{agent_name} picks up the cup and drinks from it.",
       "habit_strength": 0.8,
       "reinforcement_count": 12,
       "metadata": {
@@ -65,7 +65,7 @@
         "visible_type:cup",
         "visible_type_state:cup:contains:empty",
         "visible_type:water_container",
-        "time_period:上午"
+        "time_period:AM"
       ],
       "required_cue_ids": [
         "visible_type:cup",
@@ -74,9 +74,9 @@
       "visual_semantic_keys": [
         "cup"
       ],
-      "context_text": "{agent_name}看见一个空杯子，附近可以找到装水的容器。",
+      "context_text": "{agent_name} sees an empty cup, with a container for water nearby.",
       "response_key": "fill_cup_with_water",
-      "response_text": "{agent_name}找一个装水的容器，把杯子倒满。",
+      "response_text": "{agent_name} finds a container to hold water and fills the cup.",
       "habit_strength": 0.72,
       "reinforcement_count": 8,
       "metadata": {
@@ -88,11 +88,15 @@
     },
     {
       "association_id": "michael_enter_living_room",
-      "cue_ids": ["entered:living_room"],
-      "required_cue_ids": ["entered:living_room"],
-      "context_text": "{agent_name}刚进入客厅。",
+      "cue_ids": [
+        "entered:living_room"
+      ],
+      "required_cue_ids": [
+        "entered:living_room"
+      ],
+      "context_text": "{agent_name} has just entered the living room.",
       "response_key": "smooth_jacket_after_entering_living_room",
-      "response_text": "{agent_name}进客厅后，下意识地把jacket的下摆理平。",
+      "response_text": "After entering the living room, {agent_name} subconsciously smooths out the hem of their jacket.",
       "habit_strength": 0.95,
       "reinforcement_count": 30,
       "metadata": {
@@ -104,11 +108,16 @@
     },
     {
       "association_id": "michael_enter_kitchen",
-      "cue_ids": ["entered:kitchen", "time_period:上午"],
-      "required_cue_ids": ["entered:kitchen"],
-      "context_text": "{agent_name}刚进入厨房。",
+      "cue_ids": [
+        "entered:kitchen",
+        "time_period:AM"
+      ],
+      "required_cue_ids": [
+        "entered:kitchen"
+      ],
+      "context_text": "{agent_name} just entered the kitchen.",
       "response_key": "look_at_coffee_machine_after_entering_kitchen",
-      "response_text": "{agent_name}进厨房后，下意识地看向咖啡机。",
+      "response_text": "After entering the kitchen, {agent_name} instinctively looks toward the coffee machine.",
       "habit_strength": 0.96,
       "reinforcement_count": 40,
       "metadata": {
@@ -120,11 +129,15 @@
     },
     {
       "association_id": "michael_enter_bedroom",
-      "cue_ids": ["entered:bedroom"],
-      "required_cue_ids": ["entered:bedroom"],
-      "context_text": "{agent_name}刚进入卧室。",
+      "cue_ids": [
+        "entered:bedroom"
+      ],
+      "required_cue_ids": [
+        "entered:bedroom"
+      ],
+      "context_text": "{agent_name} has just entered the bedroom.",
       "response_key": "look_at_bedside_cup_after_entering_bedroom",
-      "response_text": "{agent_name}进卧室后，下意识地看了一眼卧室水杯。",
+      "response_text": "After entering the bedroom, {agent_name} instinctively glances at the water cup in the bedroom.",
       "habit_strength": 0.88,
       "reinforcement_count": 18,
       "metadata": {
@@ -136,11 +149,15 @@
     },
     {
       "association_id": "michael_enter_bathroom",
-      "cue_ids": ["entered:bathroom"],
-      "required_cue_ids": ["entered:bathroom"],
-      "context_text": "{agent_name}刚进入卫生间。",
+      "cue_ids": [
+        "entered:bathroom"
+      ],
+      "required_cue_ids": [
+        "entered:bathroom"
+      ],
+      "context_text": "{agent_name} just entered the bathroom.",
       "response_key": "look_at_mirror_after_entering_bathroom",
-      "response_text": "{agent_name}进卫生间后，下意识地看向洗面台镜子。",
+      "response_text": "After entering the bathroom, {agent_name} instinctively looked at the mirror above the sink.",
       "habit_strength": 0.92,
       "reinforcement_count": 24,
       "metadata": {
@@ -156,11 +173,15 @@
         "visible_type:remote_control",
         "visible_type_state:remote_control:location:on_coffee_table"
       ],
-      "required_cue_ids": ["visible_type:remote_control"],
-      "visual_semantic_keys": ["remote_control"],
-      "context_text": "{agent_name}看见茶几上的遥控器。",
+      "required_cue_ids": [
+        "visible_type:remote_control"
+      ],
+      "visual_semantic_keys": [
+        "remote_control"
+      ],
+      "context_text": "{agent_name} saw the remote control on the coffee table.",
       "response_key": "straighten_remote",
-      "response_text": "{agent_name}顺手把电视遥控器摆正。",
+      "response_text": "{agent_name} straightened the TV remote.",
       "habit_strength": 0.82,
       "reinforcement_count": 16,
       "metadata": {
@@ -172,12 +193,19 @@
     },
     {
       "association_id": "michael_mirror_grooming",
-      "cue_ids": ["visible_type:mirror", "posture:standing"],
-      "required_cue_ids": ["visible_type:mirror"],
-      "visual_semantic_keys": ["mirror"],
-      "context_text": "{agent_name}站在镜子附近。",
+      "cue_ids": [
+        "visible_type:mirror",
+        "posture:standing"
+      ],
+      "required_cue_ids": [
+        "visible_type:mirror"
+      ],
+      "visual_semantic_keys": [
+        "mirror"
+      ],
+      "context_text": "{agent_name} stood near the mirror.",
       "response_key": "touch_hair_in_mirror",
-      "response_text": "{agent_name}看见镜子时，下意识地抬手理了一下头发。",
+      "response_text": "When {agent_name} saw the mirror, they instinctively raised a hand to adjust their hair.",
       "habit_strength": 0.88,
       "reinforcement_count": 22,
       "metadata": {
@@ -189,12 +217,20 @@
     },
     {
       "association_id": "michael_morning_coffee_machine",
-      "cue_ids": ["visible_type:coffee_machine", "time_period:上午"],
-      "required_cue_ids": ["visible_type:coffee_machine", "time_period:上午"],
-      "visual_semantic_keys": ["coffee_machine"],
-      "context_text": "{agent_name}上午看见咖啡机。",
+      "cue_ids": [
+        "visible_type:coffee_machine",
+        "time_period:AM"
+      ],
+      "required_cue_ids": [
+        "visible_type:coffee_machine",
+        "time_period:AM"
+      ],
+      "visual_semantic_keys": [
+        "coffee_machine"
+      ],
+      "context_text": "{agent_name} sees the coffee maker in the morning.",
       "response_key": "prepare_coffee",
-      "response_text": "{agent_name}自然地想开始准备咖啡。",
+      "response_text": "{agent_name} naturally thought about starting to prepare coffee.",
       "habit_strength": 0.93,
       "reinforcement_count": 35,
       "metadata": {
@@ -208,22 +244,29 @@
       "association_id": "michael_anxiety_touch_face",
       "source_dimension": "affect",
       "required_cue_ids": [],
-      "cue_prefixes": ["feeling:mental:anxiety:"],
+      "cue_prefixes": [
+        "feeling:mental:anxiety:"
+      ],
       "response_key": "touch_face",
-      "response_text": "{agent_name}下意识地摸了摸脸。",
+      "response_text": "{agent_name} instinctively touched their face.",
       "habit_strength": 0.92,
       "awareness_type": "unconscious",
       "estimated_duration": "2s",
-      "required_body_resources": ["one_free_hand"],
+      "required_body_resources": [
+        "one_free_hand"
+      ],
       "cooldown_seconds": 150
     },
     {
       "association_id": "michael_anxiety_sigh",
       "source_dimension": "affect",
       "required_cue_ids": [],
-      "cue_prefixes": ["feeling:mental:frustration:", "feeling:mental:stress:"],
+      "cue_prefixes": [
+        "feeling:mental:frustration:",
+        "feeling:mental:stress:"
+      ],
       "response_key": "sigh",
-      "response_text": "{agent_name}不自觉地轻轻叹了一口气。",
+      "response_text": "{agent_name} involuntarily let out a soft sigh.",
       "habit_strength": 0.84,
       "awareness_type": "unconscious",
       "estimated_duration": "3s",
@@ -232,9 +275,11 @@
     {
       "association_id": "michael_fatigue_stretch",
       "source_dimension": "body",
-      "required_cue_ids": ["feeling:internal_state:fatigue:mild"],
+      "required_cue_ids": [
+        "feeling:internal_state:fatigue:mild"
+      ],
       "response_key": "stretch",
-      "response_text": "{agent_name}下意识地舒展了一下肩背。",
+      "response_text": "{agent_name} instinctively stretched their shoulders and back.",
       "habit_strength": 0.88,
       "awareness_type": "unconscious",
       "estimated_duration": "5s",
@@ -243,13 +288,17 @@
     {
       "association_id": "michael_failure_touch_head",
       "source_dimension": "action_sequence",
-      "cue_prefixes": ["failed:"],
+      "cue_prefixes": [
+        "failed:"
+      ],
       "response_key": "touch_head",
-      "response_text": "{agent_name}下意识地抬手摸了摸头。",
+      "response_text": "{agent_name} instinctively raised a hand to touch their head.",
       "habit_strength": 0.9,
       "awareness_type": "unconscious",
       "estimated_duration": "2s",
-      "required_body_resources": ["one_free_hand"],
+      "required_body_resources": [
+        "one_free_hand"
+      ],
       "cooldown_seconds": 180
     }
   ],

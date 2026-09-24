@@ -290,7 +290,7 @@ def _offset_feature(
         modality=_feature_modality(cue),
         value=cue.value,
         source=cue.source,
-        text=f"不再感知到：{cue.text or cue.value}",
+        text=f"No longer perceiving: {cue.text or cue.value}",
         temporal_state="offset",
         first_observed_at=first_observed_at,
         observed_at=now,

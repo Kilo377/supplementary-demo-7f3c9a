@@ -32,59 +32,59 @@ def build_action_proposal_prompt(
         pre_think_text = format_intuition_for_action_prompt(pre_think_intuition)
         think_text = format_think_for_action_prompt(think_result)
         return f"""
-{agent_name} 想要：
-{intent_text or "（没有明确 Intent。）"}
+{agent_name} wants:
+{intent_text or "(No clear Intent.)"}
 
-{agent_name} 因此已经做了：
+{agent_name} has already done:
 {memory_text}
 
 {spatial_text}
 
-原来 {agent_name} 下意识的打算：
+Previously, {agent_name}'s subconscious plan was:
 {pre_think_text}
 
-然后 {agent_name} 仔细想了想：
+Then {agent_name} thought carefully:
 {think_text}
 
-现在 {agent_name} 的 Intuition 打算：
+Now {agent_name}'s Intuition plans to:
 {intuition_text}
 
-那么具体 {agent_name} 应该做什么，以努力满足 {agent_name} 的想法呢？
+So what specific action should {agent_name} take to try to satisfy {agent_name}'s thoughts?
 
-要求：
-- 只输出一个具体动作。
-- 动作用 {agent_name} 开头。
-- 这是实际要交给 world 执行的动作，不要解释理由。
-- 优先选择当前房间里真实存在的家具或物品。
-- 不要重复已经失败的动作。
-- 不要编造 Spatial Belief 里没有的房间、家具或工具。
-- 不要输出等待、聊天、去另一个房间、停下来想；这些已经由 Intuition 和 Think 后路由处理。
-- 如果需要工具但当前拿不到，先做不依赖工具的清理动作。
+Requirements:
+- Output only one specific action.
+- The action must start with {agent_name}.
+- This is the actual action to be executed by the world; do not explain the reasoning.
+- Prioritize furniture or items that actually exist in the current room.
+- Do not repeat actions that have already failed.
+- Do not fabricate rooms, furniture, or tools that are not in the Spatial Belief.
+- Do not output waiting, chatting, going to another room, or stopping to think; these are already handled by routing after Intuition and Think.
+- If a tool is needed but currently unavailable, first perform cleaning actions that do not depend on tools.
 """.strip()
 
     return f"""
-{agent_name} 想要：
-{intent_text or "（没有明确 Intent。）"}
+{agent_name} wants:
+{intent_text or "(No clear Intent.)"}
 
-{agent_name} 因此已经做了：
+{agent_name} has already done:
 {memory_text}
 
 {spatial_text}
 
-现在 {agent_name} 的 Intuition 打算：
+Now {agent_name}'s Intuition plans to:
 {intuition_text}
 
-那么具体 {agent_name} 应该做什么，以努力满足 {agent_name} 的想法呢？
+So what specific action should {agent_name} take to try to satisfy {agent_name}'s thoughts?
 
-要求：
-- 只输出一个具体动作。
-- 动作用 {agent_name} 开头。
-- 这是实际要交给 world 执行的动作，不要解释理由。
-- 优先选择当前房间里真实存在的家具或物品。
-- 不要重复已经失败的动作。
-- 不要编造 Spatial Belief 里没有的房间、家具或工具。
-- 不要输出等待、聊天、去另一个房间、停下来想；这些已经由 Intuition 路由处理。
-- 如果需要工具但当前拿不到，先做不依赖工具的清理动作。
+Requirements:
+- Output only one specific action.
+- The action must start with {agent_name}.
+- This is the actual action to be executed by the world; do not explain the reasoning.
+- Prioritize furniture or items that actually exist in the current room.
+- Do not repeat actions that have already failed.
+- Do not fabricate rooms, furniture, or tools that are not in the Spatial Belief.
+- Do not output waiting, chatting, going to another room, or stopping to think; these are already handled by routing after Intuition.
+- If a tool is needed but currently unavailable, first perform cleaning actions that do not depend on tools.
 """.strip()
 
 
@@ -95,20 +95,20 @@ def format_short_time_memory_for_action_prompt(memory: ShortTermMemory | None) -
         if getattr(episode, "recallable", True)
     ]
     if not episodes:
-        return "暂无。"
+        return "None yet."
     return "\n".join(_format_episode(episode) for episode in episodes)
 
 
 def format_intuition_for_action_prompt(intuition: IntuitionResult | None) -> str:
     if intuition is None:
-        return "（没有明确 Intuition，只能根据 Intent、短期记忆和空间 Belief 选择下一步。）"
+        return "(No clear Intuition; can only choose the next step based on Intent, short-term memory, and Spatial Belief.)"
     route = f"[{intuition.route}] " if intuition.route else ""
-    return f"{route}{intuition.thought}".strip() or "（没有明确 Intuition。）"
+    return f"{route}{intuition.thought}".strip() or "(No clear Intuition.)"
 
 
 def format_think_for_action_prompt(think_result: ThinkResult | None) -> str:
     if think_result is None:
-        return "（没有进行显式 Think。）"
+        return "(No explicit Think performed.)"
     parts = [
         text
         for text in [
@@ -117,7 +117,7 @@ def format_think_for_action_prompt(think_result: ThinkResult | None) -> str:
         ]
         if text
     ]
-    return "\n".join(parts) or "（Think 没有形成明确内容。）"
+    return "\n".join(parts) or "(Think did not form clear content.)"
 
 
 def should_include_think_context(
@@ -139,20 +139,20 @@ def format_spatial_belief_for_action_prompt(
     agent_name: str,
 ) -> str:
     if spatial_belief is None:
-        return f"{agent_name} 现在在 {scene_name}，但空间 Belief 暂时不可用。"
+        return f"{agent_name} is currently in {scene_name}, but Spatial Belief is temporarily unavailable."
 
     current_area = spatial_belief.get_area(current_area_id)
-    current_area_name = current_area.area_name if current_area is not None else current_area_id or "未知区域"
-    lines = [f"{agent_name} 现在在 {scene_name} 的 {current_area_name}。"]
+    current_area_name = current_area.area_name if current_area is not None else current_area_id or "Unknown area"
+    lines = [f"{agent_name} is currently in {current_area_name} of {scene_name}."]
     if current_area is not None and current_area.elements:
         element_text = "、".join(
             _element_text(element)
             for element in current_area.elements.values()
             if element.name
         )
-        lines.append(f"这里所有的家具有：{element_text}。")
+        lines.append(f"The furniture here includes: {element_text}.")
     else:
-        lines.append("这里暂时没有可用的家具或物品信息。")
+        lines.append("There is currently no available information about furniture or items here.")
 
     other_area_names = [
         area.area_name
@@ -160,7 +160,7 @@ def format_spatial_belief_for_action_prompt(
         if area.area_id != current_area_id
     ]
     if other_area_names:
-        lines.append(f"{agent_name} 还知道其他房间有：{'、'.join(other_area_names)}。")
+        lines.append(f"{agent_name} also knows that other rooms have: {'、'.join(other_area_names)}。")
     return "\n".join(lines)
 
 
@@ -185,11 +185,11 @@ def _format_episode(episode: MemoryEpisode) -> str:
 def _element_text(element: ElementBeliefSnapshot) -> str:
     details = []
     if element.physical_status != "regular":
-        details.append(f"物理状态={element.physical_status}")
+        details.append(f"Physical state={element.physical_status}")
     if element.evolution_status != "stable":
-        details.append(f"演化状态={element.evolution_status}")
+        details.append(f"Evolution status={element.evolution_status}")
     if element.interaction_status != "idle":
-        details.append(f"交互状态={element.interaction_status}")
+        details.append(f"Interaction status={element.interaction_status}")
     for key, value in sorted(element.state_details.items()):
         if str(value).strip():
             details.append(f"{key}={value}")

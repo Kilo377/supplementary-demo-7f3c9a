@@ -103,7 +103,7 @@ class CommonsenseEngine:
 
     def describe_world_risk(self) -> CommonsenseObservation:
         return CommonsenseObservation(
-            summary="常识规则目录已就位，后续可在这里承接由 LLM 推演出的经验性状态变化。",
+            summary="The common-sense rules directory is in place; subsequent experience-based state changes inferred by the LLM can be handled here.",
             candidate_effects=[],
         )
 
@@ -164,8 +164,8 @@ class CommonsenseEngine:
                 source_results=[],
                 applied_updates=[],
                 summary=(
-                    f"Tick {self.current_tick}: 当前 world 中没有处于 changing 的异常源，"
-                    "commonsense 演化本轮不触发。"
+                    f"Tick {self.current_tick}: No abnormal sources are currently changing in the world,"
+                    "so the common-sense evolution does not trigger this round."
                 ),
             )
 
@@ -198,12 +198,12 @@ class CommonsenseEngine:
             summaries = "；".join(
                 result.summary for result in source_results if result.summary
             )
-            summary = f"Tick {self.current_tick}: 已完成 {len(source_results)} 个异常源的常识演化。{summaries}"
+            summary = f"Tick {self.current_tick}: Completed commonsense evolution for {len(source_results)} anomaly sources. {summaries}"
         else:
             names = "、".join(source.element_name for source in final_sources[:4])
             summary = (
-                f"Tick {self.current_tick}: 检测到 {len(final_sources)} 个异常源，"
-                f"本轮没有产生新的 physical_status / evolution_status 更新。当前包括：{names}。"
+                f"Tick {self.current_tick}: Detected {len(final_sources)} anomaly sources, "
+                f"no new physical_status / evolution_status updates this round. Current includes: {names}."
             )
 
         return CommonsenseTickResult(
@@ -238,7 +238,7 @@ class CommonsenseEngine:
             return SourceEvolutionResult(
                 source_element_id=source.element_id,
                 source_element_name=source.element_name,
-                summary=f"{source.element_name} 的常识演化暂时未能完成。",
+                summary=f"Commonsense evolution for {source.element_name} has temporarily failed to complete.",
                 raw_response="" if "raw" not in locals() else raw,
                 error=str(error),
             )
@@ -250,7 +250,7 @@ class CommonsenseEngine:
         return SourceEvolutionResult(
             source_element_id=source.element_id,
             source_element_name=source.element_name,
-            summary=parsed.get("summary", "") or f"{source.element_name} 本轮没有明显进一步变化。",
+            summary=parsed.get("summary", "") or f"{source.element_name} shows no significant further changes this round.",
             updates=updates,
             raw_response=raw,
         )

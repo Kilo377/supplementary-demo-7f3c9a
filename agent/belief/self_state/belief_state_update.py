@@ -10,32 +10,32 @@ def build_belief_state_update_prompt(
     agent_name: str,
     state_fields: dict,
 ) -> str:
-    return f"""你在更新一个 human agent 的 self belief。
+    return f"""You are updating the self-belief of a human agent.
 
-输入是 {agent_name} 刚刚一轮 action 结束后的四个字段：
-- action_proposal: {agent_name} 刚刚想做什么
-- movement: {agent_name} 从哪到哪；如果 moved=false，就是原地
-- interacted_elements: 系统成功绑定到场景 schema 的交互元素
-- environment_feedback: 环境反馈里实际发生了什么
+The input consists of four fields after {agent_name} has just completed an action round:
+- action_proposal: What {agent_name} just intended to do
+- movement: Where {agent_name} moved from and to; if moved=false, they stayed in place
+- interacted_elements: Interaction elements successfully bound to the scene schema by the system
+- environment_feedback: What actually happened in the environment feedback
 
-你的任务：
-根据这四个字段，归纳 {agent_name} 现在对自己状态的 belief。
+Your task:
+Based on these four fields, summarize {agent_name}'s current belief about their own state.
 
-要求：
-- 1 句简短中文
-- 不要提出下一步动作，只进行总结。
-- 不要复述完整日志
-- 如果 action_proposal 和 environment_feedback 不一致，以 environment_feedback 和 movement 为准
-- environment_feedback 是 {agent_name} 形成 self belief 的主要依据
-- interacted_elements 为空，只表示这次动作没有绑定到显式 world element；不代表动作没有发生，也不代表 {agent_name} 没有实际交互
-- 如果 environment_feedback 描述了未显式建模的手中物、食物、包装、餐具或其他低惊讶度对象，就承认该动作实际发生，并把它写入 self belief
-- 必须覆盖三点：刚刚想做什么；从哪到哪或是否原地；实际做了什么
+Requirements:
+- One short sentence in Chinese
+- Do not propose next steps; only summarize.
+- Do not repeat the full log
+- If action_proposal and environment_feedback are inconsistent, prioritize environment_feedback and movement
+- environment_feedback is the primary basis for {agent_name} to form self-belief
+- If interacted_elements is empty, it only means this action was not bound to an explicit world element; it does not mean the action did not occur, nor that {agent_name} did not actually interact
+- If environment_feedback describes objects in hand, food, packaging, tableware, or other low-surprise objects not explicitly modeled, acknowledge that the action actually occurred and include it in the self-belief
+- Must cover three points: what was just intended; where from and to, or if stayed in place; what was actually done
 
-四个字段：
+Four fields:
 {json.dumps(state_fields, ensure_ascii=False, indent=2)}
 
-输出格式：
-{agent_name} 刚刚想……；{agent_name}从……到……/{agent_name}留在原地；{agent_name}实际……。
+Output format:
+{agent_name} just intended to...; {agent_name} moved from... to... / {agent_name} stayed in place; {agent_name} actually....
 """
 
 
@@ -76,19 +76,19 @@ def clean_belief_state_update(text: str, *, agent_name: str) -> str:
         return ""
     cleaned = " ".join(lines[:3]).strip()
     if agent_name not in cleaned:
-        cleaned = f"{agent_name}相信{cleaned}"
+        cleaned = f"{agent_name} believes {cleaned}"
     return cleaned
 
 
 def fallback_belief_state_update(*, agent_name: str, state_fields: dict) -> str:
-    proposal = state_fields.get("action_proposal", "") or "不明确的动作"
-    feedback = state_fields.get("environment_feedback", "") or "环境没有给出明确反馈"
+    proposal = state_fields.get("action_proposal", "") or "Unclear action"
+    feedback = state_fields.get("environment_feedback", "") or "The environment did not provide clear feedback"
     movement = state_fields.get("movement", {}) or {}
     from_text = movement.get("from", "")
     to_text = movement.get("to", "")
     moved = movement.get("moved", False)
     if moved:
-        movement_text = f"从{from_text}到了{to_text}"
+        movement_text = f"Moved from {from_text} to {to_text}"
     else:
-        movement_text = f"留在{to_text or from_text or '原地'}"
-    return f"{agent_name}刚刚想{proposal}；{agent_name}{movement_text}；{agent_name}实际经历的是：{feedback}"
+        movement_text = f"Stayed at {to_text or from_text or 'the original location'}"
+    return f"{agent_name} just thought about {proposal}; {agent_name} {movement_text}; What {agent_name} actually experienced was: {feedback}"

@@ -10,29 +10,29 @@ def build_habitual_awareness_prompt(
     habitual_response: PreparedHabitualResponse,
 ) -> str:
     return f"""
-有一个人受到当前情境的触发，准备产生一个习惯性行为。
+A person is triggered by the current situation and is about to generate a habitual behavior.
 
-触发这个行为的情境是：
-{trigger_context_text or "没有提供明确的情境线索。"}
+The situation triggering this behavior is:
+{trigger_context_text or "No clear situational cues provided."}
 
-这个人的当前状态是：
-{current_state_text or "没有提供特别的身体或情绪状态。"}
+The person's current state is:
+{current_state_text or "No special physical or emotional state provided."}
 
-准备产生的习惯性行为是：
+The habitual behavior about to be generated is:
 {habitual_response.response_text}
 
-请判断在这个习惯性行为开始发生之前，这个人是否通常会注意到自己产生了这种行为倾向。
+Please judge whether this person would typically notice that they are developing a tendency toward this behavior before the habitual behavior begins.
 
-这里的“有意识”是指，这个人会形成可以被自己察觉的想法、冲动或行动意图。
-这里的“无意识”是指，行为主要由情境、情绪或身体状态直接触发，在发生前没有形成清楚、可察觉的行动意图。
+"Conscious" here means the person forms thoughts, impulses, or action intentions that can be perceived by themselves.
+"Unconscious" here means the behavior is primarily triggered directly by the situation, emotion, or physical state, without forming a clear, perceivable intention to act beforehand.
 
-不要根据这个行为是否合理、是否符合目标来判断。
-不要判断这个人最终是否应该执行该行为。
-不要仅仅因为压力、紧张或焦虑程度较高就判定为有意识。有意识的习惯是否经过目标导向评估，由后续独立控制门控处理。
+Do not judge based on whether the behavior is reasonable or aligns with goals.
+Do not judge whether the person should ultimately execute this behavior.
+Do not judge it as conscious solely due to high stress, tension, or anxiety. Whether conscious habits undergo goal-directed evaluation is handled by subsequent independent control gating.
 
-只输出 JSON：
+Output only JSON:
 {{
   "conscious": true,
-  "reason": "第三人称的简短判断理由"
+  "reason": "A brief third-person judgment reason"
 }}
 """.strip()

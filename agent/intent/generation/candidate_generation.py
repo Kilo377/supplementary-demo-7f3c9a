@@ -68,30 +68,30 @@ def build_intent_candidate_generation_prompt(
             else dict(attention_affect)
         )
         attention_block = f"""
-当下注意力触发：
+Current attention trigger:
 {json.dumps(attention_data, ensure_ascii=False, indent=2)}
 """
     personal_context_block = ""
     if personal_context.strip():
         personal_context_block = f"""
-长期个人背景：
+Long-term personal background:
 {personal_context.strip()}
 """
-    return f"""你在为一个 人类 {agent_name} 生成 intent candidates。
-你需要根据 Desire 和当下注意力生成 {agent_name} 想的念头。可能是想做的事情，可能是一个欲望念头。
-根据 Bratman 的BDI理论，人类intent的产生可能和自身的Desire有关，人可能同时有很多 desire。比如我想保持健康，也想睡懒觉。
-此外，人也可能因为突然注意到某件事，而产生一个临时的候选 intent。
-因此，同时可能会有多个 Intent 作为候选。
+    return f"""You are generating intent candidates for a human {agent_name}.
+You need to generate the thoughts of {agent_name} based on Desire and current attention. These may be intentions to do something or desire-driven thoughts.
+According to Bratman's BDI theory, human intent generation may be related to one's own Desires; a person may have multiple desires simultaneously. For example, I want to stay healthy, but I also want to sleep in.
+Additionally, a person might generate a temporary candidate intent due to suddenly noticing something.
+Therefore, there may be multiple Intents as candidates.
 
-Desire：
+Desire:
 {json.dumps(signal_data, ensure_ascii=False, indent=2)}
 {attention_block}{personal_context_block}
 
-值得注意的是，
-1. intent 是高层念头，不是 action。 事实上，intent是一种承诺性的心理，将会影响后续的行动。
-2. 不是一定要为每一个 Desire 都生成意图。
-3. mental 如果只是平稳状态，可以不生成候选；如果有维持状态的明显倾向，也可以生成低干扰候选。
-4. source_desire 必须使用这些格式之一：
+It is worth noting that,
+1. Intent is a high-level thought, not an action. In fact, intent is a commitment-like mental state that will influence subsequent actions.
+2. It is not necessary to generate an intent for every Desire.
+3. If the mental state is merely stable, no candidate needs to be generated; if there is a clear tendency to maintain the state, a low-interference candidate can also be generated.
+4. source_desire must use one of these formats:
    - physiological_state.hunger
    - physiological_state.thirst
    - physiological_state.hygiene
@@ -101,20 +101,20 @@ Desire：
    - mental
    - work_goal
    - attention
-5. reason 尽量直接复用对应 Desire 的 subjective_interpretation。
-   - 不要把“稍微有点饿。”扩写成“有轻微饥饿感，促使{agent_name}产生想要吃东西的念头。”
-   - 如果 source_desire 是 attention，reason 可以直接复用 notice_text，必要时加极短说明。
-6. 最多生成 {max_candidates} 个 candidates。
-7. 不要生成 Desire 主观解释或当下注意力中没有支持的候选。
-8. 只返回 JSON，不要解释推理过程。
+5. reason should directly reuse the subjective_interpretation of the corresponding Desire.
+   - Do not expand "I'm a little hungry." into "Having a slight sense of hunger prompts {agent_name} to have the thought of wanting to eat."
+   - If source_desire is attention, reason can directly reuse notice_text, adding a very brief explanation if necessary.
+6. Generate at most {max_candidates} candidates.
+7. Do not generate candidates unsupported by the subjective interpretation of Desire or current attention.
+8. Return only JSON; do not explain the reasoning process.
 
-返回 JSON 格式：
+Return JSON format:
 {{
   "candidates": [
     {{
-      "intent_text": "{agent_name}打算找点东西吃。",
+      "intent_text": "{agent_name} plans to find something to eat.",
       "source_desire": "physiological_state.hunger",
-      "reason": "稍微有点饿。"
+      "reason": "I'm a little hungry."
     }}
   ]
 }}
@@ -218,7 +218,7 @@ def _fallback_candidates(
     if attention_affect is not None and len(candidates) < max_candidates:
         candidates.append(
             IntentCandidate(
-                intent_text=f"{agent_name}打算先关注一下刚刚注意到的情况。",
+                intent_text=f"{agent_name} plans to first focus on the situation just noticed.",
                 source_desire="attention",
                 reason=attention_affect.notice_text,
             )
@@ -238,19 +238,19 @@ def _fallback_candidate_from_signal(
         return None
 
     if source == "physiological_state.hunger":
-        intent_text = f"{agent_name}打算找点东西吃。"
+        intent_text = f"{agent_name} plans to find something to eat."
     elif source == "physiological_state.thirst":
-        intent_text = f"{agent_name}打算找点东西喝。"
+        intent_text = f"{agent_name} plans to find something to drink."
     elif source == "internal_state.fatigue":
-        intent_text = f"{agent_name}打算休息一会儿。"
+        intent_text = f"{agent_name} plans to rest for a while."
     elif source == "physiological_state.hygiene":
-        intent_text = f"{agent_name}打算清洁整理一下自己。"
+        intent_text = f"{agent_name} plans to clean and tidy themselves up."
     elif source in {"internal_state.stress", "internal_state.tension"}:
-        intent_text = f"{agent_name}打算先让自己缓一缓。"
+        intent_text = f"{agent_name} plans to let themselves recover first."
     elif source == "mental":
         if _looks_mentally_stable(interpretation):
             return None
-        intent_text = f"{agent_name}打算做点让自己状态稳定下来的事情。"
+        intent_text = f"{agent_name} plans to do something to stabilize their state."
     elif source == "work_goal":
         intent_text = _goal_signal_to_intent(agent_name=agent_name, interpretation=interpretation)
     else:
@@ -265,52 +265,52 @@ def _fallback_candidate_from_signal(
 
 def _goal_signal_to_intent(*, agent_name: str, interpretation: str) -> str:
     normalized = interpretation.strip().rstrip("。")
-    marker = "未完成的正事目标："
+    marker = "Unfinished serious goals:"
     if marker in normalized:
         normalized = normalized.split(marker, 1)[1].strip().rstrip("。")
-    for prefix in (f"{agent_name}想要", f"{agent_name}想", f"{agent_name}要"):
+    for prefix in (f"{agent_name} wants to", f"{agent_name} wants to", f"{agent_name} is going to"):
         if normalized.startswith(prefix):
             content = normalized[len(prefix) :].strip()
             if content:
-                return f"{agent_name}打算{content}。"
+                return f"{agent_name} plans to {content}."
     if normalized:
-        return f"{agent_name}打算{normalized}。"
-    return f"{agent_name}打算推进这个目标：{normalized}。"
+        return f"{agent_name} intends to {normalized}."
+    return f"{agent_name} intends to advance this goal: {normalized}."
 
 
 def _subjective_need_is_satisfied_or_minor(text: str) -> bool:
     minor_markers = (
-        "已满足",
-        "可以忽略",
-        "不需要",
-        "不饿",
-        "不渴",
-        "不累",
-        "没有压力",
-        "压力不大",
-        "很放松",
-        "不太紧张",
-        "很干净",
-        "还算干净",
-        "影响很小",
-        "可以稍后处理",
-        "还能正常活动",
+        "Satisfied",
+        "Can be ignored",
+        "Not needed",
+        "Not hungry",
+        "Not thirsty",
+        "Not tired",
+        "No pressure",
+        "Low stress",
+        "Very relaxed",
+        "Not very tense",
+        "very clean",
+        "fairly clean",
+        "minimal impact",
+        "can be handled later",
+        "still able to move normally",
     )
     return any(marker in text for marker in minor_markers)
 
 
 def _looks_mentally_stable(text: str) -> bool:
-    stable_markers = ("平稳", "稳定", "放松", "轻松", "不错", "还算好")
-    unstable_markers = ("焦虑", "烦", "紧张", "低落", "难过", "压力", "疲惫")
+    stable_markers = ("smooth", "stable", "relaxed", "easygoing", "not bad", "fairly good")
+    unstable_markers = ("Anxiety", "annoying", "nervous", "low", "sad", "Stress", "exhausted")
     return any(marker in text for marker in stable_markers) and not any(
         marker in text for marker in unstable_markers
     )
 
 
 def _normalize_agent_name(text: str, agent_name: str) -> str:
-    if text.startswith("你"):
+    if text.startswith("You"):
         return f"{agent_name}{text[1:]}"
-    if text.startswith(("他", "她")):
+    if text.startswith(("He", "She")):
         return f"{agent_name}{text[1:]}"
     return text
 

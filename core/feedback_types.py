@@ -36,8 +36,8 @@ class EnvironmentFeedback:
         if isinstance(method, str) and method.strip():
             return method.strip()
         if self.environment_changes:
-            return "环境状态已经更新。"
-        return "这一轮动作结束。"
+            return "The environment state has been updated."
+        return "This round of actions is over."
 
     def learned_fact_texts(self) -> list[str]:
         facts = []

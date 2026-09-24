@@ -82,7 +82,7 @@ def _normalize_computation_architecture(value: str) -> str:
 
 
 def _scene_name(engine: PhysicsEngine) -> str:
-    return str(getattr(engine.home, "name", "") or getattr(engine.home, "node_id", "") or "当前场景")
+    return str(getattr(engine.home, "name", "") or getattr(engine.home, "node_id", "") or "Current scene")
 
 
 @dataclass
@@ -317,7 +317,7 @@ class AgentInteractionLoop:
             model=self.model,
         )
         awareness = (
-            AwarenessResult(True, "习惯反应与当前目标发生冲突，因此进入了意识。")
+            AwarenessResult(True, "The habitual reaction conflicted with the current goal, so it entered consciousness.")
             if conflict.conflict
             else judge_habitual_awareness(
                 response,
@@ -434,7 +434,7 @@ class AgentInteractionLoop:
                         arbiter_reason=(
                             awareness_gate.awareness.reason
                             if awareness_gate.awareness is not None
-                            else "习惯反应没有进入意识。"
+                            else "The habitual reaction did not enter consciousness."
                         ),
                         conflict_reason="",
                         awareness_reason=(
@@ -681,7 +681,7 @@ class AgentInteractionLoop:
             )
         return AgentDecision(
             action_type="wait",
-            reason=f"{agent.name}还没有形成足够明确的下一步动作。",
+            reason=f"{agent.name} has not yet formed a sufficiently clear next action.",
         )
 
     def _decision_from_habitual_response(
@@ -956,7 +956,7 @@ class AgentInteractionLoop:
             area_id=perception.area_id,
             area_name=perception.area_name,
             perceived_summary="",
-            intended_action=f"{agent.name}仔细想了一下。",
+            intended_action=f"{agent.name} thought carefully about it.",
             experienced_result=think_result.format_for_memory(),
             intuition_route=intuition.route,
             intuition_thought=intuition.thought,
@@ -1018,7 +1018,7 @@ class AgentInteractionLoop:
                 )
             return AgentDecision(
                 action_type="wait",
-                reason=f"{agent.name}想走动一下，但还没有明确要去哪里。",
+                reason=f"{agent.name} wants to move around, but hasn't decided where to go yet.",
                 action_proposal_text=intuition.thought,
                 intuition_route=intuition.route,
                 intuition_thought=intuition.thought,
@@ -1164,7 +1164,7 @@ class AgentInteractionLoop:
         except Exception:
             if agent.active_intent is None:
                 agent.active_intent = IntentState(
-                    intent_text=f"{agent.name}想先在周围看看。",
+                    intent_text=f"{agent.name} wants to look around first.",
                     decided_at=agent.time_belief.current_datetime,
                 )
                 self.last_lifecycle_reviewed_step_count = 0
@@ -1227,12 +1227,12 @@ class AgentInteractionLoop:
 
     def _intent_decided_time_text(self, agent: Agent) -> str:
         if agent.active_intent is None:
-            return "不久前"
+            return "A short while ago"
         time_belief = getattr(agent, "time_belief", None)
         formatter = getattr(time_belief, "format_elapsed_since", None)
         if callable(formatter):
-            return str(formatter(agent.active_intent.decided_at) or "不久前")
-        return "不久前"
+            return str(formatter(agent.active_intent.decided_at) or "A short while ago")
+        return "A short while ago"
 
     def _lifecycle_current_state_belief(
         self,
@@ -1242,41 +1242,41 @@ class AgentInteractionLoop:
         self_state = getattr(agent, "self_state", None)
         area_name = str(getattr(self_state, "current_area_name", "") or "").strip()
         posture = {
-            "standing": "站着",
-            "sitting": "坐着",
-            "lying": "躺着",
-            "crouching": "蹲着",
+            "standing": "standing",
+            "sitting": "sitting",
+            "lying": "lying down",
+            "crouching": "crouching",
         }.get(str(getattr(agent, "posture", "") or "").strip(), "")
         if area_name and posture:
-            parts.append(f"你现在在{area_name}，{posture}。")
+            parts.append(f"You are currently in {area_name}, {posture}.")
         elif area_name:
-            parts.append(f"你现在在{area_name}。")
+            parts.append(f"You are currently in {area_name}.")
         elif posture:
-            parts.append(f"你现在{posture}。")
+            parts.append(f"You are currently {posture}.")
 
         current_belief = self._second_person_text(
             agent,
             str(getattr(self_state, "self_belief", "") or ""),
         )
         if current_belief:
-            parts.append(f"你对自身状态的理解是：{current_belief}")
+            parts.append(f"Your understanding of your current state is: {current_belief}")
         blocked_markers = list(getattr(self_state, "blocked_or_failed_markers", []) or [])
         if blocked_markers:
-            parts.append("你当前这一步遇到了明确阻碍。")
-        return " ".join(parts) or "你刚刚完成了眼前这一步。"
+            parts.append("You have encountered a clear obstacle in this step.")
+        return " ".join(parts) or "You have just completed this immediate step."
 
     def _second_person_text(self, agent: Agent, text: str) -> str:
         cleaned = str(text or "").strip()
         if agent.name:
-            cleaned = cleaned.replace(agent.name, "你")
+            cleaned = cleaned.replace(agent.name, "You")
         return cleaned
 
     def _current_time_text(self, agent: Agent) -> str:
         time_belief = getattr(agent, "time_belief", None)
         formatter = getattr(time_belief, "format_short_label", None)
         if callable(formatter):
-            return str(formatter() or "现在")
-        return "现在"
+            return str(formatter() or "Now")
+        return "Now"
 
     def _lifecycle_memory_text(
         self,
@@ -1296,7 +1296,7 @@ class AgentInteractionLoop:
 
         if not lines and agent.active_intent is not None:
             lines.extend(f"- {item}" for item in agent.active_intent.progress if item)
-        return "\n".join(lines) if lines else "暂时还没有做什么。"
+        return "\n".join(lines) if lines else "I haven't done anything yet."
 
     def _store_world_feedback_summary(self, agent: Agent, action_result: ActionResult) -> None:
         feedback = action_result.environment_feedback

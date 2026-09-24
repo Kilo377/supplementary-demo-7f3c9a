@@ -2,7 +2,7 @@ AREA_ELEMENTS = {
     "kitchen": [
         {
             "node_id": "fridge_01",
-            "name": "冰箱",
+            "name": "Refrigerator",
             "center": (0.75, 1.45),
             "size": (0.80, 1.55),
             "status": "regular",
@@ -10,7 +10,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "window_kitchen_01",
-            "name": "厨房窗户",
+            "name": "kitchen window",
             "center": (1.85, 0.45),
             "size": (1.35, 0.20),
             "status": "regular",
@@ -18,7 +18,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "sink_01",
-            "name": "水槽",
+            "name": "Sink",
             "center": (1.75, 1.45),
             "size": (1.15, 0.70),
             "status": "regular",
@@ -26,7 +26,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cabinet_kitchen_01",
-            "name": "水槽下橱柜",
+            "name": "under-sink cabinet",
             "center": (1.70, 2.05),
             "size": (1.35, 0.55),
             "status": "regular",
@@ -34,7 +34,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "microwave_01",
-            "name": "微波炉",
+            "name": "microwave oven",
             "center": (3.00, 0.85),
             "size": (0.60, 0.45),
             "status": "regular",
@@ -42,7 +42,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "rice_cooker_01",
-            "name": "电饭煲",
+            "name": "rice cooker",
             "center": (3.65, 0.85),
             "size": (0.45, 0.45),
             "status": "regular",
@@ -50,7 +50,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "stove_01",
-            "name": "灶台",
+            "name": "Stove",
             "center": (3.05, 1.55),
             "size": (0.95, 0.60),
             "status": "regular",
@@ -58,7 +58,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "pot_red_01",
-            "name": "红色锅",
+            "name": "red pot",
             "center": (2.75, 1.55),
             "size": (0.40, 0.40),
             "movable": True,
@@ -66,7 +66,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "pan_01",
-            "name": "平底锅",
+            "name": "frying pan",
             "center": (3.35, 1.60),
             "size": (0.45, 0.35),
             "movable": True,
@@ -74,7 +74,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "counter_01",
-            "name": "操作台",
+            "name": "Workbench",
             "center": (3.00, 2.35),
             "size": (1.20, 0.80),
             "status": "regular",
@@ -82,7 +82,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cutting_board_01",
-            "name": "砧板",
+            "name": "Cutting board",
             "center": (2.65, 2.25),
             "size": (0.45, 0.35),
             "movable": True,
@@ -90,7 +90,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "dish_rack_01",
-            "name": "碗碟架",
+            "name": "dish rack",
             "center": (3.85, 2.25),
             "size": (0.40, 0.60),
             "status": "regular",
@@ -98,7 +98,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "trash_bin_kitchen_01",
-            "name": "厨房垃圾桶",
+            "name": "kitchen trash can",
             "center": (3.85, 3.00),
             "size": (0.45, 0.65),
             "status": "regular",
@@ -106,7 +106,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "rug_kitchen_01",
-            "name": "厨房地垫",
+            "name": "kitchen floor mat",
             "center": (1.90, 2.80),
             "size": (0.90, 0.45),
             "status": "regular",
@@ -116,7 +116,7 @@ AREA_ELEMENTS = {
     "dining_room": [
         {
             "node_id": "dining_table_01",
-            "name": "餐桌",
+            "name": "Dining table",
             "center": (5.10, 2.45),
             "size": (1.55, 1.30),
             "status": "regular",
@@ -124,7 +124,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "dining_chair_01",
-            "name": "餐椅上左",
+            "name": "left side of dining chair",
             "center": (4.65, 1.75),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -132,7 +132,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "dining_chair_02",
-            "name": "餐椅上右",
+            "name": "right side of dining chair",
             "center": (5.55, 1.75),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -140,7 +140,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "dining_chair_03",
-            "name": "餐椅下左",
+            "name": "under left side of dining chair",
             "center": (4.65, 3.15),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -148,7 +148,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "dining_chair_04",
-            "name": "餐椅下右",
+            "name": "Right side under dining chair",
             "center": (5.55, 3.15),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -156,7 +156,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "vase_dining_01",
-            "name": "餐桌花瓶",
+            "name": "Dining table vase",
             "center": (5.10, 2.45),
             "size": (0.30, 0.45),
             "movable": True,
@@ -164,7 +164,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "clock_wall_01",
-            "name": "墙钟",
+            "name": "Wall clock",
             "center": (5.25, 0.85),
             "size": (0.45, 0.45),
             "status": "regular",
@@ -172,7 +172,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wall_art_dining_01",
-            "name": "墙画",
+            "name": "Wall art",
             "center": (6.00, 1.20),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -180,7 +180,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "plant_dining_01",
-            "name": "餐厅绿植",
+            "name": "Dining room plant",
             "center": (6.15, 2.05),
             "size": (0.45, 0.70),
             "status": "regular",
@@ -190,7 +190,7 @@ AREA_ELEMENTS = {
     "bedroom": [
         {
             "node_id": "bed_01",
-            "name": "床",
+            "name": "Bed",
             "center": (8.25, 1.70),
             "size": (1.45, 2.20),
             "status": "regular",
@@ -198,7 +198,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "pillow_01",
-            "name": "枕头",
+            "name": "Pillow",
             "center": (8.25, 1.05),
             "size": (1.00, 0.45),
             "status": "regular",
@@ -206,7 +206,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bedside_table_01",
-            "name": "床头柜",
+            "name": "Nightstand",
             "center": (6.95, 1.50),
             "size": (0.60, 0.60),
             "status": "regular",
@@ -214,7 +214,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "lamp_bedside_01",
-            "name": "床头台灯",
+            "name": "Bedside lamp",
             "center": (6.75, 1.20),
             "size": (0.35, 0.55),
             "status": "regular",
@@ -222,7 +222,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "window_bedroom_01",
-            "name": "卧室窗户",
+            "name": "Bedroom window",
             "center": (7.35, 0.40),
             "size": (1.20, 0.20),
             "status": "regular",
@@ -230,7 +230,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "curtain_bedroom_01",
-            "name": "窗帘",
+            "name": "Curtains",
             "center": (7.35, 0.60),
             "size": (1.40, 0.60),
             "status": "regular",
@@ -238,7 +238,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wall_art_bed_01",
-            "name": "床头画",
+            "name": "Bedside picture",
             "center": (8.55, 0.55),
             "size": (0.55, 0.40),
             "status": "regular",
@@ -246,7 +246,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "rug_round_01",
-            "name": "圆形地毯",
+            "name": "Round carpet",
             "center": (7.35, 2.80),
             "size": (1.00, 1.00),
             "status": "regular",
@@ -254,7 +254,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "slippers_bedroom_01",
-            "name": "卧室拖鞋",
+            "name": "Bedroom slippers",
             "center": (7.05, 3.20),
             "size": (0.45, 0.35),
             "movable": True,
@@ -262,7 +262,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "wardrobe_01",
-            "name": "衣柜",
+            "name": "Wardrobe",
             "center": (8.85, 3.05),
             "size": (0.55, 1.75),
             "status": "regular",
@@ -270,7 +270,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "clothes_wardrobe_01",
-            "name": "衣柜内衣物",
+            "name": "Clothes in the wardrobe",
             "center": (8.65, 3.15),
             "size": (0.35, 1.00),
             "status": "regular",
@@ -278,7 +278,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "desk_bedroom_01",
-            "name": "书桌",
+            "name": "Desk",
             "center": (7.65, 4.00),
             "size": (0.90, 0.60),
             "status": "regular",
@@ -286,7 +286,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "chair_bedroom_01",
-            "name": "椅子",
+            "name": "Chair",
             "center": (6.95, 3.85),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -294,7 +294,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mirror_01",
-            "name": "立镜",
+            "name": "Full-length mirror",
             "center": (7.45, 3.85),
             "size": (0.35, 1.00),
             "status": "regular",
@@ -304,7 +304,7 @@ AREA_ELEMENTS = {
     "entryway": [
         {
             "node_id": "door_front_01",
-            "name": "前门",
+            "name": "Front door",
             "center": (1.00, 7.95),
             "size": (0.90, 1.00),
             "status": "regular",
@@ -312,7 +312,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "doormat_01",
-            "name": "门垫",
+            "name": "Doormat",
             "center": (1.00, 9.05),
             "size": (1.10, 0.50),
             "status": "regular",
@@ -320,7 +320,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "shoe_cabinet_01",
-            "name": "鞋柜 / 玄关柜",
+            "name": "Shoe cabinet / Entryway cabinet",
             "center": (0.50, 5.80),
             "size": (0.50, 1.00),
             "status": "regular",
@@ -328,7 +328,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "coat_rack_01",
-            "name": "挂衣架",
+            "name": "Coat rack",
             "center": (1.60, 4.80),
             "size": (0.70, 0.30),
             "status": "regular",
@@ -336,7 +336,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "coat_01",
-            "name": "外套",
+            "name": "Coat",
             "center": (1.45, 5.00),
             "size": (0.40, 0.80),
             "status": "regular",
@@ -344,7 +344,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bag_hanging_01",
-            "name": "挎包",
+            "name": "satchel",
             "center": (1.85, 5.00),
             "size": (0.40, 0.60),
             "status": "regular",
@@ -352,7 +352,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "umbrella_stand_01",
-            "name": "雨伞架",
+            "name": "umbrella stand",
             "center": (0.45, 7.00),
             "size": (0.40, 0.60),
             "status": "regular",
@@ -360,7 +360,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "slippers_entry_01",
-            "name": "粉色拖鞋",
+            "name": "pink slippers",
             "center": (1.45, 5.80),
             "size": (0.40, 0.30),
             "movable": True,
@@ -368,7 +368,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "shoes_entry_01",
-            "name": "黑色鞋子",
+            "name": "black shoes",
             "center": (1.30, 6.50),
             "size": (0.50, 0.40),
             "movable": True,
@@ -376,7 +376,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "slippers_entry_02",
-            "name": "门口粉色拖鞋",
+            "name": "pink slippers at the entrance",
             "center": (0.95, 7.45),
             "size": (0.50, 0.35),
             "movable": True,
@@ -384,7 +384,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "parcel_box_01",
-            "name": "快递纸箱",
+            "name": "express delivery cardboard box",
             "center": (1.65, 7.20),
             "size": (0.60, 0.60),
             "movable": True,
@@ -392,7 +392,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "backpack_01",
-            "name": "背包",
+            "name": "backpack",
             "center": (1.95, 7.50),
             "size": (0.45, 0.55),
             "movable": True,
@@ -400,7 +400,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "entrance_step_01",
-            "name": "入口台阶",
+            "name": "entrance steps",
             "center": (1.05, 9.53),
             "size": (1.60, 0.40),
             "status": "regular",
@@ -410,7 +410,7 @@ AREA_ELEMENTS = {
     "living_room": [
         {
             "node_id": "armchair_01",
-            "name": "单人沙发",
+            "name": "single sofa",
             "center": (5.25, 5.85),
             "size": (0.90, 1.00),
             "status": "regular",
@@ -418,7 +418,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cushion_01",
-            "name": "抱枕 1",
+            "name": "throw pillow 1",
             "center": (5.15, 5.75),
             "size": (0.25, 0.25),
             "status": "regular",
@@ -426,7 +426,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "cushion_02",
-            "name": "抱枕 2",
+            "name": "throw pillow 2",
             "center": (5.40, 5.75),
             "size": (0.25, 0.25),
             "status": "regular",
@@ -434,7 +434,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "coffee_table_01",
-            "name": "茶几",
+            "name": "coffee table",
             "center": (4.20, 6.75),
             "size": (1.00, 1.25),
             "status": "regular",
@@ -442,7 +442,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "rug_living_01",
-            "name": "客厅地毯",
+            "name": "living room carpet",
             "center": (4.30, 6.90),
             "size": (3.40, 2.70),
             "status": "regular",
@@ -450,7 +450,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "tv_01",
-            "name": "电视",
+            "name": "TV",
             "center": (2.65, 6.65),
             "size": (0.25, 1.35),
             "status": "regular",
@@ -458,7 +458,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "tv_stand_01",
-            "name": "电视柜",
+            "name": "TV cabinet",
             "center": (2.55, 6.85),
             "size": (0.35, 1.20),
             "status": "regular",
@@ -466,7 +466,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "floor_lamp_01",
-            "name": "落地灯",
+            "name": "floor lamp",
             "center": (2.80, 5.30),
             "size": (0.40, 0.90),
             "status": "regular",
@@ -474,7 +474,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "plant_living_01",
-            "name": "客厅大绿植",
+            "name": "large living room plant",
             "center": (5.95, 5.55),
             "size": (0.55, 0.80),
             "status": "regular",
@@ -482,7 +482,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "plant_living_02",
-            "name": "客厅下方绿植",
+            "name": "lower living room plant",
             "center": (2.85, 8.25),
             "size": (0.50, 0.60),
             "status": "regular",
@@ -490,7 +490,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bookshelf_01",
-            "name": "书柜",
+            "name": "bookshelf",
             "center": (6.55, 6.25),
             "size": (0.60, 1.80),
             "status": "regular",
@@ -498,7 +498,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "toy_box_01",
-            "name": "玩具箱",
+            "name": "toy box",
             "center": (6.55, 7.40),
             "size": (0.75, 0.75),
             "status": "regular",
@@ -506,7 +506,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "toy_ball_01",
-            "name": "玩具球",
+            "name": "toy ball",
             "center": (6.55, 7.25),
             "size": (0.35, 0.35),
             "movable": True,
@@ -514,7 +514,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "pouf_01",
-            "name": "黄色圆凳",
+            "name": "yellow round stool",
             "center": (5.45, 7.25),
             "size": (0.50, 0.50),
             "status": "regular",
@@ -524,7 +524,7 @@ AREA_ELEMENTS = {
     "bathroom": [
         {
             "node_id": "toilet_01",
-            "name": "马桶",
+            "name": "toilet",
             "center": (7.50, 5.60),
             "size": (0.55, 0.80),
             "status": "regular",
@@ -532,7 +532,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "sink_bath_01",
-            "name": "洗手池",
+            "name": "sink",
             "center": (7.45, 5.10),
             "size": (0.65, 0.55),
             "status": "regular",
@@ -540,7 +540,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mirror_bath_01",
-            "name": "镜子",
+            "name": "Mirror",
             "center": (7.45, 4.65),
             "size": (0.55, 0.60),
             "status": "regular",
@@ -548,7 +548,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "shower_01",
-            "name": "淋浴间",
+            "name": "Shower stall",
             "center": (8.55, 5.35),
             "size": (0.75, 1.50),
             "status": "regular",
@@ -556,7 +556,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "shower_head_01",
-            "name": "花洒",
+            "name": "Showerhead",
             "center": (8.85, 4.95),
             "size": (0.25, 0.60),
             "status": "regular",
@@ -564,7 +564,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bath_mat_01",
-            "name": "浴垫",
+            "name": "Bath mat",
             "center": (7.75, 6.70),
             "size": (0.90, 0.50),
             "movable": True,
@@ -572,7 +572,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "washing_machine_01",
-            "name": "洗衣机",
+            "name": "Washing machine",
             "center": (8.60, 6.75),
             "size": (0.70, 0.55),
             "status": "regular",
@@ -580,7 +580,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "laundry_basket_01",
-            "name": "洗衣篮",
+            "name": "Laundry basket",
             "center": (8.85, 7.00),
             "size": (0.45, 0.45),
             "movable": True,
@@ -590,7 +590,7 @@ AREA_ELEMENTS = {
     "main_balcony": [
         {
             "node_id": "glass_door_balcony_01",
-            "name": "阳台玻璃门",
+            "name": "Balcony glass door",
             "center": (4.40, 8.72),
             "size": (2.00, 0.24),
             "status": "regular",
@@ -598,7 +598,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "railing_main_balcony_01",
-            "name": "主阳台栏杆",
+            "name": "Main balcony railing",
             "center": (4.70, 9.68),
             "size": (4.55, 0.14),
             "status": "regular",
@@ -606,7 +606,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "flower_pot_01",
-            "name": "花盆 1",
+            "name": "Flower pot 1",
             "center": (3.60, 9.45),
             "size": (0.45, 0.45),
             "status": "regular",
@@ -614,7 +614,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "flower_pot_02",
-            "name": "花盆 2",
+            "name": "Flower pot 2",
             "center": (4.25, 9.45),
             "size": (0.45, 0.45),
             "status": "regular",
@@ -622,7 +622,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "flower_pot_03",
-            "name": "花盆 3",
+            "name": "Flower pot 3",
             "center": (4.85, 9.45),
             "size": (0.45, 0.45),
             "status": "regular",
@@ -630,7 +630,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "plant_balcony_01",
-            "name": "阳台绿植",
+            "name": "Balcony greenery",
             "center": (6.15, 9.45),
             "size": (0.45, 0.55),
             "status": "regular",
@@ -640,7 +640,7 @@ AREA_ELEMENTS = {
     "utility_balcony": [
         {
             "node_id": "railing_utility_balcony_01",
-            "name": "生活阳台栏杆",
+            "name": "balcony railing",
             "center": (8.10, 9.68),
             "size": (1.90, 0.14),
             "status": "regular",
@@ -648,7 +648,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "drying_rack_01",
-            "name": "晾衣架",
+            "name": "clothes drying rack",
             "center": (7.75, 8.35),
             "size": (1.30, 0.90),
             "status": "regular",
@@ -656,7 +656,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "flower_box_01",
-            "name": "花箱",
+            "name": "flower box",
             "center": (7.75, 9.45),
             "size": (1.30, 0.45),
             "status": "regular",
@@ -664,7 +664,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "mop_01",
-            "name": "拖把",
+            "name": "mop",
             "center": (8.85, 8.70),
             "size": (0.25, 1.10),
             "movable": True,
@@ -672,7 +672,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "bucket_01",
-            "name": "水桶",
+            "name": "bucket",
             "center": (8.75, 8.25),
             "size": (0.45, 0.45),
             "movable": True,
@@ -680,7 +680,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "broom_01",
-            "name": "扫把",
+            "name": "broom",
             "center": (8.55, 9.00),
             "size": (0.20, 1.00),
             "movable": True,
@@ -688,7 +688,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "storage_box_01",
-            "name": "收纳箱",
+            "name": "storage box",
             "center": (8.70, 9.45),
             "size": (0.75, 0.45),
             "movable": True,
@@ -696,7 +696,7 @@ AREA_ELEMENTS = {
         },
         {
             "node_id": "plant_corner_01",
-            "name": "角落绿植",
+            "name": "corner plant",
             "center": (7.25, 8.00),
             "size": (0.35, 0.45),
             "status": "regular",

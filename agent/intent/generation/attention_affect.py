@@ -29,5 +29,5 @@ def build_intent_attention_affect(perception: PerceiveResult | None) -> IntentAt
 
     return IntentAttentionAffect(
         notice_text=notice_text,
-        attention_reason="当前观察中出现了值得注意的信息，可能临时改变接下来想做什么。",
+        attention_reason="Notable information has appeared in the current observation, which may temporarily change what is intended to be done next.",
     )

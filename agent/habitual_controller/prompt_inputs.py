@@ -28,7 +28,7 @@ def habitual_trigger_text(
         if feature_id not in trigger_ids:
             continue
         if feature_type == "entered_area" and value == perception.area_id:
-            text = f"{perception.agent_name}刚进入{perception.area_name}"
+            text = f"{perception.agent_name} just entered {perception.area_name}"
         else:
             text = feature_text.strip() or value.strip() or feature_id
         text = _strip_sentence_end(text)
@@ -56,11 +56,11 @@ def habitual_current_state_text(
             continue
         if feature_type == "posture":
             text = {
-                "standing": f"{perception.agent_name}站着",
-                "sitting": f"{perception.agent_name}坐着",
-                "lying": f"{perception.agent_name}躺着",
-                "crouching": f"{perception.agent_name}蹲着",
-                "walking": f"{perception.agent_name}正在走动",
+                "standing": f"{perception.agent_name} is standing",
+                "sitting": f"{perception.agent_name} is sitting",
+                "lying": f"{perception.agent_name} is lying down",
+                "crouching": f"{perception.agent_name} is squatting",
+                "walking": f"{perception.agent_name} is walking around",
             }.get(value, feature_text.strip() or value.strip())
         else:
             text = feature_text.strip() or value.strip()
@@ -69,7 +69,7 @@ def habitual_current_state_text(
             lines.append(text)
     physical = perception.self_input.physical
     if physical.body_surface and physical.body_surface != "dry_clean":
-        lines.append(f"{perception.agent_name}的身体表面状态是{physical.body_surface}")
+        lines.append(f"The surface state of {perception.agent_name}'s body is {physical.body_surface}")
     return "；".join(lines)
 
 

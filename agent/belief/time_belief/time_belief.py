@@ -30,7 +30,7 @@ class TimeBelief:
         return seconds
 
     def format_for_cognition(self) -> str:
-        return f"现在是{self.format_short_label()}。"
+        return f"It is now {self.format_short_label()}."
 
     def format_short_label(self) -> str:
         return self.format_datetime_label(self.current_datetime)
@@ -40,21 +40,21 @@ class TimeBelief:
 
     def format_elapsed_since(self, started_at: datetime | None) -> str:
         if started_at is None:
-            return "不久前"
+            return "A short while ago"
         elapsed_seconds = max(0, int((self.current_datetime - started_at).total_seconds()))
         elapsed_minutes = elapsed_seconds // 60
         started_label = self.format_datetime_label(started_at)
         if elapsed_minutes < 1:
-            relative = "不到1分钟前"
+            relative = "Less than 1 minute ago"
         elif elapsed_minutes < 60:
-            relative = f"大约{elapsed_minutes}分钟前"
+            relative = f"About {elapsed_minutes} minutes ago"
         else:
             hours, minutes = divmod(elapsed_minutes, 60)
-            relative = f"大约{hours}小时"
+            relative = f"About {hours} hours"
             if minutes:
-                relative += f"{minutes}分钟前"
+                relative += f"{minutes} minutes ago"
             else:
-                relative += "前"
+                relative += "ago"
         return f"{relative}（{started_label}）"
 
     def to_dict(self) -> dict:
@@ -78,8 +78,8 @@ def parse_duration_seconds(duration_text: str) -> int:
     if not text:
         return 0
     normalized = (
-        text.replace("秒钟", "秒")
-        .replace("分钟", "分")
+        text.replace("seconds", "second")
+        .replace("minutes", "minute")
         .replace("mins", "min")
         .replace("minutes", "min")
         .replace("minute", "min")
@@ -88,23 +88,23 @@ def parse_duration_seconds(duration_text: str) -> int:
         .replace("secs", "s")
         .replace("sec", "s")
     )
-    match = re.search(r"(\d+(?:\.\d+)?)\s*(min|m|分|s|秒)", normalized)
+    match = re.search(r"(\d+(?:\.\d+)?)\s*(min|m|minute|seconds?|second)", normalized)
     if not match:
         return 0
     value = float(match.group(1))
     unit = match.group(2)
-    if unit in {"min", "m", "分"}:
+    if unit in {"min", "m", "minute"}:
         return int(round(value * 60))
     return int(round(value))
 
 
 def _period_name(hour: int) -> str:
     if 5 <= hour < 12:
-        return "上午"
+        return "AM"
     if 12 <= hour < 14:
-        return "中午"
+        return "noon"
     if 14 <= hour < 18:
-        return "下午"
+        return "PM"
     if 18 <= hour < 24:
-        return "晚上"
-    return "凌晨"
+        return "evening"
+    return "early morning"

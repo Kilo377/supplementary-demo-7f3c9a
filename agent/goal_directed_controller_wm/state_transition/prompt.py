@@ -16,14 +16,14 @@ def build_state_transition_prompt(
 ) -> str:
     name = str(agent_name or "Agent").strip()
     action = str(action_text or "").strip()
-    sections = [f"你是 {name}。"]
-    _append_section(sections, "你当前想要：", intent_text)
-    sections.append(f"你打算做：{action}")
-    _append_section(sections, "你记得你家里是：", spatial_belief_text)
-    _append_section(sections, "现在是：", time_text)
-    _append_section(sections, f"{name} 当前的身体状态是：", physical_state_text)
-    _append_section(sections, f"{name} 当前感受到的内部状态是：", internal_state_text)
-    _append_section(sections, f"{name} 最近经历了：", recent_experience_text)
+    sections = [f"You are {name}."]
+    _append_section(sections, "What you currently want to do:", intent_text)
+    sections.append(f"You plan to do: {action}")
+    _append_section(sections, "You remember your home is:", spatial_belief_text)
+    _append_section(sections, "It is now:", time_text)
+    _append_section(sections, f"{name}'s current physical state is:", physical_state_text)
+    _append_section(sections, f"{name}'s current internal state is:", internal_state_text)
+    _append_section(sections, f"{name} recently experienced:", recent_experience_text)
     sections.append(_transition_instructions(name))
     return "\n\n".join(sections).strip()
 
@@ -51,40 +51,40 @@ def _append_section(sections: list[str], heading: str, content: str) -> None:
 
 def _transition_instructions(name: str) -> str:
     return f"""
-预测一下，在你做完这个动作，你下一刻状态是怎样的？
+Predict what your state will be in the next moment after completing this action.
 
-需要考虑：
+Consider:
 
-1. 推测动作后 {name} 所在的房间，以及靠近、拿着、注视或正在交互的对象。
-2. 推测姿态、朝向、身体动作和交互状态可能发生的变化。
-3. 推测疲劳、压力、紧张、饥饿、口渴和卫生状态是否发生即时变化。
-4. 推测环境中哪些元素可能发生变化。
-5. 根据现实世界中的完整动作过程估计耗时。
-6. 只预测这个动作直接造成的下一刻状态，不继续替 {name} 安排后续行动。
-7. 判断动作完成后的状态是否已经满足、近似满足，或者仍未满足当前 Intent。这个判断可以宽松一些：如果实践上已经基本达到目的，不必要求穷举所有细节。
+1. Infer which room {name} will be in after the action, and which objects are nearby, held, gazed at, or being interacted with.
+2. Infer possible changes in posture, orientation, body movements, and interaction status.
+3. Infer whether fatigue, stress, tension, hunger, thirst, and hygiene states change immediately.
+4. Infer which elements in the environment might change.
+5. Estimate the time elapsed based on the complete action process in the real world.
+6. Only predict the immediate next state caused directly by this action; do not plan subsequent actions for {name}.
+7. Judge whether the state after the action satisfies, approximately satisfies, or still does not satisfy the current Intent. This judgment can be lenient: if practically the goal is basically achieved, there is no need to exhaustively list all details.
 
-请严格输出以下 JSON：
+Please strictly output the following JSON:
 
 {{
   "transition_outcome": {{
     "status": "success | partial | failed",
-    "description": "动作最可能产生的直接结果",
-    "reason": "形成这一预测的主要依据"
+    "description": "The most likely direct result of the action",
+    "reason": "The main basis for this prediction"
   }},
   "intent_satisfaction": {{
     "status": "satisfied | approximately_satisfied | not_satisfied",
-    "reason": "为什么动作后的状态已经满足、近似满足或仍未满足当前 Intent"
+    "reason": "Why the state after the action satisfies, approximately satisfies, or still does not satisfy the current Intent"
   }},
   "elapsed_seconds": 0,
   "next_self_state": {{
-    "area": "动作后所在的房间",
-    "near_element": "动作后靠近的元素，没有则为空",
-    "posture": "动作后的姿态",
-    "facing_or_gaze": "动作后的朝向或注视对象",
-    "holding": ["动作后拿着的物品"],
-    "interacting_with": ["动作后正在交互的元素"],
-    "worn_items_change": "穿戴变化，没有则为空",
-    "body_surface_change": "身体表面变化，没有则为空"
+    "area": "The room where {name} is after the action",
+    "near_element": "The element near {name} after the action, empty if none",
+    "posture": "{name}'s posture after the action",
+    "facing_or_gaze": "{name}'s orientation or gaze target after the action",
+    "holding": ["Items held by {name} after the action"],
+    "interacting_with": ["Elements {name} is interacting with after the action"],
+    "worn_items_change": "Changes in worn items, empty if none",
+    "body_surface_change": "Changes on the body surface, empty if none"
   }},
   "internal_state_changes": {{
     "hunger": 0,
@@ -93,15 +93,15 @@ def _transition_instructions(name: str) -> str:
     "stress": 0,
     "tension": 0,
     "fatigue": 0,
-    "mental_change": "即时的主观心理变化，没有则为空"
+    "mental_change": "Immediate subjective psychological change, empty if none"
   }},
   "spatial_belief_updates": [
     {{
-      "element": "发生变化的元素",
-      "state_change": "状态变化"
+      "element": "The element that changed",
+      "state_change": "The state change"
     }}
   ],
-  "expected_feedback": "{name}预计自己紧接着会经历到的结果",
-  "uncertainty": "预测中无法确认的部分，没有则为空"
+  "expected_feedback": "The result {name} expects to experience immediately after",
+  "uncertainty": "Parts of the prediction that cannot be confirmed, empty if none"
 }}
 """.strip()

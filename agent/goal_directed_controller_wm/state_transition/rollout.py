@@ -106,15 +106,15 @@ class StateTransitionRolloutState:
     def format_for_action_prompt(self) -> str:
         sections = [
             (
-                "这是 State Transition 推测出的下一刻状态，尚未在真实 World 中发生。"
-                "在当前推演分支中，把它当作现在相信的状态。"
+                "This is the next state inferred by State Transition, which has not yet occurred in the real World."
+                "In the current deduction branch, treat it as the currently believed state."
             )
         ]
-        _append_section(sections, "当前时间：", self._current_time_text())
-        _append_section(sections, "当前身体状态：", self.physical_state_text)
-        _append_section(sections, "当前内部状态：", self._current_internal_state_text())
-        _append_section(sections, "当前空间记忆：", self._current_spatial_belief_text())
-        _append_section(sections, "已经经历的事情：", self._current_experience_text())
+        _append_section(sections, "Current time:", self._current_time_text())
+        _append_section(sections, "Current physical state:", self.physical_state_text)
+        _append_section(sections, "Current internal state:", self._current_internal_state_text())
+        _append_section(sections, "Current spatial memory:", self._current_spatial_belief_text())
+        _append_section(sections, "Events that have already occurred:", self._current_experience_text())
         return "\n\n".join(sections)
 
     def after_transition(
@@ -172,7 +172,7 @@ class StateTransitionRolloutState:
                 f"- {text}" for text in self.simulated_spatial_updates if text
             )
             if updates:
-                sections.append(f"在当前推演分支中，你进一步认为这些变化已经发生：\n{updates}")
+                sections.append(f"In this simulation branch, you further believe these changes have occurred:\n{updates}")
         return "\n\n".join(section for section in sections if section)
 
     def _current_time_text(self) -> str:
@@ -182,19 +182,19 @@ class StateTransitionRolloutState:
 
     def _current_internal_state_text(self) -> str:
         lines = [
-            "生理需求采用0到10的程度："
-            f"饥饿{self.physiological_state.get('hunger', 0)}，"
-            f"口渴{self.physiological_state.get('thirst', 0)}，"
-            f"清洁需求{self.physiological_state.get('hygiene', 0)}。",
-            "内部状态采用0到10的程度："
-            f"压力{self.internal_state.get('stress', 0)}，"
-            f"紧张{self.internal_state.get('tension', 0)}，"
-            f"疲劳{self.internal_state.get('fatigue', 0)}。",
+            "Physiological needs on a scale of 0 to 10:"
+            f"Hunger {self.physiological_state.get('hunger', 0)}, "
+            f"Thirst {self.physiological_state.get('thirst', 0)}, "
+            f"Hygiene need {self.physiological_state.get('hygiene', 0)}.",
+            "Internal state on a scale of 0 to 10:"
+            f"Stress {self.internal_state.get('stress', 0)}, "
+            f"Tension {self.internal_state.get('tension', 0)}, "
+            f"Fatigue {self.internal_state.get('fatigue', 0)}.",
         ]
         if self.mental_text:
             lines.append(self.mental_text)
         if self.motivation_texts:
-            lines.append(f"{self.agent_name}仍然在意：{'；'.join(self.motivation_texts)}")
+            lines.append(f"{self.agent_name} still cares about: {'；'.join(self.motivation_texts)}")
         return "\n".join(lines)
 
     def _current_experience_text(self) -> str:
@@ -206,7 +206,7 @@ class StateTransitionRolloutState:
                 f"- {text}" for text in self.simulated_experiences if text
             )
             if lines:
-                sections.append(f"在当前推演分支中，假设已经发生：\n{lines}")
+                sections.append(f"In this simulation branch, assume the following have occurred:\n{lines}")
         return "\n\n".join(sections)
 
 
@@ -400,22 +400,22 @@ def _transition_physical_state_text(
     state = transition.next_self_state
     lines = []
     if state.area:
-        line = f"{agent_name}现在在{state.area}"
+        line = f"{agent_name} is now in {state.area}"
         if state.near_element:
-            line += f"，靠近{state.near_element}"
+            line += f", near {state.near_element}"
         lines.append(f"{line}。")
     if state.posture:
-        lines.append(f"{agent_name}当前姿态是{state.posture}。")
+        lines.append(f"{agent_name}'s current posture is {state.posture}.")
     if state.facing_or_gaze:
-        lines.append(f"{agent_name}当前朝向或注视{state.facing_or_gaze}。")
+        lines.append(f"{agent_name} is currently facing or looking at {state.facing_or_gaze}.")
     if state.holding:
-        lines.append(f"{agent_name}手里拿着{'、'.join(state.holding)}。")
+        lines.append(f"{agent_name} is holding {'、'.join(state.holding)}.")
     if state.interacting_with:
-        lines.append(f"{agent_name}正在与{'、'.join(state.interacting_with)}交互。")
+        lines.append(f"{agent_name} is interacting with {'、'.join(state.interacting_with)}.")
     if state.worn_items_change:
-        lines.append(f"穿戴变化：{state.worn_items_change}")
+        lines.append(f"Worn items change: {state.worn_items_change}")
     if state.body_surface_change:
-        lines.append(f"身体表面变化：{state.body_surface_change}")
+        lines.append(f"Body surface change: {state.body_surface_change}")
     return "\n".join(lines)
 
 
@@ -425,11 +425,11 @@ def _simulated_experience_text(
 ) -> str:
     result = transition.outcome.description
     feedback = transition.expected_feedback
-    text = f"做了“{action_text}”。"
+    text = f"Performed '{action_text}'."
     if result:
-        text += f"结果可能是：{result}"
+        text += f"The result may be: {result}"
     if feedback and feedback != result:
-        text += f" 预计会感受到：{feedback}"
+        text += f" Expected to feel: {feedback}"
     return text
 
 
@@ -439,15 +439,15 @@ def _apply_delta(value: int, delta: int) -> int:
 
 def _format_datetime_label(value: datetime) -> str:
     if 5 <= value.hour < 12:
-        period = "上午"
+        period = "AM"
     elif 12 <= value.hour < 14:
-        period = "中午"
+        period = "noon"
     elif 14 <= value.hour < 18:
-        period = "下午"
+        period = "PM"
     elif 18 <= value.hour < 24:
-        period = "晚上"
+        period = "evening"
     else:
-        period = "凌晨"
+        period = "early morning"
     return f"{period} {value.hour}:{value.minute:02d}"
 
 

@@ -28,52 +28,52 @@ def build_intent_lifecycle_prompt(
 ) -> str:
     force_reflect_text = ""
     if force_reflect:
-        force_reflect_text = "\n你已经为这件事做了若干步。现在认真判断它是否已经到达一个你在现实生活中能够接受的终点，不要仅仅因为还能继续做类似动作就保持 active。"
+        force_reflect_text = "\nYou have already taken several steps toward this. Now carefully judge whether it has reached a point you can accept in real life. Do not remain active simply because you could theoretically continue doing similar actions."
 
-    personality_text = personality.strip().rstrip("。.!！") or "会根据当下情况做判断"
-    state_text = current_state_belief.strip() or "你刚刚完成了眼前这一步。"
+    personality_text = personality.strip().rstrip("。.!！") or "Will make judgments based on the current situation"
+    state_text = current_state_belief.strip() or "You have just completed this immediate step."
 
-    return f"""你叫 {agent_name}，现在的状态是：
+    return f"""Your name is {agent_name}, and your current state is:
 {state_text}
 
-你觉得你是一个{personality_text}的人。
+You consider yourself to be a person with the personality of {personality_text}.
 
-就在{intent_decided_time}，你决定：
+At {intent_decided_time}, you decided:
 {intent.intent_text}
 
-现在是{current_time}，你做了这些事情：
+It is now {current_time}, and you have done the following:
 {short_time_memory_text}
 {force_reflect_text}
 
-你觉得已经完成你想做的了吗？
-如果没完成，你还想继续做吗？
+Do you feel that you have completed what you intended to do?
+If not, do you still want to continue?
 
-请填写状态和理由：
+Please provide your status and reasoning:
 
-- active：当前仍有一个明确、具体、尚未完成，而且由现有环境或近期经历支持的下一步。
-  不能只因为理论上还能继续做更多事情，就保持 active。
+- active: There is currently a clear, specific, unfinished next step supported by the existing environment or recent experiences.
+  Do not remain active merely because more actions are theoretically possible.
 
-- satisfied：根据当前可见环境、已经完成的动作和近期反馈，
-  你已经觉得满足了这个 Intent，这同样取决你的性格，举个一个完成任务的例子，如果你是一个将就的人，那可能草草了事。如果你是一个比较负责的人，可能会对自己有更高的标准。
+- satisfied: Based on the currently visible environment, completed actions, and recent feedback,
+you feel that this Intent has been sufficiently met. This also depends on your personality. For example, if you are someone who settles for less, you might finish things hastily. If you are more responsible, you may hold yourself to higher standards.
 
-- deferred：Intent 尚未充分满足，但当前受到疲劳、时间、环境缺失、
-  路径受阻或其他现实条件限制，适合以后继续。
+- deferred: The Intent is not yet fully satisfied, but due to fatigue, time constraints, missing environmental conditions,
+  blocked paths, or other real-world limitations, it is suitable to continue later.
 
-- abandoned：你已经明确不再打算实现这个 Intent。
-  任务较长、暂时休息或环境信息不足，本身不等于 abandoned。
+- abandoned: You have explicitly decided no longer to pursue this Intent.
+  A long task, a temporary break, or insufficient environmental information does not itself constitute abandonment.
 
-要求：
-- reason 使用第一人称，用一句简短中文说明你的真实判断
-- 先按原始 Intent 的范围判断，再看已经做过的事情是否足够满足它
-- 如果只是完成了一个房间、一件家具或一个局部步骤，通常不应判为 satisfied，除非原始 Intent 本来就只要求这个局部
-- 如果仍保留这个 Intent 但想调整它的表达，填写 updated_intent，否则留空
-- 只返回 JSON，不要解释推理过程
+Requirements:
+- Use the first person for 'reason', providing a brief Chinese sentence explaining your true judgment.
+- First judge within the scope of the original Intent, then see if the actions already taken are sufficient to satisfy it.
+- If you have only completed a room, a piece of furniture, or a partial step, it usually should not be judged as 'satisfied', unless the original Intent only required that specific part.
+- If you still retain this Intent but wish to adjust its expression, fill in 'updated_intent'; otherwise, leave it empty.
+- Return only JSON; do not explain your reasoning process.
 
-返回格式：
+Return format:
 {{
   "intent_status": "active | satisfied | deferred | abandoned",
-  "reason": "一句简短中文理由",
-  "updated_intent": "若需调整 intent，则填写；否则为空字符串"
+  "reason": "A brief Chinese reason",
+  "updated_intent": "Fill in if adjusting the intent; otherwise, an empty string"
 }}
 """
 

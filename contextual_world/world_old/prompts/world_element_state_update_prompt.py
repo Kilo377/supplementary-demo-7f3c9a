@@ -18,64 +18,64 @@ def build_world_element_state_update_prompt(
     relation_json = json.dumps(relation_update_result, ensure_ascii=False, indent=2)
     nodes_json = json.dumps(relevant_nodes, ensure_ascii=False, indent=2)
     history_json = json.dumps(element_recent_history or {}, ensure_ascii=False, indent=2)
-    return f"""你在模拟环境中负责更新 element 节点自己的状态。
+    return f"""You are responsible for updating the state of element nodes themselves in the simulation environment.
 
-agent 的 action proposal 是 {agent_name} 刚刚想做什么。
-world_action_event 是 world 已经生成的这一小步实际发生事件；它比 action proposal 更权威。
-前面的模块已经判断了这个动作需要哪些元素支持，并决定了 agent 和元素之间的事实关系如何变化。
+The agent's action proposal is what {agent_name} just intended to do.
+The world_action_event is the actual small-step event that has already occurred in the world; it is more authoritative than the action proposal.
+The previous modules have determined which elements support this action and decided how the factual relationship between the agent and the elements changes.
 
-你的任务不是判断动作是否可行，不是创建 temporary element，也不是更新 agent 自己的身体状态。
-你的任务只是根据 world_action_event 判断这一小步真实发生后，相关 element node 自身的状态字段是否应该变化。
+Your task is not to judge whether the action is feasible, nor to create temporary elements, nor to update the agent's own physical state.
+Your task is simply to determine, based on the world_action_event, whether the state fields of the relevant element nodes should change after this small step actually occurs.
 
-element_recent_history 是相关 element 最近几步发生过的局部历史。
-更新状态时要参考当前 relevant_nodes 中的状态和 element_recent_history，不要把元素无原因地回退到更早阶段。
-如果某个设备已经进入 running、washing、heating、filling、locked 等明确阶段，状态更新应保持阶段连续。
-只有 world_action_event 明确给出暂停、停止、打开、取出、关闭等因果动作时，才改变该设备的关键状态或内容。
-例如洗衣机已经启动运行后，后续含糊动作通常只保持 power_state 和 contains 原样；如果事件只是状态陈述，element_state_updates 可以为空。
+element_recent_history is the local history of recent steps for the relevant element.
+When updating the state, refer to the current status in relevant_nodes and element_recent_history; do not regress an element to an earlier stage without cause.
+If a device has already entered a clear phase such as running, washing, heating, filling, or locked, the state update should maintain phase continuity.
+Only change the key state or content of that device when world_action_event explicitly gives causal actions like pause, stop, open, remove, or close.
+For example, after a washing machine has started running, subsequent vague actions usually keep power_state and contains as they are; if the event is merely a state statement, element_state_updates can be empty.
 
-element node 自身状态包括：
-- physical_status：粗略物理状态，例如 regular、clean、dirty、moved、open、closed。
-- evolution_status：随时间演化状态，例如 stable、running、heating、cooling。
-- interaction_status：当前交互状态，例如 idle、in_use、inspected。
-- state_details：元素自己的具体细节，例如 door_state=open、flow_state=on、surface_state=clean、power_state=running、contains=food。
+An element node's own state includes:
+- physical_status: rough physical state, e.g., regular, clean, dirty, moved, open, closed.
+- evolution_status: time-evolving state, e.g., stable, running, heating, cooling.
+- interaction_status: current interaction state, e.g., idle, in_use, inspected.
+- state_details: the element's own specific details, e.g., door_state=open, flow_state=on, surface_state=clean, power_state=running, contains=food.
 
-只更新会影响后续行动判断的元素状态。
-不要重复表达 agent 和元素之间的关系；holding、looking_at、sitting_on、placed_on 这类关系已经由 relation update 处理。
-不要为了泡沫、气味、水汽、灰尘飞起、香味这类短暂效果创建或更新 element state；这类内容如果没有稳定影响，就不写。
-如果 world_action_event 明确表示设备被打开、启动、运行、关闭、停止，就要更新该设备 element 的 state_details，例如 power_state=on/off/running，并在需要时更新 evolution_status。
-设备内部状态只需要足够支持后续判断，不要过度拆分成多个微小程序状态；例如洗衣机可以粗略记录为 running / contains=dirty_clothes，微波炉可以粗略记录为 heating，电脑可以粗略记录为 power_state=on。
-不要推进后续步骤，只处理 action proposal 这一小步直接造成的状态变化。
+Only update element states that will affect subsequent action judgments.
+Do not repeatedly express the relationship between the agent and the element; relationships like holding, looking_at, sitting_on, placed_on are already handled by relation update.
+Do not create or update element state for transient effects like foam, smell, water vapor, flying dust, or fragrance; if there is no stable impact, do not write them.
+If world_action_event explicitly indicates that a device is opened, started, running, closed, or stopped, you must update the state_details of that device's element, e.g., power_state=on/off/running, and update evolution_status if needed.
+Device internal states only need to be sufficient to support subsequent judgments; do not over-split them into multiple micro-program states; for example, a washing machine can be roughly recorded as running / contains=dirty_clothes, a microwave as heating, and a computer as power_state=on.
+Do not advance subsequent steps; only handle the state changes directly caused by this small step of the action proposal.
 
-element_id 必须来自 relevant_nodes 中已有的 permanent_element 或 temporary_element。
-优先更新 permanent_element 的状态，例如冰箱门、花洒水流、微波炉运行、桌面清洁程度。
-temporary_element 的生命周期状态通常已经由 support 层处理；除非 temporary_element 自身有明确状态细节变化，否则不要重复更新它。
+element_id must come from existing permanent_element or temporary_element in relevant_nodes.
+Prioritize updating the status of permanent_elements, e.g., refrigerator door, shower water flow, microwave operation, desktop cleanliness.
+The lifecycle status of temporary_elements is usually already handled by the support layer; unless there is a clear change in the state details of the temporary_element itself, do not update it repeatedly.
 
-state_details 的 key 要短、稳定、可复用，例如 door_state、flow_state、power_state、surface_state、temperature、contains、recently_removed。
-state_details 的 value 必须是短状态，不要写完整句子。
-如果 element 已经有合适的 state_details key，优先复用它。
-如果没有明确 element 自身状态变化，element_state_updates 返回空数组。
+The keys in state_details should be short, stable, and reusable, e.g., door_state, flow_state, power_state, surface_state, temperature, contains, recently_removed.
+The values in state_details must be short states; do not write full sentences.
+If the element already has a suitable state_details key, prioritize reusing it.
+If there is no clear change in the element's own state, return an empty array for element_state_updates.
 
-只返回 JSON，不要解释推理过程。
+Return only JSON; do not explain the reasoning process.
 
-返回格式：
+Return format:
 {{
   "element_state_updates": [
     {{
-      "element_id": "已有 element node id",
-      "physical_status": null 或 "短状态",
-      "evolution_status": null 或 "短状态",
-      "interaction_status": null 或 "短状态",
+      "element_id": "existing element node id",
+      "physical_status": null or "short state",
+      "evolution_status": null or "short state",
+      "interaction_status": null or "short state",
       "state_details": {{
-        "短key": "短value"
+        "short key": "short value"
       }}
     }}
   ]
 }}
 
-例子：
+Example:
 
-action proposal: {agent_name}打开冰箱。
-返回：
+action proposal: {agent_name} opens the refrigerator.
+Return:
 {{
   "element_state_updates": [
     {{
@@ -88,8 +88,8 @@ action proposal: {agent_name}打开冰箱。
   ]
 }}
 
-action proposal: {agent_name}从冰箱里拿出一瓶牛奶。
-返回：
+action proposal: {agent_name} takes a bottle of milk out of the refrigerator.
+Return:
 {{
   "element_state_updates": [
     {{
@@ -102,8 +102,8 @@ action proposal: {agent_name}从冰箱里拿出一瓶牛奶。
   ]
 }}
 
-action proposal: {agent_name}擦拭办公桌。
-返回：
+action proposal: {agent_name} wipes the office desk.
+Return:
 {{
   "element_state_updates": [
     {{
@@ -116,8 +116,8 @@ action proposal: {agent_name}擦拭办公桌。
   ]
 }}
 
-action proposal: {agent_name}打开电脑。
-返回：
+action proposal: {agent_name} turns on the computer.
+Return:
 {{
   "element_state_updates": [
     {{
@@ -130,8 +130,8 @@ action proposal: {agent_name}打开电脑。
   ]
 }}
 
-action proposal: {agent_name}关闭电脑。
-返回：
+action proposal: {agent_name} turns off the computer.
+Return:
 {{
   "element_state_updates": [
     {{

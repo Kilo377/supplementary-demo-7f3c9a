@@ -67,47 +67,47 @@ def build_intent_selection_prompt(
     self_belief_block = ""
     if self_belief.strip():
         self_belief_block = f"""
-{agent_name} 对自己当前状态的判断：
+{agent_name}'s assessment of their current state:
 {self_belief.strip()}
 """
     memory_block = ""
     if memory_text.strip():
         memory_block = f"""
-{agent_name} 刚刚经历过：
+{agent_name} just experienced:
 {memory_text.strip()}
 """
     personal_context_block = ""
     if personal_context.strip():
         personal_context_block = f"""
-{agent_name} 的长期个人背景：
+Long-term personal background of {agent_name}:
 {personal_context.strip()}
 """
     return f"""
 
-你在为一个人类 {agent_name} 选择最终要 commit 的 intent。
-根据 Bratman 的行动哲学理论，人类intent的产生可能和自身的Desire有关，人可能同时有很多 desire。比如我想保持健康，也想睡懒觉。belief 也可能支持不同手段。最后哪个 desire 变成 intent，通常需要一个选择过程。
-因此，你需要从一些 feasible 的 intent candidates 中选择一个最适合现在 commit 的 intent。
+You are choosing the final intent for {agent_name} to commit.
+According to Bratman's philosophy of action, human intent generation may be related to one's own desires; a person may have many desires simultaneously. For example, I want to stay healthy, but I also want to sleep in. Beliefs may also support different means. Which desire becomes the intent usually requires a selection process.
+Therefore, you need to choose the most suitable intent to commit now from some feasible intent candidates.
 
-intent candidates:
+Intent candidates:
 {json.dumps(candidate_data, ensure_ascii=False, indent=2)}
 {self_belief_block}{memory_block}{personal_context_block}
 
-一些主意事项：
-1. attention candidate 表示刚刚观察到值得注意的事情；如果它明显紧急或会改变当前处境，可以优先。
-2. 如果 short-term memory 显示刚刚已经完成或重复尝试过某类事情，避免重复选择。
-3. 如果 self_belief 显示当前状态与某个 candidate 更连续，可以考虑顺路和连续性。
-4. 输出的是 committed intent，仍然是高层意图，不是 action sequence。
-5. 只返回 JSON，不要解释推理过程。
+Some notes:
+1. An attention candidate indicates something recently observed that is noteworthy; if it is obviously urgent or will change the current situation, it can be prioritized.
+2. If short-term memory shows that a certain type of task has just been completed or repeatedly attempted, avoid choosing it again.
+3. If self_belief shows that the current state is more continuous with a candidate, consider continuity and convenience.
+4. The output is the committed intent, which remains a high-level intention, not an action sequence.
+5. Return only JSON; do not explain the reasoning process.
 
-返回 JSON 格式：
+Return JSON format:
 {{
   "selected_intent": {{
-    "intent_text": "{agent_name}打算整理客厅里的物品。",
+    "intent_text": "{agent_name} intends to tidy up items in the living room.",
     "source_desire": "work_goal",
-    "candidate_reason": "存在未完成的 work_goal：{agent_name}想要整理家务。",
-    "feasibility_reason": "空间记忆中有客厅和可整理物品。"
+    "candidate_reason": "There is an unfinished work_goal: {agent_name} wants to tidy up the house.",
+    "feasibility_reason": "Spatial memory contains the living room and tidiable items."
   }},
-  "selection_reason": "{agent_name} 当前生理和内部状态需求只是中等，mental 状态平稳；同时存在未完成的 work_goal，因此现在更适合推进整理家务。"
+  "selection_reason": "{agent_name}'s current physiological and internal state needs are only moderate, and the mental state is stable; meanwhile, there is an unfinished work_goal, so it is more suitable to proceed with tidying up the house now."
 }}
 """
 
@@ -127,7 +127,7 @@ def select_intent(
     if not feasible_only:
         return IntentSelectionResult(
             selected_intent=None,
-            selection_reason="没有可行的 intent candidate。",
+            selection_reason="No feasible intent candidate.",
             provider_name=provider_name,
             model=model,
         )
@@ -161,7 +161,7 @@ def select_intent(
         selected = _fallback_select_intent(desire_signals=desire_signals, feasible_candidates=feasible_only)
         return IntentSelectionResult(
             selected_intent=selected,
-            selection_reason="LLM selection 不可用，使用保守 fallback 选择。",
+            selection_reason="LLM selection unavailable; using conservative fallback selection.",
             provider_name=api.provider_name,
             model=api.route.model,
             raw_response=raw,
@@ -217,7 +217,7 @@ def _fallback_select_intent(
 
 
 def _subjectively_urgent_source(desire_signals: list[DesireSubjectiveSignal]) -> str:
-    urgent_markers = ("非常", "很想", "很饿", "很渴", "很累")
+    urgent_markers = ("Very", "Really want to", "Very hungry", "Very thirsty", "Very tired")
     for signal in desire_signals:
         if any(marker in signal.subjective_interpretation for marker in urgent_markers):
             return signal.source_desire

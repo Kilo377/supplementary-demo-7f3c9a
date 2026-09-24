@@ -21,7 +21,7 @@ DEFAULT_INTERNAL_STATE = {
 
 DEFAULT_AGENT_NAME = "Agent"
 
-DEFAULT_MENTAL_TEMPLATE = "{agent_name}现在心情有点焦虑。"
+DEFAULT_MENTAL_TEMPLATE = "{agent_name} is feeling a bit anxious right now."
 
 DEFAULT_WORK_GOAL_TEMPLATES = [
     "",

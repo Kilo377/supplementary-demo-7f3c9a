@@ -10,41 +10,41 @@ def build_cumulative_reward_prompt(
     final_state_text: str,
 ) -> str:
     return f"""
-你正在评估一次已经结束的真实行为模拟，不是在预测未来。
+You are evaluating a real behavior simulation that has already ended, not predicting the future.
 
-这个人叫 {agent_name}。
+This person is named {agent_name}.
 
-这次模拟中的 Intent 是：
+The Intent in this simulation is:
 {intent_text}
 
-模拟结束时记录的 Intent 状态是：
+The Intent status recorded at the end of the simulation is:
 {final_intent_status or "active"}
 
-实际发生的完整执行过程是：
-{actual_trajectory_text or "没有实际执行动作。"}
+The complete execution process that actually occurred is:
+{actual_trajectory_text or "No actual execution actions."}
 
-模拟结束后的真实状态是：
-{final_state_text or "没有提供最终状态。"}
+The true state after the simulation ended is:
+{final_state_text or "Final state not provided."}
 
-请只判断模拟结束时，这个 Intent 在实践中得到了多大程度的满足。
+Please only judge to what extent this Intent was practically satisfied at the end of the simulation.
 
-使用0到10的连续量表：
-- 0：完全没有满足，或者结果与 Intent 明显相反。
-- 2：只完成了很小的前置动作，几乎没有形成实际结果。
-- 5：完成了重要的一部分，但 Intent 仍明显没有完成。
-- 8：已经基本满足，只有不影响实际结果的小部分没有完成。
-- 10：Intent 已经在实践中充分完成。
+Use a continuous scale from 0 to 10:
+- 0: Completely unsatisfied, or the result is clearly opposite to the Intent.
+- 2: Only very small prerequisite actions were completed, with almost no actual results formed.
+- 5: An important part was completed, but the Intent is still clearly not finished.
+- 8: Basically satisfied, only a small part that does not affect the actual result is unfinished.
+- 10: The Intent has been fully completed in practice.
 
-要求：
-- 只能依据实际执行结果和最终真实状态，不能假设没有发生的后续行动。
-- Intent状态可以作为证据，但不能代替对实际过程的判断。
-- 不要因为执行步数多或少而改变满足度；执行效率由程序另行计算。
-- 不要评价人格、习惯强度、动作风格或World Model预测是否准确。
-- 不要自己计算 cumulative reward。
+Requirements:
+- Only base judgments on actual execution results and final true states; do not assume subsequent actions that did not occur.
+- Intent status can serve as evidence but cannot replace judgment of the actual process.
+- Do not change satisfaction based on the number of execution steps; execution efficiency is calculated separately by the program.
+- Do not evaluate personality, habit strength, action style, or whether the World Model prediction was accurate.
+- Do not calculate cumulative reward yourself.
 
-只返回 JSON：
+Only return JSON:
 {{
   "intent_satisfaction": 0,
-  "reason": "对最终满足度的简短客观说明"
+  "reason": "Brief objective explanation of final satisfaction"
 }}
 """.strip()

@@ -367,7 +367,7 @@ class ContextualWorldActionPipe:
         message = (
             str(fallback.get("actual_event", "") or "").strip()
             or str(support_result.get("support_reason", "") or "").strip()
-            or f"{actor.name}这一步缺少必要环境支持，动作没有落实。"
+            or f"{actor.name} lacks necessary environmental support for this step; the action was not fulfilled."
         )
         report = WorldGraphTransitionReport(
             world_action_event={
@@ -410,7 +410,7 @@ class ContextualWorldActionPipe:
         execution_context: dict | None = None,
     ) -> ContextualWorldActionPipeResult:
         diagnostics = dict(diagnostics or {})
-        message = f"{actor.name}这一步没有得到稳定的环境反馈，动作暂时没有落实。"
+        message = f"{actor.name} did not receive stable environmental feedback for this step; the action is temporarily unfulfilled."
         report = WorldGraphTransitionReport(
             warnings=[f"{route}: {error}"],
             world_action_event={

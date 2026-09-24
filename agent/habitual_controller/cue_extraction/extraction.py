@@ -87,7 +87,7 @@ def _state_cues(agent, perception: PerceiveResult, *, now: datetime) -> list[Con
             "location",
             perception.area_id,
             "world_position",
-            f"{perception.agent_name}在{perception.area_name}",
+            f"{perception.agent_name} is in {perception.area_name}",
             now,
             persistence="while_present",
         ),
@@ -190,25 +190,25 @@ def _time_text(agent) -> str:
 
 def _time_period(hour: int) -> str:
     if 5 <= hour < 8:
-        return "清晨"
+        return "early morning"
     if 8 <= hour < 12:
-        return "上午"
+        return "AM"
     if 12 <= hour < 14:
-        return "中午"
+        return "noon"
     if 14 <= hour < 18:
-        return "下午"
+        return "PM"
     if 18 <= hour < 23:
-        return "晚上"
-    return "深夜"
+        return "evening"
+    return "late night"
 
 
 def _posture_text(posture: str) -> str:
-    return {"standing": "站着", "sitting": "坐着", "lying": "躺着", "crouching": "蹲着", "walking": "走动着"}.get(posture, posture)
+    return {"standing": "standing", "sitting": "sitting", "lying": "lying down", "crouching": "crouching", "walking": "walking around"}.get(posture, posture)
 
 
 def _looks_failed(text: str) -> bool:
     lowered = text.lower()
-    return any(marker in lowered or marker in text for marker in ["无法", "失败", "错误", "没有完成", "不能", "failed", "error", "cannot"])
+    return any(marker in lowered or marker in text for marker in ["Unable to", "Failed", "error", "not completed", "Cannot", "failed", "error", "cannot"])
 
 
 def _context_feeling_text(source: str, text: str) -> str:

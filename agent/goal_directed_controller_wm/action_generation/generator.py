@@ -174,9 +174,9 @@ def _normalize_action_text(text: str, *, agent_name: str) -> str:
     cleaned = cleaned.strip("-*0123456789.、 ：:")
     if not cleaned:
         return ""
-    if cleaned.startswith("你"):
+    if cleaned.startswith("You"):
         cleaned = f"{agent_name}{cleaned[1:]}"
-    elif cleaned.startswith(("他", "她")):
+    elif cleaned.startswith(("He", "She")):
         cleaned = f"{agent_name}{cleaned[1:]}"
     elif not cleaned.startswith(agent_name):
         cleaned = f"{agent_name}{cleaned}"

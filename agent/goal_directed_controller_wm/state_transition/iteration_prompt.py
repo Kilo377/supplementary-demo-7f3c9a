@@ -20,65 +20,64 @@ def build_transition_iteration_intuition_prompt(
     ]
     areas_json = json.dumps(areas, ensure_ascii=False, indent=2)
     sections = [
-        f"你是 {agent_name}。",
-        f"你当前想要：\n{intent_text}",
+        f"You are {agent_name}.",
+        f"What you currently want:\n{intent_text}",
         (
-            "你刚才在心里向前推演了一步。下面是根据你的经验，你认为自己下一刻会处于的状态。"
-            "在这次继续推演中，把它当作你现在相信的状态：\n\n"
+            "You just mentally simulated one step forward. Below is the state you believe you will be in next, based on your experience.\nTreat this as the current state you believe in during this continued simulation:\n\n"
             f"{transition_state_text}"
         ),
     ]
     failure = str(failure_context_text or "").strip()
     if failure:
         sections.append(
-            "刚才的推演暴露了一个需要处理的问题：\n\n" + failure
+            "The previous simulation revealed an issue that needs to be addressed:\n\n" + failure
         )
     sample_count = max(1, min(12, int(action_sample_window)))
     if sample_count == 1:
         output_instruction = """
-只返回 JSON，不要解释。
+Return only JSON, no explanation.
 
 JSON schema:
 {
   "route": "action | wait | walk | chat",
-  "thought": "一句第一人称中文内心想法",
-  "target_area_id": "walk 时填写，没有就空字符串",
-  "target_area_name": "walk 时填写，没有就空字符串",
-  "chat_target": "chat 时填写，没有就空字符串",
-  "wait_duration": "wait 时填写：30s | 1min | 3min | 5min | 10min | 15min | 20min | 30min；其他路由为空字符串"
+  "thought": "A first-person Chinese inner thought",
+  "target_area_id": "Fill in when route is 'walk'; empty string otherwise",
+  "target_area_name": "Fill in when route is 'walk'; empty string otherwise",
+  "chat_target": "Fill in when route is 'chat'; empty string otherwise",
+  "wait_duration": "Fill in when route is 'wait': 30s | 1min | 3min | 5min | 10min | 15min | 20min | 30min; empty string for other routes"
 }
 """.strip()
     else:
         output_instruction = f"""
-给出 {sample_count} 种当前可能采取的不同后续动作。不同回复应当是有实际行为差异的方案，而不是同一句话的改写。
+Provide {sample_count} different possible subsequent actions. The different responses should represent actual behavioral differences, not just rephrasings of the same sentence.
 
-只返回 JSON，不要解释。
+Return only JSON, no explanation.
 
 JSON schema:
 {{
   "replies": [
     {{
       "route": "action | wait | walk | chat",
-      "thought": "一句第一人称中文内心想法",
-      "target_area_id": "walk 时填写，没有就空字符串",
-      "target_area_name": "walk 时填写，没有就空字符串",
-      "chat_target": "chat 时填写，没有就空字符串",
-      "wait_duration": "wait 时填写；其他路由为空字符串"
+      "thought": "A first-person Chinese inner thought",
+      "target_area_id": "Fill in when route is 'walk'; empty string otherwise",
+      "target_area_name": "Fill in when route is 'walk'; empty string otherwise",
+      "chat_target": "Fill in when route is 'chat'; empty string otherwise",
+      "wait_duration": "Fill in when route is 'wait'; empty string for other routes"
     }}
   ]
 }}
 """.strip()
     sections.extend([
-        f"你知道的房间是：\n{areas_json}",
+        f"The rooms you know are:\n{areas_json}",
         f"""
-根据这个新的状态，{agent_name} 接下来打算怎么做，以努力满足你的目标？
+Based on this new state, what does {agent_name} plan to do next to try to achieve your goal?
 
 
-route 只能是：
-- action：做一个具体动作。
-- wait：等待、观察或暂时不动。必须填写 wait_duration，并在 thought 中自然说出准备等多久。
-- walk：去另一个房间或区域。必须尽量填写 target_area_id 或 target_area_name。
-- chat：和某个人说话。尽量填写 chat_target。
+The route can only be:
+- action: perform a specific action.
+- wait: wait, observe, or remain temporarily still. Must fill in wait_duration, and naturally state how long you intend to wait in the thought.
+- walk: go to another room or area. Try to fill in target_area_id or target_area_name as much as possible.
+- chat: talk to someone. Try to fill in chat_target.
 
 {output_instruction}
 """.strip(),
